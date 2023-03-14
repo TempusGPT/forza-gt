@@ -7,11 +7,10 @@ export const calculateArithmetic = function* (
 ) {
   for (let i = 0; i < speed; i++) {
     const t = i / (speed - 1);
-    yield first / math.lerp(last, first, t);
+    yield first / (math.lerp(last, first, t) / last);
   }
 };
 
-// 0 <= r <= (last / first) ** (1 / (speed - 1))
 export const calculateGeometric = function* (
   speed: number,
   first: number,
@@ -21,6 +20,6 @@ export const calculateGeometric = function* (
   const lastTerm = ratio ** (speed - 1) - 1;
   for (let i = 0; i < speed; i++) {
     const t = (ratio ** i - 1) / lastTerm;
-    yield first / math.lerp(last, first, t);
+    yield first / (math.lerp(last, first, t) / last);
   }
 };
