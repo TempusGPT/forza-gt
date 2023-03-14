@@ -82,9 +82,9 @@
 </div>
 
 <div>
-  <label for="strength">Strength</label>
+  <label for="shape">Shape</label>
   <input
-    name="strength"
+    name="shape"
     type="number"
     step="0.1"
     bind:value={shape}
