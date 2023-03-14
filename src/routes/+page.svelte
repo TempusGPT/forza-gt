@@ -5,68 +5,42 @@
   let speed: number = 6;
   let first: number = 2.89;
   let last: number = 0.78;
-  let shape: string = "Default";
-  let strength: number = 0.5;
+  let shape: number = 0.5;
   let result: number[] = [];
 
-  const validateFirst = (e: FocusEvent) => {
-    const target = e.target as HTMLInputElement;
-    const value = parseFloat(target.value);
-
-    if (value < 0.48) {
-      target.value = "0.48";
-    } else if (value > 6) {
-      target.value = "6";
-    } else {
-      target.value = value.toFixed(2);
-    }
-    first = parseFloat(target.value);
+  const range = (start: number, end: number) => {
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   };
 
-  const validateLast = (e: FocusEvent) => {
+  const validate = (
+    e: FocusEvent,
+    options: { min: number; max: number; digit: number },
+    variableToSet: (value: number) => void
+  ) => {
     const target = e.target as HTMLInputElement;
     const value = parseFloat(target.value);
 
-    if (value < 0.48) {
-      target.value = "0.48";
-    } else if (value > 6) {
-      target.value = "6";
+    if (value < options.min) {
+      target.value = options.min.toFixed(options.digit);
+    } else if (value > options.max) {
+      target.value = options.max.toFixed(options.digit);
     } else {
-      target.value = value.toFixed(2);
+      target.value = value.toFixed(options.digit);
     }
-    last = parseFloat(target.value);
-  };
 
-  const validateStrength = (e: FocusEvent) => {
-    const target = e.target as HTMLInputElement;
-    const value = parseFloat(target.value);
-
-    if (value < 0.1) {
-      target.value = "0.1";
-    } else if (value > 1) {
-      target.value = "1";
-    } else {
-      target.value = value.toFixed(1);
-    }
-    strength = parseFloat(target.value);
+    variableToSet(parseFloat(target.value));
   };
 
   const calculate = () => {
-    if (shape === "Default") {
+    if (shape === 0.5) {
       result = [...calculateArithmetic(speed, first, last)];
       return;
     }
 
     const ratioMin = (last / first) ** (1 / (speed - 1));
     const ratioMax = 1 / ratioMin;
-
-    if (shape === "Longer") {
-      const ratio = lerp(1, ratioMax, strength);
-      result = [...calculateGeometric(speed, first, last, ratio)];
-    } else if (shape === "Shorter") {
-      const ratio = lerp(1, ratioMin, strength);
-      result = [...calculateGeometric(speed, first, last, ratio)];
-    }
+    const ratio = lerp(ratioMin, ratioMax, shape);
+    result = [...calculateGeometric(speed, first, last, ratio)];
   };
 </script>
 
@@ -77,8 +51,8 @@
 <div>
   <label for="speed">Speed</label>
   <select name="speed" bind:value={speed}>
-    {#each [3, 4, 5, 6, 7, 8, 9, 10] as speed}
-      <option value={speed}>{speed}</option>
+    {#each range(3, 10) as s}
+      <option value={s}>{s}</option>
     {/each}
   </select>
 </div>
@@ -90,7 +64,8 @@
     type="number"
     step="0.01"
     bind:value={first}
-    on:blur={validateFirst}
+    on:blur={(e) =>
+      validate(e, { min: 0.48, max: 6, digit: 2 }, (value) => (first = value))}
   />
 </div>
 
@@ -101,31 +76,22 @@
     type="number"
     step="0.01"
     bind:value={last}
-    on:blur={validateLast}
+    on:blur={(e) =>
+      validate(e, { min: 0.48, max: 6, digit: 2 }, (value) => (last = value))}
   />
 </div>
 
 <div>
-  <label for="shape">Shape</label>
-  <select name="shape" bind:value={shape}>
-    <option>Default</option>
-    <option>Longer</option>
-    <option>Shorter</option>
-  </select>
+  <label for="strength">Strength</label>
+  <input
+    name="strength"
+    type="number"
+    step="0.1"
+    bind:value={shape}
+    on:blur={(e) =>
+      validate(e, { min: 0, max: 1, digit: 1 }, (value) => (shape = value))}
+  />
 </div>
-
-{#if shape !== "Default"}
-  <div>
-    <label for="shape">Strength</label>
-    <input
-      name="shape"
-      type="number"
-      step="0.1"
-      bind:value={strength}
-      on:blur={validateStrength}
-    />
-  </div>
-{/if}
 
 <button on:click={calculate}>Calculate</button>
 <div>
