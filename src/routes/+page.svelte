@@ -49,7 +49,8 @@
 </svelte:head>
 
 <div class="container">
-  <h1>Geargeist - Gearing Calculator for Forza Series</h1>
+  <h1>Geargeist</h1>
+  <h2>Gearing Calculator for Forza Series</h2>
 
   <div>
     <label for="speed">Speed</label>
@@ -120,19 +121,28 @@
   }
 
   .container {
-    max-width: 400px;
-    margin: 50px auto;
+    margin: 10px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: min(400px, calc(100% - 20px));
+    box-sizing: border-box;
   }
 
   h1 {
     text-align: center;
     font-size: 24px;
     font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
     margin-bottom: 30px;
+    color: #444;
   }
 
   div {
@@ -155,6 +165,14 @@
     appearance: none;
     background-color: #fff;
     outline: none;
+    box-sizing: border-box;
+  }
+
+  input:focus,
+  select:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 120, 255, 0.5);
+    border: 1px solid rgba(0, 120, 255, 0.5);
   }
 
   button {
@@ -176,19 +194,17 @@
   .result {
     margin-top: 20px;
     background-color: #f5f5f5;
-    padding: 10px;
+    padding: 16px 16px 0;
     border-radius: 6px;
   }
 
   .gear-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 4px;
-    padding-bottom: 4px; /* Add padding-bottom */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Add border-bottom */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   .gear-row:last-child {
-    border-bottom: none; /* Remove border-bottom from the last gear-row */
+    border-bottom: none;
   }
 </style>
