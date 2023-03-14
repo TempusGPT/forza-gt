@@ -3,13 +3,11 @@
   import { lerp } from "$lib/math";
 
   const lengthMap = {
-    Shortest: 0 / 12,
-    Shorter: 1 / 12,
-    Short: 3 / 12,
+    Shortest: 1 / 12,
+    Shorter: 3 / 12,
     Default: 6 / 12,
-    Long: 7 / 12,
-    Longer: 9 / 12,
-    Longest: 12 / 12,
+    Longer: 7 / 12,
+    Longest: 9 / 12,
   } as const;
   type Length = keyof typeof lengthMap;
 
