@@ -2,10 +2,21 @@
   import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
   import { lerp } from "$lib/math";
 
+  const lengthMap = {
+    Shortest: 0 / 6,
+    Shorter: 1 / 6,
+    Short: 2 / 6,
+    Default: 3 / 6,
+    Long: 4 / 6,
+    Longer: 5 / 6,
+    Longest: 6 / 6,
+  } as const;
+  type Length = keyof typeof lengthMap;
+
   let speed: number = 6;
   let first: number = 2.89;
   let last: number = 0.78;
-  let shape: number = 0.5;
+  let length: Length = "Default";
   let result: number[] = [2.89, 1.88, 1.39, 1.1, 0.91, 0.78];
 
   const range = (start: number, end: number) => {
@@ -32,14 +43,14 @@
   };
 
   const calculate = () => {
-    if (shape === 0.5) {
+    if (length === "Default") {
       result = [...calculateArithmetic(speed, first, last)];
       return;
     }
 
     const ratioMin = (last / first) ** (1 / (speed - 1));
     const ratioMax = 1 / ratioMin;
-    const ratio = lerp(ratioMin, ratioMax, shape);
+    const ratio = lerp(ratioMin, ratioMax, lengthMap[length]);
     result = [...calculateGeometric(speed, first, last, ratio)];
   };
 </script>
@@ -90,15 +101,12 @@
   </div>
 
   <div>
-    <label for="shape">Shape</label>
-    <input
-      name="shape"
-      type="number"
-      step="0.1"
-      bind:value={shape}
-      on:blur={(e) =>
-        validate(e, { min: 0, max: 1, digit: 1 }, (value) => (shape = value))}
-    />
+    <label for="length">Length</label>
+    <select name="length" bind:value={length}>
+      {#each Object.keys(lengthMap) as length}
+        <option value={length}>{length}</option>
+      {/each}
+    </select>
   </div>
 
   <button on:click={calculate}>Calculate</button>
