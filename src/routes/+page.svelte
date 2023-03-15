@@ -21,23 +21,19 @@
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   };
 
-  const validate = (
-    e: FocusEvent,
-    options: { min: number; max: number; digit: number },
-    variableToSet: (value: number) => void
-  ) => {
+  const validate = (e: FocusEvent, setVariable: (value: number) => void) => {
     const target = e.target as HTMLInputElement;
     const value = parseFloat(target.value);
 
-    if (value < options.min) {
-      target.value = options.min.toFixed(options.digit);
-    } else if (value > options.max) {
-      target.value = options.max.toFixed(options.digit);
+    if (value < 0.48) {
+      target.value = "0.48";
+    } else if (value > 6) {
+      target.value = "6.00";
     } else {
-      target.value = value.toFixed(options.digit);
+      target.value = value.toFixed(2);
     }
 
-    variableToSet(parseFloat(target.value));
+    setVariable(parseFloat(target.value));
   };
 
   const calculate = () => {
@@ -79,12 +75,7 @@
         type="number"
         step="0.01"
         bind:value={firstGear}
-        on:blur={(e) =>
-          validate(
-            e,
-            { min: 0.48, max: 6, digit: 2 },
-            (value) => (firstGear = value)
-          )}
+        on:blur={(e) => validate(e, (value) => (firstGear = value))}
       />
     </label>
   </div>
@@ -96,12 +87,7 @@
         type="number"
         step="0.01"
         bind:value={lastGear}
-        on:blur={(e) =>
-          validate(
-            e,
-            { min: 0.48, max: 6, digit: 2 },
-            (value) => (lastGear = value)
-          )}
+        on:blur={(e) => validate(e, (value) => (lastGear = value))}
       />
     </label>
   </div>
