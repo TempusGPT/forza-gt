@@ -1,25 +1,25 @@
-import * as math from "$lib/math";
+import { lerp, range } from "$lib/math";
 
-export const calculateArithmetic = function* (
+export const calculateArithmetic = (
   speed: number,
   first: number,
   last: number
-) {
-  for (let i = 0; i < speed; i++) {
+) => {
+  return range(0, speed - 1).map((i) => {
     const t = i / (speed - 1);
-    yield first / (math.lerp(last, first, t) / last);
-  }
+    return first / (lerp(last, first, t) / last);
+  });
 };
 
-export const calculateGeometric = function* (
+export const calculateGeometric = (
   speed: number,
   first: number,
   last: number,
   ratio: number
-) {
+) => {
   const lastTerm = ratio ** (speed - 1) - 1;
-  for (let i = 0; i < speed; i++) {
+  return range(0, speed - 1).map((i) => {
     const t = (ratio ** i - 1) / lastTerm;
-    yield first / (math.lerp(last, first, t) / last);
-  }
+    return first / (lerp(last, first, t) / last);
+  });
 };

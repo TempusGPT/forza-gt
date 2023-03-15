@@ -1,6 +1,6 @@
 <script lang="ts">
   import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
-  import { lerp } from "$lib/math";
+  import { clamp, lerp, range } from "$lib/math";
 
   const lengthMap = {
     Shortest: 1 / 12,
@@ -15,37 +15,27 @@
   let firstGear: number = 2.89;
   let lastGear: number = 0.78;
   let length: Length = "Default";
-  let result: number[] = [2.89, 1.88, 1.39, 1.1, 0.91, 0.78];
+  let result: number[] = calculateArithmetic(transmission, firstGear, lastGear);
 
-  const range = (start: number, end: number) => {
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  };
+  Array.from({ length: 6 }, (a, b) => console.log(a, b));
 
   const validate = (e: FocusEvent, setVariable: (value: number) => void) => {
     const target = e.target as HTMLInputElement;
-    const value = parseFloat(target.value);
-
-    if (value < 0.48) {
-      target.value = "0.48";
-    } else if (value > 6) {
-      target.value = "6.00";
-    } else {
-      target.value = value.toFixed(2);
-    }
-
-    setVariable(parseFloat(target.value));
+    const value = clamp(parseFloat(target.value), 0.48, 6);
+    target.value = value.toFixed(2);
+    setVariable(value);
   };
 
   const calculate = () => {
     if (length === "Default") {
-      result = [...calculateArithmetic(transmission, firstGear, lastGear)];
+      result = calculateArithmetic(transmission, firstGear, lastGear);
       return;
     }
 
     const ratioMin = (lastGear / firstGear) ** (1 / (transmission - 1));
     const ratioMax = 1 / ratioMin;
     const ratio = lerp(ratioMin, ratioMax, lengthMap[length]);
-    result = [...calculateGeometric(transmission, firstGear, lastGear, ratio)];
+    result = calculateGeometric(transmission, firstGear, lastGear, ratio);
   };
 </script>
 
