@@ -45,7 +45,7 @@
   <h1>Geargeist</h1>
   <h2>Gearing Calculator for Forza Series</h2>
 
-  <form on:submit={calculate}>
+  <form on:submit|preventDefault={calculate}>
     <label>
       Transmission
       <select bind:value={transmission}>
