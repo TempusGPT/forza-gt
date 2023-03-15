@@ -18,6 +18,11 @@
   let result: number[] = calculateArithmetic(transmission, firstGear, lastGear);
 
   const calculate = () => {
+    if (firstGear <= lastGear) {
+      alert("First gear must be greater than last gear.");
+      return;
+    }
+
     if (length === "Default") {
       result = calculateArithmetic(transmission, firstGear, lastGear);
       return;
