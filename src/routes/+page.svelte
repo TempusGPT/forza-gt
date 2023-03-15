@@ -17,13 +17,6 @@
   let length: Length = "Default";
   let result: number[] = calculateArithmetic(transmission, firstGear, lastGear);
 
-  const validate = (e: FocusEvent, setVariable: (value: number) => void) => {
-    const target = e.target as HTMLInputElement;
-    const value = clamp(parseFloat(target.value), 0.48, 6);
-    target.value = value.toFixed(2);
-    setVariable(value);
-  };
-
   const calculate = () => {
     if (length === "Default") {
       result = calculateArithmetic(transmission, firstGear, lastGear);
@@ -59,9 +52,11 @@
       First Gear
       <input
         type="number"
+        min="0.48"
+        max="6"
         step="0.01"
+        required
         bind:value={firstGear}
-        on:blur={(e) => validate(e, (value) => (firstGear = value))}
       />
     </label>
 
@@ -69,9 +64,11 @@
       Last Gear
       <input
         type="number"
+        min="0.48"
+        max="6"
         step="0.01"
+        required
         bind:value={lastGear}
-        on:blur={(e) => validate(e, (value) => (lastGear = value))}
       />
     </label>
 
