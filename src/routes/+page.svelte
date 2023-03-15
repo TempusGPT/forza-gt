@@ -17,8 +17,6 @@
   let length: Length = "Default";
   let result: number[] = calculateArithmetic(transmission, firstGear, lastGear);
 
-  Array.from({ length: 6 }, (a, b) => console.log(a, b));
-
   const validate = (e: FocusEvent, setVariable: (value: number) => void) => {
     const target = e.target as HTMLInputElement;
     const value = clamp(parseFloat(target.value), 0.48, 6);
