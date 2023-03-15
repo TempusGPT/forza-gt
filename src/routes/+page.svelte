@@ -53,11 +53,11 @@
   <title>Geargeist - Gearing Calculator for Forza Series</title>
 </svelte:head>
 
-<div class="container">
+<main>
   <h1>Geargeist</h1>
   <h2>Gearing Calculator for Forza Series</h2>
 
-  <div>
+  <form on:submit={calculate}>
     <label>
       Transmission
       <select bind:value={transmission}>
@@ -66,9 +66,7 @@
         {/each}
       </select>
     </label>
-  </div>
 
-  <div>
     <label>
       First Gear
       <input
@@ -78,9 +76,7 @@
         on:blur={(e) => validate(e, (value) => (firstGear = value))}
       />
     </label>
-  </div>
 
-  <div>
     <label>
       Last Gear
       <input
@@ -90,9 +86,7 @@
         on:blur={(e) => validate(e, (value) => (lastGear = value))}
       />
     </label>
-  </div>
 
-  <div>
     <label>
       Length
       <select bind:value={length}>
@@ -101,9 +95,10 @@
         {/each}
       </select>
     </label>
-  </div>
 
-  <button on:click={calculate}>Calculate</button>
+    <button>Calculate</button>
+  </form>
+
   <div class="result">
     {#each result as gear, i}
       <div class="gear">
@@ -112,7 +107,7 @@
       </div>
     {/each}
   </div>
-</div>
+</main>
 
 <style>
   :global(body) {
@@ -122,7 +117,7 @@
     background-color: #f5f5f5;
   }
 
-  .container {
+  main {
     margin: 10px auto;
     padding: 20px;
     background-color: #fff;
@@ -153,6 +148,7 @@
 
   label {
     display: block;
+    margin-bottom: 15px;
     font-size: 16px;
   }
 
