@@ -11,9 +11,9 @@
   } as const;
   type Length = keyof typeof lengthMap;
 
-  let speed: number = 6;
-  let first: number = 2.89;
-  let last: number = 0.78;
+  let transmission: number = 6;
+  let firstGear: number = 2.89;
+  let lastGear: number = 0.78;
   let length: Length = "Default";
   let result: number[] = [2.89, 1.88, 1.39, 1.1, 0.91, 0.78];
 
@@ -42,14 +42,14 @@
 
   const calculate = () => {
     if (length === "Default") {
-      result = [...calculateArithmetic(speed, first, last)];
+      result = [...calculateArithmetic(transmission, firstGear, lastGear)];
       return;
     }
 
-    const ratioMin = (last / first) ** (1 / (speed - 1));
+    const ratioMin = (lastGear / firstGear) ** (1 / (transmission - 1));
     const ratioMax = 1 / ratioMin;
     const ratio = lerp(ratioMin, ratioMax, lengthMap[length]);
-    result = [...calculateGeometric(speed, first, last, ratio)];
+    result = [...calculateGeometric(transmission, firstGear, lastGear, ratio)];
   };
 </script>
 
@@ -62,55 +62,65 @@
   <h2>Gearing Calculator for Forza Series</h2>
 
   <div>
-    <label for="speed">Speed</label>
-    <select name="speed" bind:value={speed}>
-      {#each range(3, 10) as s}
-        <option value={s}>{s}</option>
-      {/each}
-    </select>
+    <label>
+      Transmission
+      <select bind:value={transmission}>
+        {#each range(3, 10) as speed}
+          <option value={speed}>{speed}-Speed</option>
+        {/each}
+      </select>
+    </label>
   </div>
 
   <div>
-    <label for="first">First</label>
-    <input
-      name="first"
-      type="number"
-      step="0.01"
-      bind:value={first}
-      on:blur={(e) =>
-        validate(
-          e,
-          { min: 0.48, max: 6, digit: 2 },
-          (value) => (first = value)
-        )}
-    />
+    <label>
+      First Gear
+      <input
+        type="number"
+        step="0.01"
+        bind:value={firstGear}
+        on:blur={(e) =>
+          validate(
+            e,
+            { min: 0.48, max: 6, digit: 2 },
+            (value) => (firstGear = value)
+          )}
+      />
+    </label>
   </div>
 
   <div>
-    <label for="last">Last</label>
-    <input
-      name="last"
-      type="number"
-      step="0.01"
-      bind:value={last}
-      on:blur={(e) =>
-        validate(e, { min: 0.48, max: 6, digit: 2 }, (value) => (last = value))}
-    />
+    <label>
+      Last Gear
+      <input
+        type="number"
+        step="0.01"
+        bind:value={lastGear}
+        on:blur={(e) =>
+          validate(
+            e,
+            { min: 0.48, max: 6, digit: 2 },
+            (value) => (lastGear = value)
+          )}
+      />
+    </label>
   </div>
 
   <div>
-    <label for="length">Length</label>
-    <select name="length" bind:value={length}>
-      {#each Object.keys(lengthMap) as length}
-        <option value={length}>{length}</option>
-      {/each}
-    </select>
+    <label>
+      Length
+      <select bind:value={length}>
+        {#each Object.keys(lengthMap) as length}
+          <option value={length}>{length}</option>
+        {/each}
+      </select>
+    </label>
   </div>
 
   <button on:click={calculate}>Calculate</button>
   <div class="result">
     {#each result as gear, i}
-      <div class="gear-row">
+      <div class="gear">
         <div>Gear {i + 1}</div>
         <div>{gear.toFixed(2)}</div>
       </div>
@@ -158,12 +168,12 @@
   label {
     display: block;
     font-size: 16px;
-    margin-bottom: 5px;
   }
 
   input,
   select {
     width: 100%;
+    margin-top: 5px;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -204,13 +214,13 @@
     border-radius: 6px;
   }
 
-  .gear-row {
+  .gear {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 
-  .gear-row:last-child {
+  .gear:last-child {
     border-bottom: none;
   }
 </style>
