@@ -12,6 +12,7 @@
     let firstGear = "3.00";
     let lastGear = "1.00";
     let length: Length = "Default";
+    let result: number[] = [];
 
     const lengthMap: LengthMap = {
         Shortest: 1 / 12,
@@ -21,36 +22,34 @@
         Longest: 9 / 12,
     };
 
-    let result: number[] = [];
-    let dialogMessage = "";
-
-    const validateGears = (): [true, Validation] | [false, string] => {
+    const validateGears = (): [null, Validation] | [string] => {
         const validation: Validation = {
             firstGear: parseFloat(firstGear),
             lastGear: parseFloat(lastGear),
         };
 
         if (isNaN(validation.firstGear) || isNaN(validation.lastGear)) {
-            return [false, "The first gear and the last gear must be numbers."];
+            return ["NaN"];
         }
-        if (validation.firstGear < 0.48 || validation.firstGear > 6) {
-            return [false, "The first gear must be between 0.48 and 6.00"];
-        }
-        if (validation.lastGear < 0.48 || validation.lastGear > 6) {
-            return [false, "The last gear must be between 0.48 and 6.00"];
+        if (
+            validation.firstGear < 0.48 ||
+            validation.firstGear > 6 ||
+            validation.lastGear < 0.48 ||
+            validation.lastGear > 6
+        ) {
+            return ["Gear"];
         }
         if (validation.firstGear <= validation.lastGear) {
-            return [false, "The first gear must be greater than the last gear."];
+            return ["Range"];
         }
 
-        return [true, validation];
+        return [null, validation];
     };
 
     const calculate = () => {
-        const [valid, validation] = validateGears();
-        if (!valid) {
-            dialogMessage = validation;
-            getDialog("error")?.open();
+        const [error, validation] = validateGears();
+        if (error !== null) {
+            getDialog(error)?.open();
             return;
         }
 
@@ -121,4 +120,10 @@
     </div>
 </main>
 
-<Dialog id="error" title="Error" message={dialogMessage} />
+<Dialog id="NaN" title="Error" message="The first gear and the last gear must be numbers." />
+<Dialog
+    id="Gear"
+    title="Error"
+    message="The first gear and the last gear must be between 0.48 and 6.00"
+/>
+<Dialog id="Range" title="Error" message="The first gear must be greater than the last gear." />
