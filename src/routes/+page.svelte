@@ -2,10 +2,17 @@
     import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
     import { lerp, range } from "$lib/math";
     import GearInput from "$lib/components/GearInput.svelte";
+    import Modal, { setModal } from "$lib/components/Modal.svelte";
 
     type Length = "Shortest" | "Shorter" | "Default" | "Longer" | "Longest";
-    type LengthMap = { [key in Length]: number };
-    type Validation = { firstGear: number; lastGear: number };
+    type LengthMap = {
+        [key in Length]: number;
+    };
+
+    type Validation = {
+        firstGear: number;
+        lastGear: number;
+    };
 
     let transmission = 6;
     let firstGear = "3.00";
@@ -21,7 +28,6 @@
     };
 
     let result: number[] = [];
-    let dialogOpen = false;
     let dialogMessage = "";
 
     const validateGears = (): [true, Validation] | [false, string] => {
@@ -49,7 +55,8 @@
     const calculate = () => {
         const [valid, validation] = validateGears();
         if (!valid) {
-            openDialog(validation);
+            dialogMessage = validation;
+            setModal("error", true);
             return;
         }
 
@@ -62,15 +69,6 @@
         const ratioMax = 1 / ratioMin;
         const ratio = lerp(ratioMin, ratioMax, lengthMap["Default"]);
         result = calculateGeometric(transmission, validation.firstGear, validation.lastGear, ratio);
-    };
-
-    const openDialog = (message: string) => {
-        dialogOpen = true;
-        dialogMessage = message;
-    };
-
-    const closeDialog = () => {
-        dialogOpen = false;
     };
 </script>
 
@@ -106,8 +104,8 @@
             <label>
                 Length
                 <select bind:value={length}>
-                    {#each Object.keys(lengthMap) as length}
-                        <option value={length}>{length}</option>
+                    {#each Object.keys(lengthMap) as len}
+                        <option value={len}>{len}</option>
                     {/each}
                 </select>
             </label>
@@ -127,14 +125,6 @@
             </nav>
         {/each}
     </div>
-
-    <dialog open={dialogOpen}>
-        <article>
-            <h3>Error</h3>
-            <p>{dialogMessage}</p>
-            <footer>
-                <a href="#confirm" role="button" on:click={closeDialog}>OK</a>
-            </footer>
-        </article>
-    </dialog>
 </main>
+
+<Modal id="error" title="Error" message={dialogMessage} />
