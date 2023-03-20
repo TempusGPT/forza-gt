@@ -35,51 +35,61 @@
     };
 </script>
 
-<svelte:head>
-    <title>Geargeist - Gearing Calculator for Forza Series</title>
-</svelte:head>
-
-<header class="container">
+<main class="container">
     <div class="headings">
         <h1>Geargeist</h1>
         <h2>Gearing Calculator for Forza Series</h2>
     </div>
-</header>
 
-<main class="container">
     <form on:submit|preventDefault={calculate}>
-        <label>
-            Transmission
-            <select bind:value={transmission}>
-                {#each range(3, 10) as speed}
-                    <option value={speed}>{speed}-Speed</option>
-                {/each}
-            </select>
-        </label>
+        <div class="grid">
+            <label>
+                Transmission
+                <select bind:value={transmission}>
+                    {#each range(3, 10) as speed}
+                        <option value={speed}>{speed}-Speed</option>
+                    {/each}
+                </select>
+            </label>
 
-        <label>
-            First Gear
-            <input type="number" min="0.48" max="6" step="0.01" required bind:value={firstGear} />
-        </label>
+            <label>
+                First Gear
+                <input
+                    type="number"
+                    min="0.48"
+                    max="6"
+                    step="0.01"
+                    required
+                    bind:value={firstGear}
+                />
+            </label>
 
-        <label>
-            Last Gear
-            <input type="number" min="0.48" max="6" step="0.01" required bind:value={lastGear} />
-        </label>
+            <label>
+                Last Gear
+                <input
+                    type="number"
+                    min="0.48"
+                    max="6"
+                    step="0.01"
+                    required
+                    bind:value={lastGear}
+                />
+            </label>
 
-        <label>
-            Length
-            <select bind:value={length}>
-                {#each Object.keys(lengthMap) as length}
-                    <option value={length}>{length}</option>
-                {/each}
-            </select>
-        </label>
+            <label>
+                Length
+                <select bind:value={length}>
+                    {#each Object.keys(lengthMap) as length}
+                        <option value={length}>{length}</option>
+                    {/each}
+                </select>
+            </label>
+        </div>
 
         <button>Calculate</button>
     </form>
 
-    <article>
+    <div>
         {#each result as gear, i}
             {#if i !== 0}
                 <hr />
@@ -89,5 +99,5 @@
                 <div>{gear.toFixed(2)}</div>
             </nav>
         {/each}
-    </article>
+    </div>
 </main>
