@@ -1,26 +1,24 @@
 <script lang="ts">
     import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
     import { lerp, range } from "$lib/math";
-    import GearInput from "../components/GearInput.svelte";
+    import GearInput from "$lib/components/GearInput.svelte";
 
-    interface Validation {
-        firstGear: number;
-        lastGear: number;
-    }
-
-    const lengthMap = {
-        Shortest: 1 / 12,
-        Shorter: 3 / 12,
-        Default: 6 / 12,
-        Longer: 7 / 12,
-        Longest: 9 / 12,
-    } as const;
-    type Length = keyof typeof lengthMap;
+    type Length = "Shortest" | "Shorter" | "Default" | "Longer" | "Longest";
+    type LengthMap = { [key in Length]: number };
+    type Validation = { firstGear: number; lastGear: number };
 
     let transmission = 6;
     let firstGear = "3.00";
     let lastGear = "1.00";
     let length: Length = "Default";
+
+    const lengthMap: LengthMap = {
+        Shortest: 1 / 12,
+        Shorter: 3 / 12,
+        Default: 6 / 12,
+        Longer: 7 / 12,
+        Longest: 9 / 12,
+    };
 
     let result: number[] = [];
     let dialogOpen = false;
@@ -62,7 +60,7 @@
 
         const ratioMin = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
         const ratioMax = 1 / ratioMin;
-        const ratio = lerp(ratioMin, ratioMax, lengthMap[length]);
+        const ratio = lerp(ratioMin, ratioMax, lengthMap["Default"]);
         result = calculateGeometric(transmission, validation.firstGear, validation.lastGear, ratio);
     };
 
