@@ -1,21 +1,9 @@
 <script context="module" lang="ts">
-    type Modal = {
-        open: () => void;
-        close: () => void;
-    };
+    type Dialog = { open: () => void; close: () => void };
+    const dialogs = new Map<string, Dialog>();
 
-    type Modals = {
-        [key: string]: Modal;
-    };
-
-    const modals: Modals = {};
-
-    export const setModal = (id: string, open: boolean) => {
-        if (open) {
-            modals[id].open();
-        } else {
-            modals[id].close();
-        }
+    export const getDialog = (id: string) => {
+        return dialogs.get(id);
     };
 </script>
 
@@ -28,11 +16,11 @@
 
     const onKeydown = (event: KeyboardEvent) => {
         if (event.key === "Escape") {
-            closeModal();
+            closeDialog();
         }
     };
 
-    export const openModal = () => {
+    export const openDialog = () => {
         if (open) {
             return;
         }
@@ -41,7 +29,7 @@
         window.addEventListener("keydown", onKeydown);
     };
 
-    export const closeModal = () => {
+    export const closeDialog = () => {
         if (!open) {
             return;
         }
@@ -50,10 +38,7 @@
         window.removeEventListener("keydown", onKeydown);
     };
 
-    modals[id] = {
-        open: openModal,
-        close: closeModal,
-    };
+    dialogs.set(id, { open: openDialog, close: closeDialog });
 </script>
 
 <dialog {open}>
@@ -61,7 +46,7 @@
         <h3>{title}</h3>
         <p>{message}</p>
         <footer>
-            <a href="." role="button" on:click|preventDefault={closeModal}>OK</a>
+            <a href="." role="button" on:click|preventDefault={closeDialog}>OK</a>
         </footer>
     </article>
 </dialog>

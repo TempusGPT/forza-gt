@@ -2,17 +2,11 @@
     import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
     import { lerp, range } from "$lib/math";
     import GearInput from "$lib/components/GearInput.svelte";
-    import Modal, { setModal } from "$lib/components/Modal.svelte";
+    import Dialog, { getDialog } from "$lib/components/Dialog.svelte";
 
     type Length = "Shortest" | "Shorter" | "Default" | "Longer" | "Longest";
-    type LengthMap = {
-        [key in Length]: number;
-    };
-
-    type Validation = {
-        firstGear: number;
-        lastGear: number;
-    };
+    type LengthMap = { [key in Length]: number };
+    type Validation = { firstGear: number; lastGear: number };
 
     let transmission = 6;
     let firstGear = "3.00";
@@ -56,7 +50,7 @@
         const [valid, validation] = validateGears();
         if (!valid) {
             dialogMessage = validation;
-            setModal("error", true);
+            getDialog("error")?.open();
             return;
         }
 
@@ -127,4 +121,4 @@
     </div>
 </main>
 
-<Modal id="error" title="Error" message={dialogMessage} />
+<Dialog id="error" title="Error" message={dialogMessage} />
