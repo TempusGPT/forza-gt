@@ -39,10 +39,14 @@
     <title>Geargeist - Gearing Calculator for Forza Series</title>
 </svelte:head>
 
-<main>
-    <h1>Geargeist</h1>
-    <h2>Gearing Calculator for Forza Series</h2>
+<header class="container">
+    <div class="headings">
+        <h1>Geargeist</h1>
+        <h2>Gearing Calculator for Forza Series</h2>
+    </div>
+</header>
 
+<main class="container">
     <form on:submit|preventDefault={calculate}>
         <label>
             Transmission
@@ -75,110 +79,15 @@
         <button>Calculate</button>
     </form>
 
-    <div class="result">
+    <article>
         {#each result as gear, i}
-            <div class="gear">
+            {#if i !== 0}
+                <hr />
+            {/if}
+            <nav>
                 <div>Gear {i + 1}</div>
                 <div>{gear.toFixed(2)}</div>
-            </div>
+            </nav>
         {/each}
-    </div>
+    </article>
 </main>
-
-<style>
-    :global(body) {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-            Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-        margin: 0;
-        background-color: #f5f5f5;
-    }
-
-    main {
-        margin: 10px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: min(400px, calc(100% - 20px));
-        box-sizing: border-box;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 24px;
-        font-weight: 500;
-        margin-bottom: 10px;
-    }
-
-    h2 {
-        text-align: center;
-        font-size: 18px;
-        font-weight: 400;
-        margin-bottom: 30px;
-        color: #444;
-    }
-
-    div {
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 15px;
-        font-size: 16px;
-    }
-
-    input,
-    select {
-        width: 100%;
-        margin-top: 5px;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        appearance: none;
-        background-color: #fff;
-        outline: none;
-        box-sizing: border-box;
-    }
-
-    input:focus,
-    select:focus {
-        outline: none;
-        box-shadow: 0 0 4px rgba(0, 120, 255, 0.5);
-        border: 1px solid rgba(0, 120, 255, 0.5);
-    }
-
-    button {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: none;
-        background-color: #007aff;
-        color: #fff;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    button:hover {
-        background-color: #005ad5;
-    }
-
-    .result {
-        margin-top: 20px;
-        background-color: #f5f5f5;
-        padding: 16px 16px 0;
-        border-radius: 6px;
-    }
-
-    .gear {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .gear:last-child {
-        border-bottom: none;
-    }
-</style>
