@@ -1,8 +1,9 @@
 <script lang="ts">
     import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
     import { lerp, range } from "$lib/math";
+    import GearInput from "../components/GearInput.svelte";
 
-    interface Input {
+    interface Validation {
         firstGear: number;
         lastGear: number;
     }
@@ -25,22 +26,8 @@
     let dialogOpen = false;
     let dialogMessage = "";
 
-    const firstBlur = () => {
-        const value = parseFloat(firstGear);
-        if (!isNaN(value)) {
-            firstGear = value.toFixed(2);
-        }
-    };
-
-    const lastBlur = () => {
-        const value = parseFloat(lastGear);
-        if (!isNaN(value)) {
-            lastGear = value.toFixed(2);
-        }
-    };
-
-    const validateGears = (): [true, Input] | [false, string] => {
-        const validation = {
+    const validateGears = (): [true, Validation] | [false, string] => {
+        const validation: Validation = {
             firstGear: parseFloat(firstGear),
             lastGear: parseFloat(lastGear),
         };
@@ -106,14 +93,16 @@
                 </select>
             </label>
 
+            <!-- svelte-ignore a11y-label-has-associated-control -->
             <label>
                 First Gear
-                <input inputmode="numeric" bind:value={firstGear} on:blur={firstBlur} />
+                <GearInput bind:value={firstGear} />
             </label>
 
+            <!-- svelte-ignore a11y-label-has-associated-control -->
             <label>
                 Last Gear
-                <input inputmode="numeric" bind:value={lastGear} on:blur={lastBlur} />
+                <GearInput bind:value={lastGear} />
             </label>
 
             <label>
