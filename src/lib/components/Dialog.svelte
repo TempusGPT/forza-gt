@@ -20,7 +20,7 @@
         }
     };
 
-    export const openDialog = () => {
+    const openDialog = () => {
         if (open) {
             return;
         }
@@ -29,7 +29,7 @@
         window.addEventListener("keydown", onKeydown);
     };
 
-    export const closeDialog = () => {
+    const closeDialog = () => {
         if (!open) {
             return;
         }
