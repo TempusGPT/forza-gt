@@ -2,6 +2,11 @@
     import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
     import { lerp, range } from "$lib/math";
 
+    interface Input {
+        firstGear: number;
+        lastGear: number;
+    }
+
     const lengthMap = {
         Shortest: 1 / 12,
         Shorter: 3 / 12,
@@ -11,27 +16,76 @@
     } as const;
     type Length = keyof typeof lengthMap;
 
-    let transmission: number = 6;
-    let firstGear: number = 2.89;
-    let lastGear: number = 0.78;
+    let transmission = 6;
+    let firstGear = "3.00";
+    let lastGear = "1.00";
     let length: Length = "Default";
-    let result: number[] = calculateArithmetic(transmission, firstGear, lastGear);
+
+    let result: number[] = [];
+    let dialogOpen = false;
+    let dialogMessage = "";
+
+    const firstBlur = () => {
+        const value = parseFloat(firstGear);
+        if (!isNaN(value)) {
+            firstGear = value.toFixed(2);
+        }
+    };
+
+    const lastBlur = () => {
+        const value = parseFloat(lastGear);
+        if (!isNaN(value)) {
+            lastGear = value.toFixed(2);
+        }
+    };
+
+    const validateGears = (): [true, Input] | [false, string] => {
+        const validation = {
+            firstGear: parseFloat(firstGear),
+            lastGear: parseFloat(lastGear),
+        };
+
+        if (isNaN(validation.firstGear) || isNaN(validation.lastGear)) {
+            return [false, "The first gear and the last gear must be numbers."];
+        }
+        if (validation.firstGear < 0.48 || validation.firstGear > 6) {
+            return [false, "The first gear must be between 0.48 and 6.00"];
+        }
+        if (validation.lastGear < 0.48 || validation.lastGear > 6) {
+            return [false, "The last gear must be between 0.48 and 6.00"];
+        }
+        if (validation.firstGear <= validation.lastGear) {
+            return [false, "The first gear must be greater than the last gear."];
+        }
+
+        return [true, validation];
+    };
 
     const calculate = () => {
-        if (firstGear <= lastGear) {
-            alert("First gear must be greater than last gear.");
+        const [valid, validation] = validateGears();
+        if (!valid) {
+            openDialog(validation);
             return;
         }
 
         if (length === "Default") {
-            result = calculateArithmetic(transmission, firstGear, lastGear);
+            result = calculateArithmetic(transmission, validation.firstGear, validation.lastGear);
             return;
         }
 
-        const ratioMin = (lastGear / firstGear) ** (1 / (transmission - 1));
+        const ratioMin = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
         const ratioMax = 1 / ratioMin;
         const ratio = lerp(ratioMin, ratioMax, lengthMap[length]);
-        result = calculateGeometric(transmission, firstGear, lastGear, ratio);
+        result = calculateGeometric(transmission, validation.firstGear, validation.lastGear, ratio);
+    };
+
+    const openDialog = (message: string) => {
+        dialogOpen = true;
+        dialogMessage = message;
+    };
+
+    const closeDialog = () => {
+        dialogOpen = false;
     };
 </script>
 
@@ -54,26 +108,12 @@
 
             <label>
                 First Gear
-                <input
-                    type="number"
-                    min="0.48"
-                    max="6"
-                    step="0.01"
-                    required
-                    bind:value={firstGear}
-                />
+                <input inputmode="numeric" bind:value={firstGear} on:blur={firstBlur} />
             </label>
 
             <label>
                 Last Gear
-                <input
-                    type="number"
-                    min="0.48"
-                    max="6"
-                    step="0.01"
-                    required
-                    bind:value={lastGear}
-                />
+                <input inputmode="numeric" bind:value={lastGear} on:blur={lastBlur} />
             </label>
 
             <label>
@@ -100,4 +140,14 @@
             </nav>
         {/each}
     </div>
+
+    <dialog open={dialogOpen}>
+        <article>
+            <h3>Error</h3>
+            <p>{dialogMessage}</p>
+            <footer>
+                <a href="#confirm" role="button" on:click={closeDialog}>OK</a>
+            </footer>
+        </article>
+    </dialog>
 </main>
