@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { calculateArithmetic, calculateGeometric } from "$lib/calculator";
-    import { lerp, range } from "$lib/math";
+    import { calculateGearing } from "$lib/calculator";
+    import { expLerp, range } from "$lib/math";
     import GearInput from "$lib/components/GearInput.svelte";
     import Dialog, { getDialog } from "$lib/components/Dialog.svelte";
 
@@ -15,11 +15,11 @@
     let result: number[] = [];
 
     const lengthMap: LengthMap = {
-        Shortest: 1 / 12,
-        Shorter: 3 / 12,
-        Default: 6 / 12,
-        Longer: 7 / 12,
-        Longest: 9 / 12,
+        Shortest: 0.3,
+        Shorter: 0.4,
+        Default: 0.5,
+        Longer: 0.6,
+        Longest: 0.7,
     };
 
     const validateGears = (): [null, Validation] | [string] => {
@@ -31,6 +31,7 @@
         if (isNaN(validation.firstGear) || isNaN(validation.lastGear)) {
             return ["NaN"];
         }
+
         if (
             validation.firstGear < 0.48 ||
             validation.firstGear > 6 ||
@@ -39,6 +40,7 @@
         ) {
             return ["Gear"];
         }
+
         if (validation.firstGear <= validation.lastGear) {
             return ["Range"];
         }
@@ -53,15 +55,10 @@
             return;
         }
 
-        if (length === "Default") {
-            result = calculateArithmetic(transmission, validation.firstGear, validation.lastGear);
-            return;
-        }
-
         const ratioMin = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
         const ratioMax = 1 / ratioMin;
-        const ratio = lerp(0.5, ratioMax, lengthMap[length]);
-        result = calculateGeometric(transmission, validation.firstGear, validation.lastGear, ratio);
+        const ratio = expLerp(ratioMin, ratioMax, lengthMap[length]);
+        result = calculateGearing(transmission, validation.firstGear, validation.lastGear, ratio);
     };
 </script>
 
