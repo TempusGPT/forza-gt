@@ -60,7 +60,7 @@
 
         const ratioMin = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
         const ratioMax = 1 / ratioMin;
-        const ratio = lerp(ratioMin, ratioMax, lengthMap["Default"]);
+        const ratio = lerp(0.5, ratioMax, lengthMap[length]);
         result = calculateGeometric(transmission, validation.firstGear, validation.lastGear, ratio);
     };
 </script>
