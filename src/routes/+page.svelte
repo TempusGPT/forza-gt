@@ -4,22 +4,31 @@
     import GearInput from "$lib/components/GearInput.svelte";
     import Dialog, { getDialog } from "$lib/components/Dialog.svelte";
 
-    type Length = "Shortest" | "Shorter" | "Default" | "Longer" | "Longest";
+    type Length =
+        | "Extremely Short"
+        | "Very Short"
+        | "Short"
+        | "Medium"
+        | "Long"
+        | "Very Long"
+        | "Extremely Long";
     type LengthMap = { [key in Length]: number };
     type Validation = { firstGear: number; lastGear: number };
 
     let transmission = 6;
     let firstGear = "3.00";
     let lastGear = "1.00";
-    let length: Length = "Default";
+    let length: Length = "Medium";
     let result: number[] = [];
 
     const lengthMap: LengthMap = {
-        Shortest: 0.3,
-        Shorter: 0.4,
-        Default: 0.5,
-        Longer: 0.6,
-        Longest: 0.7,
+        "Extremely Short": 0.2,
+        "Very Short": 0.3,
+        Short: 0.4,
+        Medium: 0.5,
+        Long: 0.6,
+        "Very Long": 0.7,
+        "Extremely Long": 0.8,
     };
 
     const validateGears = (): [null, Validation] | [string] => {
