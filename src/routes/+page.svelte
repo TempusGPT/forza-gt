@@ -1,6 +1,6 @@
 <script lang="ts">
     import { calculateGearing } from "$lib/calculator";
-    import { expLerp, range } from "$lib/math";
+    import { expLerp, lerp, range } from "$lib/math";
     import GearInput from "$lib/components/GearInput.svelte";
     import Dialog, { getDialog } from "$lib/components/Dialog.svelte";
 
@@ -12,6 +12,7 @@
         | "Long"
         | "Very Long"
         | "Extremely Long";
+
     type LengthMap = { [key in Length]: number };
     type Validation = { firstGear: number; lastGear: number };
 
@@ -22,13 +23,13 @@
     let result: number[] = [];
 
     const lengthMap: LengthMap = {
-        "Extremely Short": 0.2,
-        "Very Short": 0.3,
-        Short: 0.4,
-        Medium: 0.5,
-        Long: 0.6,
-        "Very Long": 0.7,
-        "Extremely Long": 0.8,
+        "Extremely Short": lerp(0.1, 0.9, 0 / 6),
+        "Very Short": lerp(0.1, 0.9, 1 / 6),
+        Short: lerp(0.1, 0.9, 2 / 6),
+        Medium: lerp(0.1, 0.9, 3 / 6),
+        Long: lerp(0.1, 0.9, 4 / 6),
+        "Very Long": lerp(0.1, 0.9, 5 / 6),
+        "Extremely Long": lerp(0.1, 0.9, 6 / 6),
     };
 
     const validateGears = (): [null, Validation] | [string] => {
