@@ -4,33 +4,28 @@
     import GearInput from "$lib/components/GearInput.svelte";
     import Dialog, { getDialog } from "$lib/components/Dialog.svelte";
 
-    type Length =
-        | "Extremely Short"
-        | "Very Short"
-        | "Short"
-        | "Medium"
-        | "Long"
-        | "Very Long"
-        | "Extremely Long";
+    const lengthMap = {
+        "Level 0 (Short)": 0.0,
+        "Level 1": 0.1,
+        "Level 2": 0.2,
+        "Level 3": 0.3,
+        "Level 4": 0.4,
+        "Level 5 (Medium)": 0.5,
+        "Level 6": 0.6,
+        "Level 7": 0.7,
+        "Level 8": 0.8,
+        "Level 9": 0.9,
+        "Level 10 (Long)": 1.0,
+    } as const;
 
-    type LengthMap = { [key in Length]: number };
+    type Length = keyof typeof lengthMap;
     type Validation = { firstGear: number; lastGear: number };
 
     let transmission = 6;
     let firstGear = "3.00";
     let lastGear = "1.00";
-    let length: Length = "Medium";
+    let length: Length = "Level 5 (Medium)";
     let result: number[] = [];
-
-    const lengthMap: LengthMap = {
-        "Extremely Short": lerp(0.1, 0.9, 0 / 6),
-        "Very Short": lerp(0.1, 0.9, 1 / 6),
-        Short: lerp(0.1, 0.9, 2 / 6),
-        Medium: lerp(0.1, 0.9, 3 / 6),
-        Long: lerp(0.1, 0.9, 4 / 6),
-        "Very Long": lerp(0.1, 0.9, 5 / 6),
-        "Extremely Long": lerp(0.1, 0.9, 6 / 6),
-    };
 
     const validateGears = (): [null, Validation] | [string] => {
         const validation: Validation = {
@@ -65,9 +60,8 @@
             return;
         }
 
-        const ratioMin = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
-        const ratioMax = 1 / ratioMin;
-        const ratio = expLerp(ratioMin, ratioMax, lengthMap[length]);
+        const minRatio = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
+        const ratio = expLerp(minRatio, 1 / minRatio, 0.5);
         result = calculateGearing(transmission, validation.firstGear, validation.lastGear, ratio);
     };
 </script>
@@ -84,7 +78,7 @@
                 Transmission
                 <select bind:value={transmission}>
                     {#each range(3, 10) as speed}
-                        <option value={speed}>{speed}-Speed</option>
+                        <option value={speed}>{speed} Speed</option>
                     {/each}
                 </select>
             </label>
