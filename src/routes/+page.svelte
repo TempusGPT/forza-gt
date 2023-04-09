@@ -61,7 +61,7 @@
         }
 
         const minRatio = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
-        const ratio = expLerp(minRatio, 1 / minRatio, 0.5);
+        const ratio = expLerp(minRatio, 1 / minRatio, lengthMap[length]);
         result = calculateGearing(transmission, validation.firstGear, validation.lastGear, ratio);
     };
 </script>
