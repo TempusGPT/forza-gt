@@ -1,30 +1,23 @@
 <script lang="ts">
-    import { calculateGearing } from "$lib/calculator";
-    import { expLerp, lerp, range } from "$lib/math";
+    import { tuneGearing } from "$lib/tuner";
+    import { expLerp, range } from "$lib/math";
     import GearInput from "$lib/components/GearInput.svelte";
     import Dialog, { getDialog } from "$lib/components/Dialog.svelte";
 
     const lengthMap = {
-        "Level 0 (Short)": 0.0,
-        "Level 1": 0.1,
-        "Level 2": 0.2,
-        "Level 3": 0.3,
-        "Level 4": 0.4,
-        "Level 5 (Medium)": 0.5,
-        "Level 6": 0.6,
-        "Level 7": 0.7,
-        "Level 8": 0.8,
-        "Level 9": 0.9,
-        "Level 10 (Long)": 1.0,
+        Medium: 1,
+        Short: 0.8333333333333334,
+        Shorter: 0.6666666666666666,
+        Shortest: 0.5,
     } as const;
 
     type Length = keyof typeof lengthMap;
     type Validation = { firstGear: number; lastGear: number };
 
-    let transmission = 6;
-    let firstGear = "3.00";
+    let transmission = 7;
+    let firstGear = "4.00";
     let lastGear = "1.00";
-    let length: Length = "Level 5 (Medium)";
+    let length: Length = "Medium";
     let result: number[] = [];
 
     const validateGears = (): [null, Validation] | [string] => {
@@ -53,7 +46,7 @@
         return [null, validation];
     };
 
-    const calculate = () => {
+    const tune = () => {
         const [error, validation] = validateGears();
         if (error !== null) {
             getDialog(error)?.open();
@@ -61,18 +54,18 @@
         }
 
         const minRatio = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
-        const ratio = expLerp(minRatio, 1 / minRatio, lengthMap[length]);
-        result = calculateGearing(transmission, validation.firstGear, validation.lastGear, ratio);
+        const ratio = expLerp(minRatio, 1, lengthMap[length]);
+        result = tuneGearing(transmission, validation.firstGear, validation.lastGear, ratio);
     };
 </script>
 
 <main class="container">
     <div class="headings">
-        <h1>Geargeist</h1>
-        <h2>Gearing Calculator for Forza Series</h2>
+        <h1>Tempuz's Gearing Tuner</h1>
+        <h2>Designed to tune gearing in Forza series</h2>
     </div>
 
-    <form on:submit|preventDefault={calculate}>
+    <form on:submit|preventDefault={tune}>
         <div class="grid">
             <label>
                 Transmission
@@ -105,7 +98,7 @@
             </label>
         </div>
 
-        <button>Calculate</button>
+        <button>Tune</button>
     </form>
 
     <div>
