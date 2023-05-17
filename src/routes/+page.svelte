@@ -61,7 +61,7 @@
 
 <main class="container">
     <div class="headings">
-        <h1>Tempuz's Gearing Tuner</h1>
+        <h1>Alyxer's Gearing Tuner</h1>
         <h2>Designed to tune gearing in Forza series</h2>
     </div>
 
