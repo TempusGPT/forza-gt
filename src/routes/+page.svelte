@@ -62,7 +62,7 @@
 <main class="container">
     <div class="headings">
         <h1>Alyxer's Gearing Tuner</h1>
-        <h2>Designed to tune gearing in Forza series</h2>
+        <h2>Designed to tune gearing in Forza Horizon</h2>
     </div>
 
     <form on:submit|preventDefault={tune}>
