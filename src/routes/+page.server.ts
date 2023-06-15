@@ -1,7 +1,7 @@
 import { expLerp } from "$lib/math";
 import { tuneGearing } from "$lib/tuner";
 import { getErrorMessage, parse } from "$lib/utils";
-import type { Actions, Load } from "@sveltejs/kit";
+import type { Action, Actions, Load } from "@sveltejs/kit";
 
 const form = {
     transmission: {
@@ -31,33 +31,27 @@ const form = {
     },
 };
 
-export const load: Load = () => {
-    return { form };
+const formAction: Action = async ({ request }) => {
+    try {
+        const formData = await validateForm(request);
+        const minRatio =
+            (formData.lastGear / formData.firstGear) ** (1 / (formData.transmission - 1));
+        const ratio = expLerp(minRatio, 1, formData.length);
+
+        return {
+            result: tuneGearing(
+                formData.transmission,
+                formData.firstGear,
+                formData.lastGear,
+                ratio
+            ),
+        };
+    } catch (e) {
+        return { error: getErrorMessage(e) };
+    }
 };
 
-export const actions: Actions = {
-    default: async ({ request }) => {
-        try {
-            const formData = await validateFormData(request);
-            const minRatio =
-                (formData.lastGear / formData.firstGear) ** (1 / (formData.transmission - 1));
-            const ratio = expLerp(minRatio, 1, formData.length);
-
-            return {
-                result: tuneGearing(
-                    formData.transmission,
-                    formData.firstGear,
-                    formData.lastGear,
-                    ratio
-                ),
-            };
-        } catch (e) {
-            return { error: getErrorMessage(e) };
-        }
-    },
-};
-
-const validateFormData = async (request: Request) => {
+const validateForm = async (request: Request) => {
     const formData = await request.formData();
     const transmission = parse(formData, form.transmission.name).toNumber();
     const firstGear = parse(formData, form.firstGear.name).toNumber();
@@ -81,4 +75,12 @@ const validateFormData = async (request: Request) => {
     }
 
     return { transmission, firstGear, lastGear, length };
+};
+
+export const load: Load = () => {
+    return { form };
+};
+
+export const actions: Actions = {
+    default: formAction,
 };

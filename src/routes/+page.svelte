@@ -15,7 +15,7 @@
         const floatValue = parseFloat(value);
         return isNaN(floatValue) ? value : floatValue.toFixed(2);
     };
-    
+
     const useEnhance: SubmitFunction = () => {
         return ({ update }) => update({ reset: false });
     };
