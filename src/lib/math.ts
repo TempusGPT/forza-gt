@@ -9,7 +9,3 @@ export const expLerp = (min: number, max: number, t: number) => {
 export const clamp = (value: number, min: number, max: number) => {
     return Math.min(Math.max(value, min), max);
 };
-
-export const range = (start: number, end: number) => {
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-};

@@ -1,61 +1,23 @@
 <script lang="ts">
-    import { tuneGearing } from "$lib/tuner";
-    import { expLerp, range } from "$lib/math";
-    import GearInput from "$lib/components/GearInput.svelte";
-    import Dialog, { getDialog } from "$lib/components/Dialog.svelte";
+    import { enhance, type SubmitFunction } from "$app/forms";
+    export let data;
+    export let form;
 
-    const lengthMap = {
-        Medium: 1,
-        Short: 0.8333333333333334,
-        Shorter: 0.6666666666666666,
-        Shortest: 0.5,
-    } as const;
+    let transmission = data.form.transmission.default;
+    let firstGear = data.form.firstGear.default;
+    let lastGear = data.form.lastGear.default;
+    let length = data.form.length.default;
 
-    type Length = keyof typeof lengthMap;
-    type Validation = { firstGear: number; lastGear: number };
+    $: formattedFirstGear = formatGear(firstGear);
+    $: formattedLastGear = formatGear(lastGear);
 
-    let transmission = 7;
-    let firstGear = "4.00";
-    let lastGear = "1.00";
-    let length: Length = "Medium";
-    let result: number[] = [];
-
-    const validateGears = (): [null, Validation] | [string] => {
-        const validation: Validation = {
-            firstGear: parseFloat(firstGear),
-            lastGear: parseFloat(lastGear),
-        };
-
-        if (isNaN(validation.firstGear) || isNaN(validation.lastGear)) {
-            return ["NaN"];
-        }
-
-        if (
-            validation.firstGear < 0.48 ||
-            validation.firstGear > 6 ||
-            validation.lastGear < 0.48 ||
-            validation.lastGear > 6
-        ) {
-            return ["Gear"];
-        }
-
-        if (validation.firstGear <= validation.lastGear) {
-            return ["Range"];
-        }
-
-        return [null, validation];
+    const formatGear = (value: string) => {
+        const floatValue = parseFloat(value);
+        return isNaN(floatValue) ? value : floatValue.toFixed(2);
     };
-
-    const tune = () => {
-        const [error, validation] = validateGears();
-        if (error !== null) {
-            getDialog(error)?.open();
-            return;
-        }
-
-        const minRatio = (validation.lastGear / validation.firstGear) ** (1 / (transmission - 1));
-        const ratio = expLerp(minRatio, 1, lengthMap[length]);
-        result = tuneGearing(transmission, validation.firstGear, validation.lastGear, ratio);
+    
+    const useEnhance: SubmitFunction = () => {
+        return ({ update }) => update({ reset: false });
     };
 </script>
 
@@ -65,34 +27,44 @@
         <h2>Designed to tune gears between first and last gears</h2>
     </div>
 
-    <form on:submit|preventDefault={tune}>
+    <form method="post" use:enhance={useEnhance}>
         <div class="grid">
             <label>
-                Transmission
-                <select bind:value={transmission}>
-                    {#each range(3, 10) as speed}
-                        <option value={speed}>{speed} Speed</option>
+                {data.form.transmission.name}
+                <select name={data.form.transmission.name} bind:value={transmission}>
+                    {#each data.form.transmission.options as value}
+                        <option {value}>{value} Speed</option>
                     {/each}
                 </select>
             </label>
 
-            <!-- svelte-ignore a11y-label-has-associated-control -->
             <label>
-                First Gear
-                <GearInput bind:value={firstGear} />
+                {data.form.firstGear.name}
+                <input
+                    name={data.form.firstGear.name}
+                    placeholder={data.form.firstGear.placeholder}
+                    inputmode="numeric"
+                    bind:value={firstGear}
+                    on:blur={() => (firstGear = formattedFirstGear)}
+                />
             </label>
 
-            <!-- svelte-ignore a11y-label-has-associated-control -->
             <label>
-                Last Gear
-                <GearInput bind:value={lastGear} />
+                {data.form.lastGear.name}
+                <input
+                    name={data.form.lastGear.name}
+                    placeholder={data.form.lastGear.placeholder}
+                    inputmode="numeric"
+                    bind:value={lastGear}
+                    on:blur={() => (lastGear = formattedLastGear)}
+                />
             </label>
 
             <label>
-                Length
-                <select bind:value={length}>
-                    {#each Object.keys(lengthMap) as len}
-                        <option value={len}>{len}</option>
+                {data.form.length.name}
+                <select name={data.form.length.name} bind:value={length}>
+                    {#each data.form.length.options as { name, value }}
+                        <option {value}>{name}</option>
                     {/each}
                 </select>
             </label>
@@ -101,8 +73,8 @@
         <button>Tune</button>
     </form>
 
-    <div>
-        {#each result as gear, i}
+    {#if form?.result}
+        {#each form.result as gear, i}
             {#if i !== 0}
                 <hr />
             {/if}
@@ -111,13 +83,17 @@
                 <div>{gear.toFixed(2)}</div>
             </nav>
         {/each}
-    </div>
+    {/if}
 </main>
 
-<Dialog id="NaN" title="Error" message="The first gear and the last gear must be numbers." />
-<Dialog
-    id="Gear"
-    title="Error"
-    message="The first gear and the last gear must be between 0.48 and 6.00"
-/>
-<Dialog id="Range" title="Error" message="The first gear must be greater than the last gear." />
+{#if form?.error}
+    <dialog open>
+        <article>
+            <h3>Error</h3>
+            <p>{form.error}</p>
+            <footer>
+                <a href="." role="button">OK</a>
+            </footer>
+        </article>
+    </dialog>
+{/if}
