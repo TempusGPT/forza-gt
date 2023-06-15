@@ -13,21 +13,21 @@ export const parse = (formData: FormData, name: string) => {
             if (value instanceof File) {
                 return value;
             }
-            throw new Error(`${name} is not a file`);
+            throw new Error(`The value of ${name} is not a file.`);
         },
         toString: () => {
             if (typeof value !== "string") {
-                throw new Error(`${name} is not a string`);
+                throw new Error(`The value of ${name} is not a string.`);
             }
             return value;
         },
         toNumber: () => {
             if (typeof value !== "string") {
-                throw new Error(`${name} is not a number`);
+                throw new Error(`The value of ${name} is not a number.`);
             }
             const parsedValue = parseFloat(value);
             if (isNaN(parsedValue)) {
-                throw new Error(`${name} is not a number`);
+                throw new Error(`The value of ${name} is not a number.`);
             }
             return parsedValue;
         },

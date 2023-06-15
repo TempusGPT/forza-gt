@@ -59,19 +59,19 @@ const validateForm = async (request: Request) => {
     const length = parse(formData, form.length.name).toNumber();
 
     if (!form.transmission.options.includes(transmission)) {
-        throw new Error("Transmission must be one of the options");
+        throw new Error("Transmission must be one of the options.");
     }
 
     if (firstGear < 0.48 || firstGear > 6 || lastGear < 0.48 || lastGear > 6) {
-        throw new Error("First Gear and Last Gear must be between 0.48 and 6.00");
+        throw new Error("First Gear and Last Gear must be between 0.48 and 6.00.");
     }
 
     if (firstGear <= lastGear) {
-        throw new Error("First Gear must be greater than Last Gear");
+        throw new Error("First Gear must be greater than Last Gear.");
     }
 
     if (form.length.options.every((len) => len.value !== length)) {
-        throw new Error("Length must be one of the options");
+        throw new Error("Length must be one of the options.");
     }
 
     return { transmission, firstGear, lastGear, length };
