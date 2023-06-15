@@ -86,14 +86,20 @@
     {/if}
 </main>
 
+<footer class="container">
+    <small>
+        Version 1.0.0 • <a href="https://github.com/AlyxerHL/gearing-tuner">Source Code</a>
+    </small>
+</footer>
+
 {#if form?.error}
     <dialog open>
         <article>
-            <h3>Error</h3>
+            <header>
+                <a href="." class="close" aria-label="close" />
+                Error
+            </header>
             <p>{form.error}</p>
-            <footer>
-                <a href="." role="button">OK</a>
-            </footer>
         </article>
     </dialog>
 {/if}
