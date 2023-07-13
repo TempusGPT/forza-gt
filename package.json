@@ -1,6 +1,6 @@
 {
-    "name": "forza-horizon-library",
-    "version": "2.0.0",
+    "name": "gearing-tuner",
+    "version": "1.1.0",
     "private": true,
     "scripts": {
         "dev": "vite dev",
