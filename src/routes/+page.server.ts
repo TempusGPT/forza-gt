@@ -6,7 +6,7 @@ import type { Action, Actions, Load } from "@sveltejs/kit";
 const form = {
     transmission: {
         name: "Transmission",
-        default: 7,
+        default: 6,
         options: [3, 4, 5, 6, 7, 8, 9, 10],
     },
     firstGear: {
@@ -21,12 +21,15 @@ const form = {
     },
     length: {
         name: "Length",
-        default: 1,
+        default: 0.5,
         options: [
-            { name: "Medium", value: 1 },
-            { name: "Short", value: 0.8333333333333334 },
-            { name: "Shorter", value: 0.6666666666666666 },
-            { name: "Shortest", value: 0.5 },
+            { name: "Shortest", value: 0.2 },
+            { name: "Shorter", value: 0.3 },
+            { name: "Short", value: 0.4 },
+            { name: "Medium", value: 0.5 },
+            { name: "Long", value: 0.6 },
+            { name: "Longer", value: 0.7 },
+            { name: "Longest", value: 0.8 },
         ],
     },
 };
@@ -36,7 +39,7 @@ const formAction: Action = async ({ request }) => {
         const formData = await validateForm(request);
         const minRatio =
             (formData.lastGear / formData.firstGear) ** (1 / (formData.transmission - 1));
-        const ratio = expLerp(minRatio, 1, formData.length);
+        const ratio = expLerp(minRatio, 1 / minRatio, formData.length);
 
         return {
             result: tuneGearing(
