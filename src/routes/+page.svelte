@@ -23,6 +23,11 @@
 </script>
 
 <main class="container">
+    <div class="headings">
+        <h1>Alyxer's Gearing Tuner</h1>
+        <h1>Designed to tune gears between first and last gears</h1>
+    </div>
+
     <form method="post" use:enhance={useEnhance}>
         <div class="grid">
             <label>

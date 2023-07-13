@@ -3,9 +3,7 @@
 </script>
 
 <nav class="container-fluid">
-    <ul>
-        <li><a href="/" class="contrast"><b>Alyxer's Gearing Tuner</b></a></li>
-    </ul>
+    <ul />
     <ul>
         <li>Version {version}</li>
         <li>•</li>
