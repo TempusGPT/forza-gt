@@ -7,11 +7,11 @@
     <ul>
         <li>Version {version}</li>
         <li>•</li>
-        <li><a href="https://github.com/AlyxerHL/gearing-tuner">Source Code</a></li>
+        <li><a href="https://github.com/TempusGPT/f1gt">Source Code</a></li>
     </ul>
 </nav>
 
 <slot />
 <svelte:head>
-    <title>Alyxer's Gearing Tuner</title>
+    <title>Forza #1 Gearing Tuner</title>
 </svelte:head>
