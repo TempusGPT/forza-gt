@@ -1,4 +1,5 @@
 import GearInput from "~/components/GearInput";
+import Header from "~/components/Header";
 import LabeledSelect from "~/components/LabeledSelect";
 
 export default () => {
@@ -15,17 +16,6 @@ export default () => {
 
     return (
         <>
-            <nav class="container-fluid">
-                <ul />
-                <ul>
-                    <li>Version 2.0.0</li>
-                    <li>•</li>
-                    <li>
-                        <a href="https://github.com/TempusGPT/f1gt">Source Code</a>
-                    </li>
-                </ul>
-            </nav>
-
             <main class="container">
                 <div class="headings">
                     <h1>Forza #1 Gearing Tuner</h1>
