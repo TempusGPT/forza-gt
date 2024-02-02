@@ -1,5 +1,4 @@
 import GearInput from "~/components/GearInput";
-import Header from "~/components/Header";
 import Headings from "~/components/Headings";
 import LabeledSelect from "~/components/LabeledSelect";
 
