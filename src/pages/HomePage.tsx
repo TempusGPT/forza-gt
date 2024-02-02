@@ -1,7 +1,7 @@
 import { JSX, createSignal } from "solid-js";
 import GearInput from "~/components/GearInput";
 import Headings from "~/components/Headings";
-import LabeledSelect, { Option } from "~/components/LabeledSelect";
+import Dropdown, { Option } from "~/components/Dropdown";
 
 export default () => {
     const transmissionOptions: Option[] = [
@@ -49,7 +49,7 @@ export default () => {
 
             <form onSubmit={handleSubmit}>
                 <div class="grid">
-                    <LabeledSelect
+                    <Dropdown
                         label="Transmission"
                         options={transmissionOptions}
                         value={transmission}
@@ -59,7 +59,7 @@ export default () => {
                     <GearInput label="First Gear" value={firstGear} setValue={setFirstGear} />
                     <GearInput label="Last Gear" value={lastGear} setValue={setLastGear} />
 
-                    <LabeledSelect
+                    <Dropdown
                         label="Length"
                         options={lengthOptions}
                         value={length}
