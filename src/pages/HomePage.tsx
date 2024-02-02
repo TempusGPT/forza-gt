@@ -1,5 +1,6 @@
 import GearInput from "~/components/GearInput";
 import Header from "~/components/Header";
+import Headings from "~/components/Headings";
 import LabeledSelect from "~/components/LabeledSelect";
 
 export default () => {
@@ -15,36 +16,34 @@ export default () => {
     ];
 
     return (
-        <>
-            <main class="container">
-                <div class="headings">
-                    <h1>Forza #1 Gearing Tuner</h1>
-                    <h1>Designed to tune gears between first and last gears</h1>
+        <main class="container">
+            <Headings
+                title="Forza #1 Gearing Tuner"
+                subtitle="Designed to tune gears between first and last gears"
+            />
+
+            <form method="post">
+                <div class="grid">
+                    <LabeledSelect
+                        label="Transmission"
+                        options={transmissions}
+                        nameSelector={(t) => `${t} Speed`}
+                        valueSelector={(t) => t}
+                    />
+
+                    <GearInput label="First Gear" />
+                    <GearInput label="Last Gear" />
+
+                    <LabeledSelect
+                        label="Length"
+                        options={lengths}
+                        nameSelector={(t) => t.name}
+                        valueSelector={(t) => t.value}
+                    />
                 </div>
 
-                <form method="post">
-                    <div class="grid">
-                        <LabeledSelect
-                            label="Transmission"
-                            options={transmissions}
-                            nameSelector={(t) => `${t} Speed`}
-                            valueSelector={(t) => t}
-                        />
-
-                        <GearInput label="First Gear" />
-                        <GearInput label="Last Gear" />
-
-                        <LabeledSelect
-                            label="Length"
-                            options={lengths}
-                            nameSelector={(t) => t.name}
-                            valueSelector={(t) => t.value}
-                        />
-                    </div>
-
-                    <button>Tune</button>
-                </form>
-            </main>
-        </>
+                <button>Tune</button>
+            </form>
+        </main>
     );
 };
