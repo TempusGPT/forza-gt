@@ -1,5 +1,8 @@
 import { lerp } from "~/libs/math";
-import { range } from "~/libs/utils";
+
+const range = (start: number, end: number) => {
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+};
 
 const tuneArithmetic = (speed: number, first: number, last: number) => {
     return range(0, speed - 1).map((i) => {

@@ -2,6 +2,7 @@ import { JSX, createSignal } from "solid-js";
 import GearInput from "~/components/GearInput";
 import Headings from "~/components/Headings";
 import Dropdown, { Option } from "~/components/Dropdown";
+import { tuneGearing } from "~/libs/tuner";
 
 export default () => {
     const transmissionOptions: Option[] = [
@@ -26,18 +27,13 @@ export default () => {
     ];
 
     const [transmission, setTransmission] = createSignal(transmissionOptions[3]);
-    const [firstGear, setFirstGear] = createSignal("");
-    const [lastGear, setLastGear] = createSignal("");
+    const [firstGear, setFirstGear] = createSignal(NaN);
+    const [lastGear, setLastGear] = createSignal(NaN);
     const [length, setLength] = createSignal(lengthOptions[3]);
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
         e.preventDefault();
-        console.log({
-            transmission: transmission(),
-            firstGear: firstGear(),
-            lastGear: lastGear(),
-            length: length(),
-        });
+        console.log(tuneGearing(transmission().value, firstGear(), lastGear(), length().value));
     };
 
     return (
@@ -56,8 +52,8 @@ export default () => {
                         setValue={setTransmission}
                     />
 
-                    <GearInput label="First Gear" value={firstGear} setValue={setFirstGear} />
-                    <GearInput label="Last Gear" value={lastGear} setValue={setLastGear} />
+                    <GearInput label="First Gear" setValue={setFirstGear} />
+                    <GearInput label="Last Gear" setValue={setLastGear} />
 
                     <Dropdown
                         label="Length"
