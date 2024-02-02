@@ -2,7 +2,6 @@ import { JSX, createSignal } from "solid-js";
 import GearInput from "~/components/GearInput";
 import Headings from "~/components/Headings";
 import Dropdown, { Option } from "~/components/Dropdown";
-import { tuneGearing } from "~/libs/tuner";
 
 export default () => {
     const transmissionOptions: Option[] = [
@@ -26,14 +25,14 @@ export default () => {
         { name: "Longest", value: 0.8 },
     ];
 
-    const [transmission, setTransmission] = createSignal(transmissionOptions[3]);
+    const [transmission, setTransmission] = createSignal(transmissionOptions[3].value);
     const [firstGear, setFirstGear] = createSignal(NaN);
     const [lastGear, setLastGear] = createSignal(NaN);
-    const [length, setLength] = createSignal(lengthOptions[3]);
+    const [length, setLength] = createSignal(lengthOptions[3].value);
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
         e.preventDefault();
-        console.log(tuneGearing(transmission().value, firstGear(), lastGear(), length().value));
+        console.log(transmission(), firstGear(), lastGear(), length());
     };
 
     return (

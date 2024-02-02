@@ -7,12 +7,11 @@ type Props = {
 
 export default ({ label, setValue }: Props) => {
     const [invalid, setInvalid] = createSignal<true>();
-    const isValid = (gearRatio: number) => 0.48 <= gearRatio && gearRatio <= 6.0;
 
     const handleChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
         const gearRatio = Number(e.currentTarget.value);
 
-        if (isValid(gearRatio)) {
+        if (0.48 <= gearRatio && gearRatio <= 6.0) {
             const formatted = gearRatio.toFixed(2);
             e.currentTarget.value = formatted;
             setValue(Number(formatted));
