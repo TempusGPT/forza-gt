@@ -26,6 +26,7 @@ export default () => {
                     <LabeledSelect
                         label="Transmission"
                         options={transmissions}
+                        defaultIndex={3}
                         nameSelector={(t) => `${t} Speed`}
                         valueSelector={(t) => t}
                     />
@@ -36,6 +37,7 @@ export default () => {
                     <LabeledSelect
                         label="Length"
                         options={lengths}
+                        defaultIndex={3}
                         nameSelector={(l) => l.name}
                         valueSelector={(l) => l.value}
                     />
