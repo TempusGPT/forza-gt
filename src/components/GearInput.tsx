@@ -20,7 +20,6 @@ export default ({ label, value, setValue }: Props) => {
         <label>
             {label}
             <input
-                name={label}
                 placeholder="0.48-6.00"
                 inputmode="numeric"
                 value={value()}

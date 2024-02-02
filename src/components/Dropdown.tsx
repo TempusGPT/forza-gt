@@ -20,7 +20,7 @@ export default ({ label, options, value, setValue }: Props) => {
     return (
         <label>
             {label}
-            <select name={label} value={value().value} onChange={handleChange}>
+            <select value={value().value} onChange={handleChange}>
                 <For each={options}>{(t) => <option value={t.value}>{t.name}</option>}</For>
             </select>
         </label>
