@@ -2,6 +2,7 @@ import { render } from "solid-js/web";
 import Header from "~/components/Header";
 import HomePage from "~/pages/HomePage";
 import "~/assets/styles.css";
+import "~/libs/math";
 
 const app = () => (
     <>

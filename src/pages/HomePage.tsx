@@ -2,6 +2,7 @@ import { JSX, createSignal } from "solid-js";
 import GearInput from "~/components/GearInput";
 import Headings from "~/components/Headings";
 import Dropdown, { Option } from "~/components/Dropdown";
+import { tuneGearing } from "~/libs/tuner";
 
 export default () => {
     const transmissionOptions: Option[] = [
@@ -32,7 +33,17 @@ export default () => {
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
         e.preventDefault();
-        console.log(transmission(), firstGear(), lastGear(), length());
+
+        if (isNaN(firstGear()) || isNaN(lastGear())) {
+            alert("First and last gears must be numbers");
+        } else if (firstGear() <= lastGear()) {
+            alert("First gear must be greater than last gear");
+        } else {
+            const minRatio = (lastGear() / firstGear()) ** (1 / (transmission() - 1));
+            const ratio = Math.expLerp(minRatio, 1 / minRatio, length());
+            const gearing = tuneGearing(transmission(), firstGear(), lastGear(), ratio);
+            console.log(gearing);
+        }
     };
 
     return (
