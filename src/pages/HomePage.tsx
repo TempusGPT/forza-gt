@@ -1,10 +1,21 @@
+import { createSignal } from "solid-js";
 import GearInput from "~/components/GearInput";
 import Headings from "~/components/Headings";
-import LabeledSelect from "~/components/LabeledSelect";
+import LabeledSelect, { Option } from "~/components/LabeledSelect";
 
 export default () => {
-    const transmissions = [3, 4, 5, 6, 7, 8, 9, 10];
-    const lengths = [
+    const transmissionOptions: Option[] = [
+        { name: "3 Speed", value: 3 },
+        { name: "4 Speed", value: 4 },
+        { name: "5 Speed", value: 5 },
+        { name: "6 Speed", value: 6 },
+        { name: "7 Speed", value: 7 },
+        { name: "8 Speed", value: 8 },
+        { name: "9 Speed", value: 9 },
+        { name: "10 Speed", value: 10 },
+    ];
+
+    const lengthOptions: Option[] = [
         { name: "Shortest", value: 0.2 },
         { name: "Shorter", value: 0.3 },
         { name: "Short", value: 0.4 },
@@ -13,6 +24,11 @@ export default () => {
         { name: "Longer", value: 0.7 },
         { name: "Longest", value: 0.8 },
     ];
+
+    const [transmission, setTransmission] = createSignal(transmissionOptions[3].value);
+    // const [firstGear, setFirstGear] = createSignal("");
+    // const [lastGear, setLastGear] = createSignal("");
+    const [length, setLength] = createSignal(lengthOptions[3].value);
 
     return (
         <main class="container">
@@ -24,10 +40,9 @@ export default () => {
             <div class="grid">
                 <LabeledSelect
                     label="Transmission"
-                    options={transmissions}
-                    defaultIndex={3}
-                    nameSelector={(t) => `${t} Speed`}
-                    valueSelector={(t) => t}
+                    options={transmissionOptions}
+                    value={transmission}
+                    setValue={setTransmission}
                 />
 
                 <GearInput label="First Gear" />
@@ -35,10 +50,9 @@ export default () => {
 
                 <LabeledSelect
                     label="Length"
-                    options={lengths}
-                    defaultIndex={3}
-                    nameSelector={(l) => l.name}
-                    valueSelector={(l) => l.value}
+                    options={lengthOptions}
+                    value={length}
+                    setValue={setLength}
                 />
             </div>
 

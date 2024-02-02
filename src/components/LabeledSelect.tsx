@@ -1,20 +1,19 @@
-import { For, JSX, createSignal } from "solid-js";
+import { Accessor, For, JSX, Setter } from "solid-js";
 
-type Props<T> = {
+type Props = {
     label: string;
-    options: T[];
-    defaultIndex: number;
-    nameSelector: (option: T) => JSX.Element;
-    valueSelector: (option: T) => string | number | string[] | undefined;
+    options: Option[];
+    value: Accessor<number>;
+    setValue: Setter<number>;
 };
 
-export default <T,>({ label, options, defaultIndex, nameSelector, valueSelector }: Props<T>) => {
-    const [value, setValue] = createSignal(valueSelector(options[defaultIndex]));
+export type Option = { name: string; value: number };
 
+export default ({ label, options, value, setValue }: Props) => {
     const handleChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
         const index = e.currentTarget.selectedIndex;
         if (0 <= index && index < options.length) {
-            setValue(valueSelector(options[e.currentTarget.selectedIndex]));
+            setValue(options[index].value);
         }
     };
 
@@ -22,9 +21,7 @@ export default <T,>({ label, options, defaultIndex, nameSelector, valueSelector 
         <label>
             {label}
             <select name={label} value={value()} onChange={handleChange}>
-                <For each={options}>
-                    {(t) => <option value={valueSelector(t)}>{nameSelector(t)}</option>}
-                </For>
+                <For each={options}>{(t) => <option value={t.value}>{t.name}</option>}</For>
             </select>
         </label>
     );
