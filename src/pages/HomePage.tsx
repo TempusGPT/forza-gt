@@ -21,30 +21,28 @@ export default () => {
                 subtitle="Designed to tune gears between first and last gears"
             />
 
-            <form method="post">
-                <div class="grid">
-                    <LabeledSelect
-                        label="Transmission"
-                        options={transmissions}
-                        defaultIndex={3}
-                        nameSelector={(t) => `${t} Speed`}
-                        valueSelector={(t) => t}
-                    />
+            <div class="grid">
+                <LabeledSelect
+                    label="Transmission"
+                    options={transmissions}
+                    defaultIndex={3}
+                    nameSelector={(t) => `${t} Speed`}
+                    valueSelector={(t) => t}
+                />
 
-                    <GearInput label="First Gear" />
-                    <GearInput label="Last Gear" />
+                <GearInput label="First Gear" />
+                <GearInput label="Last Gear" />
 
-                    <LabeledSelect
-                        label="Length"
-                        options={lengths}
-                        defaultIndex={3}
-                        nameSelector={(l) => l.name}
-                        valueSelector={(l) => l.value}
-                    />
-                </div>
+                <LabeledSelect
+                    label="Length"
+                    options={lengths}
+                    defaultIndex={3}
+                    nameSelector={(l) => l.name}
+                    valueSelector={(l) => l.value}
+                />
+            </div>
 
-                <button>Tune</button>
-            </form>
+            <button>Tune</button>
         </main>
     );
 };
