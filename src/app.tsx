@@ -1,7 +1,7 @@
 import { render } from "solid-js/web";
-import Header from "./components/Header";
+import Header from "~/components/Header";
 import HomePage from "~/pages/HomePage";
-import "~/assets/pico.min.css";
+import "~/assets/styles.css";
 
 const app = () => (
     <>

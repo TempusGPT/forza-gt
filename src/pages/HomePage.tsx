@@ -36,8 +36,8 @@ export default () => {
                     <LabeledSelect
                         label="Length"
                         options={lengths}
-                        nameSelector={(t) => t.name}
-                        valueSelector={(t) => t.value}
+                        nameSelector={(l) => l.name}
+                        valueSelector={(l) => l.value}
                     />
                 </div>
 
