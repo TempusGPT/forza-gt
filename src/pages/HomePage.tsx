@@ -4,31 +4,31 @@ import Headings from "~/components/Headings";
 import Dropdown, { Option } from "~/components/Dropdown";
 import { tuneGearing } from "~/libs/tuner";
 
+const transmissionOptions: Option[] = [
+    { name: "3 Speed", value: 3 },
+    { name: "4 Speed", value: 4 },
+    { name: "5 Speed", value: 5 },
+    { name: "6 Speed", value: 6 },
+    { name: "7 Speed", value: 7 },
+    { name: "8 Speed", value: 8 },
+    { name: "9 Speed", value: 9 },
+    { name: "10 Speed", value: 10 },
+];
+
+const lengthOptions: Option[] = [
+    { name: "Shortest", value: 0.2 },
+    { name: "Shorter", value: 0.3 },
+    { name: "Short", value: 0.4 },
+    { name: "Medium", value: 0.5 },
+    { name: "Long", value: 0.6 },
+    { name: "Longer", value: 0.7 },
+    { name: "Longest", value: 0.8 },
+];
+
 export default () => {
-    const transmissionOptions: Option[] = [
-        { name: "3 Speed", value: 3 },
-        { name: "4 Speed", value: 4 },
-        { name: "5 Speed", value: 5 },
-        { name: "6 Speed", value: 6 },
-        { name: "7 Speed", value: 7 },
-        { name: "8 Speed", value: 8 },
-        { name: "9 Speed", value: 9 },
-        { name: "10 Speed", value: 10 },
-    ];
-
-    const lengthOptions: Option[] = [
-        { name: "Shortest", value: 0.2 },
-        { name: "Shorter", value: 0.3 },
-        { name: "Short", value: 0.4 },
-        { name: "Medium", value: 0.5 },
-        { name: "Long", value: 0.6 },
-        { name: "Longer", value: 0.7 },
-        { name: "Longest", value: 0.8 },
-    ];
-
     const [transmission, setTransmission] = createSignal(transmissionOptions[3].value);
-    const [firstGear, setFirstGear] = createSignal(NaN);
-    const [lastGear, setLastGear] = createSignal(NaN);
+    const [firstGear, setFirstGear] = createSignal(2.89);
+    const [lastGear, setLastGear] = createSignal(0.78);
     const [length, setLength] = createSignal(lengthOptions[3].value);
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
