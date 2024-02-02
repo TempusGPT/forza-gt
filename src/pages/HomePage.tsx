@@ -1,3 +1,4 @@
+import GearInput from "~/components/GearInput";
 import LabeledSelect from "~/components/LabeledSelect";
 
 export default () => {
@@ -40,15 +41,8 @@ export default () => {
                             valueSelector={(t) => t}
                         />
 
-                        <label>
-                            First Gear
-                            <input name="first-gear" placeholder="2.89" inputmode="numeric" />
-                        </label>
-
-                        <label>
-                            Last Gear
-                            <input name="last-gear" placeholder="0.78" inputmode="numeric" />
-                        </label>
+                        <GearInput label="First Gear" />
+                        <GearInput label="Last Gear" />
 
                         <LabeledSelect
                             label="Length"
