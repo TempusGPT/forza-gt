@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { JSX, createSignal } from "solid-js";
 import GearInput from "~/components/GearInput";
 import Headings from "~/components/Headings";
 import LabeledSelect, { Option } from "~/components/LabeledSelect";
@@ -25,10 +25,20 @@ export default () => {
         { name: "Longest", value: 0.8 },
     ];
 
-    const [transmission, setTransmission] = createSignal(transmissionOptions[3].value);
-    // const [firstGear, setFirstGear] = createSignal("");
-    // const [lastGear, setLastGear] = createSignal("");
-    const [length, setLength] = createSignal(lengthOptions[3].value);
+    const [transmission, setTransmission] = createSignal(transmissionOptions[3]);
+    const [firstGear, setFirstGear] = createSignal("");
+    const [lastGear, setLastGear] = createSignal("");
+    const [length, setLength] = createSignal(lengthOptions[3]);
+
+    const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
+        e.preventDefault();
+        console.log({
+            transmission: transmission(),
+            firstGear: firstGear(),
+            lastGear: lastGear(),
+            length: length(),
+        });
+    };
 
     return (
         <main class="container">
@@ -37,26 +47,28 @@ export default () => {
                 subtitle="Designed to tune gears between first and last gears"
             />
 
-            <div class="grid">
-                <LabeledSelect
-                    label="Transmission"
-                    options={transmissionOptions}
-                    value={transmission}
-                    setValue={setTransmission}
-                />
+            <form onSubmit={handleSubmit}>
+                <div class="grid">
+                    <LabeledSelect
+                        label="Transmission"
+                        options={transmissionOptions}
+                        value={transmission}
+                        setValue={setTransmission}
+                    />
 
-                <GearInput label="First Gear" />
-                <GearInput label="Last Gear" />
+                    <GearInput label="First Gear" value={firstGear} setValue={setFirstGear} />
+                    <GearInput label="Last Gear" value={lastGear} setValue={setLastGear} />
 
-                <LabeledSelect
-                    label="Length"
-                    options={lengthOptions}
-                    value={length}
-                    setValue={setLength}
-                />
-            </div>
+                    <LabeledSelect
+                        label="Length"
+                        options={lengthOptions}
+                        value={length}
+                        setValue={setLength}
+                    />
+                </div>
 
-            <button>Tune</button>
+                <button>Tune</button>
+            </form>
         </main>
     );
 };

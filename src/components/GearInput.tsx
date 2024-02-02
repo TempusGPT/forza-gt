@@ -1,11 +1,12 @@
-import { JSX, createSignal } from "solid-js";
+import { Accessor, JSX, Setter, createSignal } from "solid-js";
 
 type Props = {
     label: string;
+    value: Accessor<string>;
+    setValue: Setter<string>;
 };
 
-export default ({ label }: Props) => {
-    const [value, setValue] = createSignal("");
+export default ({ label, value, setValue }: Props) => {
     const [invalid, setInvalid] = createSignal<true>();
     const inRange = (value: number) => 0.48 <= value && value <= 6.0;
 
