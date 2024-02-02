@@ -1,7 +1,7 @@
-import { type Component, For } from "solid-js";
+import LabeledSelect from "~/components/LabeledSelect";
 
-const HomePage: Component = () => {
-    const transmissions = [3, 4, 5, 6, 7, 8, 9, 10] as const;
+export default () => {
+    const transmissions = [3, 4, 5, 6, 7, 8, 9, 10];
     const lengths = [
         { name: "Shortest", value: 0.2 },
         { name: "Shorter", value: 0.3 },
@@ -10,7 +10,7 @@ const HomePage: Component = () => {
         { name: "Long", value: 0.6 },
         { name: "Longer", value: 0.7 },
         { name: "Longest", value: 0.8 },
-    ] as const;
+    ];
 
     return (
         <>
@@ -33,14 +33,12 @@ const HomePage: Component = () => {
 
                 <form method="post">
                     <div class="grid">
-                        <label>
-                            Transmission
-                            <select name="transmission">
-                                <For each={transmissions}>
-                                    {(t) => <option value={t}>{t} Speed</option>}
-                                </For>
-                            </select>
-                        </label>
+                        <LabeledSelect
+                            label="Transmission"
+                            options={transmissions}
+                            nameSelector={(t) => `${t} Speed`}
+                            valueSelector={(t) => t}
+                        />
 
                         <label>
                             First Gear
@@ -52,14 +50,12 @@ const HomePage: Component = () => {
                             <input name="last-gear" placeholder="0.78" inputmode="numeric" />
                         </label>
 
-                        <label>
-                            Length
-                            <select name="length">
-                                <For each={lengths}>
-                                    {(l) => <option value={l.value}>{l.name}</option>}
-                                </For>
-                            </select>
-                        </label>
+                        <LabeledSelect
+                            label="Length"
+                            options={lengths}
+                            nameSelector={(t) => t.name}
+                            valueSelector={(t) => t.value}
+                        />
                     </div>
 
                     <button>Tune</button>
@@ -68,5 +64,3 @@ const HomePage: Component = () => {
         </>
     );
 };
-
-export default HomePage;
