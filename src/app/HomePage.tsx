@@ -56,6 +56,13 @@ export default () => {
             <form onSubmit={handleSubmit}>
                 <div class="grid">
                     <Dropdown
+                        label="Length"
+                        options={lengthOptions}
+                        value={length()}
+                        onChange={setLength}
+                    />
+
+                    <Dropdown
                         label="Transmission"
                         options={transmissionOptions}
                         value={transmission()}
@@ -72,13 +79,6 @@ export default () => {
                         label="Last Gear"
                         onChange={setLastGear}
                         validation={gearInputValidation}
-                    />
-
-                    <Dropdown
-                        label="Length"
-                        options={lengthOptions}
-                        value={length()}
-                        onChange={setLength}
                     />
                 </div>
 
