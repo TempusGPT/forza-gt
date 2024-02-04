@@ -1,30 +1,36 @@
-import { JSX, Setter, createSignal } from "solid-js";
-import { Event as EventLol } from "~/lib/event";
+import { JSX, createSignal } from "solid-js";
+import { Delegate } from "~/lib/delegate";
 
 type Props = {
     label: string;
-    setValue: Setter<number>;
-    validateEvent: EventLol;
+    onChange?: (value: number) => void;
+    validation?: Delegate;
 };
 
-export default ({ label, setValue, validateEvent }: Props) => {
+export default ({ label, onChange, validation }: Props) => {
+    const [value, setValue] = createSignal("");
     const [invalid, setInvalid] = createSignal<true>();
 
     const handleChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
-        const gearRatio = Number(e.currentTarget.value);
+        setValue(e.currentTarget.value);
+        validate();
+    };
+
+    const validate = () => {
+        const gearRatio = Number(value());
 
         if (0.48 <= gearRatio && gearRatio <= 6.0) {
             const formatted = gearRatio.toFixed(2);
-            e.currentTarget.value = formatted;
-            setValue(Number(formatted));
+            onChange?.(Number(formatted));
+            setValue(formatted);
             setInvalid(undefined);
         } else {
-            setValue(NaN);
+            onChange?.(NaN);
             setInvalid(true);
         }
     };
 
-    validateEvent.addListener(() => console.log("validate"));
+    validation?.add(validate);
 
     return (
         <label>
@@ -32,6 +38,7 @@ export default ({ label, setValue, validateEvent }: Props) => {
             <input
                 placeholder="0.48-6.00"
                 inputmode="numeric"
+                value={value()}
                 onChange={handleChange}
                 aria-invalid={invalid()}
             />

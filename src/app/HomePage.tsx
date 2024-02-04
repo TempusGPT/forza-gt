@@ -1,9 +1,9 @@
 import { JSX, createSignal } from "solid-js";
-import GearInput from "~/component/GearInput";
 import Headings from "~/component/Headings";
+import GearInput from "~/component/GearInput";
 import Dropdown, { DropdownOption } from "~/component/Dropdown";
 import { tuneGearing } from "~/lib/tuner";
-import { createEvent } from "~/lib/event";
+import { Delegate } from "~/lib/delegate";
 
 const transmissionOptions: DropdownOption<number>[] = [
     { name: "3 Speed", value: 3 },
@@ -31,17 +31,16 @@ export default () => {
     const [firstGear, setFirstGear] = createSignal(NaN);
     const [lastGear, setLastGear] = createSignal(NaN);
     const [length, setLength] = createSignal(lengthOptions[3].value);
-
-    const validateEvent = createEvent();
+    const gearInputValidation = new Delegate();
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
         e.preventDefault();
-        validateEvent.dispatch();
+        gearInputValidation.invoke();
 
         if (isNaN(firstGear()) || isNaN(lastGear())) {
-            alert("First and last gears must be numbers");
+            console.log("First and last gears must be numbers");
         } else if (firstGear() <= lastGear()) {
-            alert("First gear must be greater than last gear");
+            console.log("First gear must be greater than last gear");
         } else {
             const minRatio = (lastGear() / firstGear()) ** (1 / (transmission() - 1));
             const ratio = Math.expLerp(minRatio, 1 / minRatio, length());
@@ -68,13 +67,14 @@ export default () => {
 
                     <GearInput
                         label="First Gear"
-                        setValue={setFirstGear}
-                        validateEvent={validateEvent}
+                        onChange={setFirstGear}
+                        validation={gearInputValidation}
                     />
+
                     <GearInput
                         label="Last Gear"
-                        setValue={setLastGear}
-                        validateEvent={validateEvent}
+                        onChange={setLastGear}
+                        validation={gearInputValidation}
                     />
 
                     <Dropdown
