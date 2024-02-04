@@ -11,4 +11,4 @@ const code = () => (
 );
 
 document.title = "Forza #1 Gearing Tuner";
-render(code, document.getElementById("app")!);
+render(code, document.body);

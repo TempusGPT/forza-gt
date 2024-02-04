@@ -1,4 +1,4 @@
-import { JSX, createSignal } from "solid-js";
+import { For, JSX, Show, createSignal } from "solid-js";
 import Headings from "~/component/Headings";
 import GearInput from "~/component/GearInput";
 import Dropdown, { DropdownOption } from "~/component/Dropdown";
@@ -31,21 +31,18 @@ export default () => {
     const [firstGear, setFirstGear] = createSignal(NaN);
     const [lastGear, setLastGear] = createSignal(NaN);
     const [length, setLength] = createSignal(lengthOptions[3].value);
+    const [gearing, setGearing] = createSignal<number[]>([]);
     const gearInputValidation = new Delegate();
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
         e.preventDefault();
         gearInputValidation.invoke();
 
-        if (isNaN(firstGear()) || isNaN(lastGear())) {
-            console.log("First and last gears must be numbers");
-        } else if (firstGear() <= lastGear()) {
-            console.log("First gear must be greater than last gear");
-        } else {
+        if (!isNaN(firstGear()) && !isNaN(lastGear())) {
             const minRatio = (lastGear() / firstGear()) ** (1 / (transmission() - 1));
             const ratio = Math.expLerp(minRatio, 1 / minRatio, length());
             const gearing = tuneGearing(transmission(), firstGear(), lastGear(), ratio);
-            console.log(gearing);
+            setGearing(gearing);
         }
     };
 
@@ -87,6 +84,20 @@ export default () => {
 
                 <button>Tune</button>
             </form>
+
+            <For each={gearing()}>
+                {(gear, i) => (
+                    <>
+                        <Show when={i() !== 0}>
+                            <hr />
+                        </Show>
+                        <nav>
+                            <div>Gear {i() + 1}</div>
+                            <div>{gear.toFixed(2)}</div>
+                        </nav>
+                    </>
+                )}
+            </For>
         </main>
     );
 };
