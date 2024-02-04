@@ -1,9 +1,9 @@
 import { JSX, createSignal } from "solid-js";
-import GearInput from "~/components/GearInput";
-import Headings from "~/components/Headings";
-import Dropdown, { Option } from "~/components/Dropdown";
-import { tuneGearing } from "~/libs/tuner";
-import { createEvent } from "~/libs/event";
+import GearInput from "~/component/GearInput";
+import Headings from "~/component/Headings";
+import Dropdown, { Option } from "~/component/Dropdown";
+import { tuneGearing } from "~/lib/tuner";
+import { createEvent } from "~/lib/event";
 
 const transmissionOptions: Option[] = [
     { name: "3 Speed", value: 3 },

@@ -1,5 +1,5 @@
 import { JSX, Setter, createSignal } from "solid-js";
-import { Event as EventLol } from "~/libs/event";
+import { Event as EventLol } from "~/lib/event";
 
 type Props = {
     label: string;
