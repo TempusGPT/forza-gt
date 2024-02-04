@@ -1,27 +1,30 @@
-import { Accessor, For, JSX, Setter } from "solid-js";
+import { For, JSX } from "solid-js";
 
-type Props = {
+type Props<T extends DropdownValue> = {
     label: string;
-    options: Option[];
-    value: Accessor<number>;
-    setValue: Setter<number>;
+    options: DropdownOption<T>[];
+    value?: T;
+    onChange?: (value: T) => void;
 };
 
-export type Option = { name: string; value: number };
+export type DropdownValue = string | number | string[] | undefined;
+export type DropdownOption<T extends DropdownValue> = { name: string; value: T };
 
-export default ({ label, options, value, setValue }: Props) => {
+export default <T extends DropdownValue>({ label, options, value, onChange }: Props<T>) => {
     const handleChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
         const index = e.currentTarget.selectedIndex;
         if (0 <= index && index < options.length) {
-            setValue(options[index].value);
+            onChange?.(options[index].value);
         }
     };
 
     return (
         <label>
             {label}
-            <select value={value()} onChange={handleChange}>
-                <For each={options}>{(t) => <option value={t.value}>{t.name}</option>}</For>
+            <select value={value ?? options[0].value} onChange={handleChange}>
+                <For each={options}>
+                    {(option) => <option value={option.value}>{option.name}</option>}
+                </For>
             </select>
         </label>
     );

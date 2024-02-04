@@ -1,11 +1,11 @@
 import { JSX, createSignal } from "solid-js";
 import GearInput from "~/component/GearInput";
 import Headings from "~/component/Headings";
-import Dropdown, { Option } from "~/component/Dropdown";
+import Dropdown, { DropdownOption } from "~/component/Dropdown";
 import { tuneGearing } from "~/lib/tuner";
 import { createEvent } from "~/lib/event";
 
-const transmissionOptions: Option[] = [
+const transmissionOptions: DropdownOption<number>[] = [
     { name: "3 Speed", value: 3 },
     { name: "4 Speed", value: 4 },
     { name: "5 Speed", value: 5 },
@@ -16,7 +16,7 @@ const transmissionOptions: Option[] = [
     { name: "10 Speed", value: 10 },
 ];
 
-const lengthOptions: Option[] = [
+const lengthOptions: DropdownOption<number>[] = [
     { name: "Shortest", value: 0.2 },
     { name: "Shorter", value: 0.3 },
     { name: "Short", value: 0.4 },
@@ -62,8 +62,8 @@ export default () => {
                     <Dropdown
                         label="Transmission"
                         options={transmissionOptions}
-                        value={transmission}
-                        setValue={setTransmission}
+                        value={transmission()}
+                        onChange={setTransmission}
                     />
 
                     <GearInput
@@ -80,8 +80,8 @@ export default () => {
                     <Dropdown
                         label="Length"
                         options={lengthOptions}
-                        value={length}
-                        setValue={setLength}
+                        value={length()}
+                        onChange={setLength}
                     />
                 </div>
 
