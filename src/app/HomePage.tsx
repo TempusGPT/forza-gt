@@ -1,5 +1,4 @@
 import { For, JSX, Show, createSignal } from "solid-js";
-import Headings from "~/component/Headings";
 import GearInput from "~/component/GearInput";
 import Dropdown, { DropdownOption } from "~/component/Dropdown";
 import { tuneGearing } from "~/lib/tuner";
@@ -48,10 +47,10 @@ export default () => {
 
     return (
         <main class="container">
-            <Headings
-                title="Forza #1 Gearing Tuner"
-                subtitle="Designed to tune gears between first and last gears"
-            />
+            <div class="headings">
+                <h1>Forza #1 Gearing Tuner</h1>
+                <h1>Designed to tune gears between first and last gears</h1>
+            </div>
 
             <form onSubmit={handleSubmit}>
                 <div class="grid">
