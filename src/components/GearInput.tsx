@@ -1,11 +1,13 @@
 import { JSX, Setter, createSignal } from "solid-js";
+import { Event as EventLol } from "~/libs/event";
 
 type Props = {
     label: string;
     setValue: Setter<number>;
+    validateEvent: EventLol;
 };
 
-export default ({ label, setValue }: Props) => {
+export default ({ label, setValue, validateEvent }: Props) => {
     const [invalid, setInvalid] = createSignal<true>();
 
     const handleChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
@@ -21,6 +23,8 @@ export default ({ label, setValue }: Props) => {
             setInvalid(true);
         }
     };
+
+    validateEvent.addListener(() => console.log("validate"));
 
     return (
         <label>

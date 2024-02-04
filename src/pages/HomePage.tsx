@@ -3,6 +3,7 @@ import GearInput from "~/components/GearInput";
 import Headings from "~/components/Headings";
 import Dropdown, { Option } from "~/components/Dropdown";
 import { tuneGearing } from "~/libs/tuner";
+import { createEvent } from "~/libs/event";
 
 const transmissionOptions: Option[] = [
     { name: "3 Speed", value: 3 },
@@ -27,12 +28,15 @@ const lengthOptions: Option[] = [
 
 export default () => {
     const [transmission, setTransmission] = createSignal(transmissionOptions[3].value);
-    const [firstGear, setFirstGear] = createSignal(2.89);
-    const [lastGear, setLastGear] = createSignal(0.78);
+    const [firstGear, setFirstGear] = createSignal(NaN);
+    const [lastGear, setLastGear] = createSignal(NaN);
     const [length, setLength] = createSignal(lengthOptions[3].value);
+
+    const validateEvent = createEvent();
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
         e.preventDefault();
+        validateEvent.dispatch();
 
         if (isNaN(firstGear()) || isNaN(lastGear())) {
             alert("First and last gears must be numbers");
@@ -62,8 +66,16 @@ export default () => {
                         setValue={setTransmission}
                     />
 
-                    <GearInput label="First Gear" setValue={setFirstGear} />
-                    <GearInput label="Last Gear" setValue={setLastGear} />
+                    <GearInput
+                        label="First Gear"
+                        setValue={setFirstGear}
+                        validateEvent={validateEvent}
+                    />
+                    <GearInput
+                        label="Last Gear"
+                        setValue={setLastGear}
+                        validateEvent={validateEvent}
+                    />
 
                     <Dropdown
                         label="Length"
