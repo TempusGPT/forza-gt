@@ -1,4 +1,4 @@
-import "~/lib/math";
+import "~/lib/math.ext";
 
 import { render } from "solid-js/web";
 import Layout from "~/app/Layout";

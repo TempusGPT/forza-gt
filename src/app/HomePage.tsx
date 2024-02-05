@@ -5,7 +5,7 @@ import { tuneGearing } from "~/lib/tuner";
 import { Delegate } from "~/lib/delegate";
 import { createState } from "~/lib/primitive";
 
-const transmissionOptions: DropdownOption<number>[] = [
+const transOptions: DropdownOption<number>[] = [
     { name: "3 Speed", value: 3 },
     { name: "4 Speed", value: 4 },
     { name: "5 Speed", value: 5 },
@@ -29,7 +29,7 @@ const lengthOptions: DropdownOption<number>[] = [
 export default () => {
     const gear = createState({
         length: lengthOptions[3].value,
-        trans: transmissionOptions[3].value,
+        trans: transOptions[3].value,
         first: NaN,
         last: NaN,
         result: [] as number[],
@@ -66,7 +66,7 @@ export default () => {
 
                     <Dropdown
                         label="Transmission"
-                        options={transmissionOptions}
+                        options={transOptions}
                         value={gear.trans}
                         onChange={(value) => (gear.trans = value)}
                     />
