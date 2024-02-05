@@ -1,6 +1,6 @@
 import { JSX, onCleanup, onMount } from "solid-js";
-import { Delegate } from "~/lib/delegate";
-import { createState } from "~/lib/primitive";
+import { Delegate } from "~/libs/delegate";
+import { createState } from "~/libs/primitive";
 
 type Props = {
     label: string;

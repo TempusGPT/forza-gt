@@ -1,9 +1,9 @@
 import { For, JSX, Show } from "solid-js";
-import GearInput from "~/component/GearInput";
-import Dropdown, { DropdownOption } from "~/component/Dropdown";
-import { tuneGearing } from "~/lib/tuner";
-import { Delegate } from "~/lib/delegate";
-import { createState } from "~/lib/primitive";
+import GearInput from "~/components/GearInput";
+import Dropdown, { DropdownOption } from "~/components/Dropdown";
+import { tuneGearing } from "~/libs/tuner";
+import { Delegate } from "~/libs/delegate";
+import { createState } from "~/libs/primitive";
 
 const transOptions: DropdownOption<number>[] = [
     { name: "3 Speed", value: 3 },
