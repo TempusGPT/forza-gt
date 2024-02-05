@@ -9,5 +9,10 @@ export default defineConfig({
     },
     build: {
         target: "esnext",
+        outDir: "../dist",
+        rollupOptions: {
+            input: "./app/index.html",
+        },
     },
+    root: "./app",
 });
