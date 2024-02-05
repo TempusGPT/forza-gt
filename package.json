@@ -16,5 +16,6 @@
     "dependencies": {
         "eslint-plugin-solid": "^0.13.1",
         "solid-js": "^1.8.11"
-    }
+    },
+    "type": "module"
 }
