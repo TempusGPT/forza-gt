@@ -1,5 +1,6 @@
-import { JSX, createSignal } from "solid-js";
+import { JSX, onCleanup, onMount } from "solid-js";
 import { Delegate } from "~/lib/delegate";
+import { createState } from "~/lib/primitive";
 
 type Props = {
     label: string;
@@ -7,40 +8,43 @@ type Props = {
     validation?: Delegate;
 };
 
-export default ({ label, onChange, validation }: Props) => {
-    const [value, setValue] = createSignal("");
-    const [invalid, setInvalid] = createSignal<true>();
+export default (props: Props) => {
+    const input = createState({
+        value: "",
+        valid: true,
+    });
 
     const handleChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
-        setValue(e.currentTarget.value);
+        input.value = e.currentTarget.value;
         validate();
     };
 
     const validate = () => {
-        const gearRatio = Number(value());
+        const gearRatio = Number(input.value);
 
         if (0.48 <= gearRatio && gearRatio <= 6.0) {
             const formatted = gearRatio.toFixed(2);
-            onChange?.(Number(formatted));
-            setValue(formatted);
-            setInvalid(undefined);
+            props.onChange?.(Number(formatted));
+            input.value = formatted;
+            input.valid = true;
         } else {
-            onChange?.(NaN);
-            setInvalid(true);
+            props.onChange?.(NaN);
+            input.valid = false;
         }
     };
 
-    validation?.add(validate);
+    onMount(() => props.validation?.add(validate));
+    onCleanup(() => props.validation?.remove(validate));
 
     return (
         <label>
-            {label}
+            {props.label}
             <input
                 placeholder="0.48-6.00"
                 inputmode="numeric"
-                value={value()}
+                value={input.value}
                 onChange={handleChange}
-                aria-invalid={invalid()}
+                aria-invalid={input.valid ? undefined : true}
             />
         </label>
     );

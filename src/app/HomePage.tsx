@@ -1,8 +1,9 @@
-import { For, JSX, Show, createSignal } from "solid-js";
+import { For, JSX, Show } from "solid-js";
 import GearInput from "~/component/GearInput";
 import Dropdown, { DropdownOption } from "~/component/Dropdown";
 import { tuneGearing } from "~/lib/tuner";
 import { Delegate } from "~/lib/delegate";
+import { createState } from "~/lib/primitive";
 
 const transmissionOptions: DropdownOption<number>[] = [
     { name: "3 Speed", value: 3 },
@@ -26,22 +27,24 @@ const lengthOptions: DropdownOption<number>[] = [
 ];
 
 export default () => {
-    const [transmission, setTransmission] = createSignal(transmissionOptions[3].value);
-    const [firstGear, setFirstGear] = createSignal(NaN);
-    const [lastGear, setLastGear] = createSignal(NaN);
-    const [length, setLength] = createSignal(lengthOptions[3].value);
-    const [gearing, setGearing] = createSignal<number[]>([]);
-    const gearInputValidation = new Delegate();
+    const gear = createState({
+        length: lengthOptions[3].value,
+        trans: transmissionOptions[3].value,
+        first: NaN,
+        last: NaN,
+        result: [] as number[],
+    });
+
+    const validation = new Delegate();
 
     const handleSubmit: JSX.EventHandler<HTMLFormElement, Event> = (e) => {
         e.preventDefault();
-        gearInputValidation.invoke();
+        validation.invoke();
 
-        if (!isNaN(firstGear()) && !isNaN(lastGear())) {
-            const minRatio = (lastGear() / firstGear()) ** (1 / (transmission() - 1));
-            const ratio = Math.expLerp(minRatio, 1 / minRatio, length());
-            const gearing = tuneGearing(transmission(), firstGear(), lastGear(), ratio);
-            setGearing(gearing);
+        if (!isNaN(gear.first) && !isNaN(gear.last)) {
+            const minRatio = (gear.last / gear.first) ** (1 / (gear.trans - 1));
+            const ratio = Math.expLerp(minRatio, 1 / minRatio, gear.length);
+            gear.result = tuneGearing(gear.trans, gear.first, gear.last, ratio);
         }
     };
 
@@ -57,34 +60,34 @@ export default () => {
                     <Dropdown
                         label="Length"
                         options={lengthOptions}
-                        value={length()}
-                        onChange={setLength}
+                        value={gear.length}
+                        onChange={(value) => (gear.length = value)}
                     />
 
                     <Dropdown
                         label="Transmission"
                         options={transmissionOptions}
-                        value={transmission()}
-                        onChange={setTransmission}
+                        value={gear.trans}
+                        onChange={(value) => (gear.trans = value)}
                     />
 
                     <GearInput
                         label="First Gear"
-                        onChange={setFirstGear}
-                        validation={gearInputValidation}
+                        onChange={(value) => (gear.first = value)}
+                        validation={validation}
                     />
 
                     <GearInput
                         label="Last Gear"
-                        onChange={setLastGear}
-                        validation={gearInputValidation}
+                        onChange={(value) => (gear.last = value)}
+                        validation={validation}
                     />
                 </div>
 
                 <button>Tune</button>
             </form>
 
-            <For each={gearing()}>
+            <For each={gear.result}>
                 {(gear, i) => (
                     <>
                         <Show when={i() !== 0}>

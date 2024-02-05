@@ -6,20 +6,20 @@ type Props = {
     children?: JSX.Element;
 };
 
-export default ({ version, url, children }: Props) => {
+export default (props: Props) => {
     return (
         <>
             <nav class="container-fluid">
                 <ul />
                 <ul>
-                    <li>Version {version}</li>
+                    <li>Version {props.version}</li>
                     <li>•</li>
                     <li>
-                        <a href={url}>Source Code</a>
+                        <a href={props.url}>Source Code</a>
                     </li>
                 </ul>
             </nav>
-            {children}
+            {props.children}
         </>
     );
 };
