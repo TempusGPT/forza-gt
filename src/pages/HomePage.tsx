@@ -1,4 +1,4 @@
-import { Index, Show, createEffect } from "solid-js";
+import { Index, Show } from "solid-js";
 import { tuneGearing } from "~/libs/tuner";
 import { createSignal } from "~/libs/primitive";
 import GearInput, { GearInputRef, isGearValid } from "~/components/GearInput";
