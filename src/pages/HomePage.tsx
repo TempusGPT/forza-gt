@@ -49,8 +49,6 @@ export default () => {
         );
     };
 
-    createEffect(() => console.log(calculation.get()));
-
     return (
         <main class="container">
             <div class="headings">

@@ -16,7 +16,9 @@ export type GearInputProps = {
     ref?: (ref: GearInputRef) => void;
 };
 
-export const isGearValid = (gear: number) => Config.min <= gear && gear <= Config.max;
+export const isGearValid = (gear: number) => {
+    return Config.min <= gear && gear <= Config.max;
+};
 
 export default (props: GearInputProps) => {
     const input = createSignal("");
