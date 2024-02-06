@@ -1,12 +1,12 @@
 import { JSX } from "solid-js/jsx-runtime";
 
-type Props = {
+export type LayoutProps = {
     version: string;
     url: string;
     children?: JSX.Element;
 };
 
-export default (props: Props) => {
+export default (props: LayoutProps) => {
     return (
         <>
             <nav class="container-fluid">

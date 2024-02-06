@@ -6,21 +6,21 @@ const Config = {
     max: 6,
 } as const;
 
-type Props = {
+export type GearInputRef = {
+    validate: () => boolean;
+};
+
+export type GearInputProps = {
     label: string;
     onChange?: (value: number) => void;
     ref?: (ref: GearInputRef) => void;
-};
-
-export type GearInputRef = {
-    validate: () => boolean;
 };
 
 export const isGearValid = (gear: number) => {
     return Config.min <= gear && gear <= Config.max;
 };
 
-export default (props: Props) => {
+export default (props: GearInputProps) => {
     const input = createSignal("");
     const valid = createSignal(true);
     const placeholder = `${Config.min.toFixed(2)}-${Config.max.toFixed(2)}`;
