@@ -41,7 +41,7 @@ export const tuneGearing = (
     launchGear: number,
     finalGear: number
 ) => {
-    return lengthFactor === 1
+    return Math.approximately(lengthFactor, 1)
         ? tuneArithmetic(transSpeeds, launchGearPos, launchGear, finalGear)
         : tuneGeometric(lengthFactor, transSpeeds, launchGearPos, launchGear, finalGear);
 };

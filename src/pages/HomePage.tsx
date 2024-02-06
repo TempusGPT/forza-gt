@@ -1,4 +1,4 @@
-import { Index, Show } from "solid-js";
+import { Index, Show, createEffect } from "solid-js";
 import { tuneGearing } from "~/libs/tuner";
 import { createSignal } from "~/libs/primitive";
 import GearInput, { GearInputRef, isGearValid } from "~/components/GearInput";
@@ -48,6 +48,8 @@ export default () => {
             tuneGearing(lengthFactor, trans.get(), launchGearPos, launchGear.get(), finalGear.get())
         );
     };
+
+    createEffect(() => console.log(calculation.get()));
 
     return (
         <main class="container">
