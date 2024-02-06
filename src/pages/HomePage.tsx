@@ -1,14 +1,8 @@
 import { Index, Show } from "solid-js";
-import GearInput from "~/components/GearInput";
-import Dropdown, { DropdownOption } from "~/components/Dropdown";
 import { tuneGearing } from "~/libs/tuner";
-import { Delegate } from "~/libs/delegate";
 import { createSignal } from "~/libs/primitive";
-
-const Config = {
-    min: 0.48,
-    max: 6,
-} as const;
+import GearInput, { GearInputRef, isGearValid } from "~/components/GearInput";
+import Dropdown, { DropdownOption } from "~/components/Dropdown";
 
 const LengthOptions: DropdownOption<number>[] = [
     { name: "Shortest", value: 0.2 },
@@ -32,16 +26,19 @@ const TransOptions: DropdownOption<number>[] = [
 ] as const;
 
 export default () => {
+    let launchGearInput: GearInputRef;
+    let finalGearInput: GearInputRef;
+
     const length = createSignal(LengthOptions[3].value);
     const trans = createSignal(TransOptions[3].value);
     const launchGear = createSignal(NaN);
     const finalGear = createSignal(NaN);
     const calculation = createSignal([] as number[]);
-    const validation = new Delegate();
 
     const handleClick = (launchGearPos: number) => {
-        validation.invoke();
-        if (isNaN(launchGear.get()) || isNaN(finalGear.get())) {
+        const launchGearValidation = launchGearInput.validate();
+        const finalGearValidation = finalGearInput.validate();
+        if (!launchGearValidation || !finalGearValidation) {
             return;
         }
 
@@ -76,18 +73,14 @@ export default () => {
 
                 <GearInput
                     label="Launch Gear"
-                    min={Config.min}
-                    max={Config.max}
                     onChange={launchGear.set}
-                    validation={validation}
+                    ref={(ref) => (launchGearInput = ref)}
                 />
 
                 <GearInput
                     label="Final Gear"
-                    min={Config.min}
-                    max={Config.max}
                     onChange={finalGear.set}
-                    validation={validation}
+                    ref={(ref) => (finalGearInput = ref)}
                 />
             </div>
 
@@ -104,10 +97,7 @@ export default () => {
                         </Show>
                         <nav>
                             <div>Gear {i + 1}</div>
-                            <Show
-                                when={Config.min <= gear() && gear() <= Config.max}
-                                fallback="Failed"
-                            >
+                            <Show when={isGearValid(gear())} fallback="Failed">
                                 {gear().toFixed(2)}
                             </Show>
                         </nav>

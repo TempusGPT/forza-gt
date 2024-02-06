@@ -1,50 +1,63 @@
-import { JSX, onCleanup, onMount } from "solid-js";
-import { Delegate } from "~/libs/delegate";
+import { JSX, onMount } from "solid-js";
 import { createSignal } from "~/libs/primitive";
+
+const Config = {
+    min: 0.48,
+    max: 6,
+} as const;
 
 type Props = {
     label: string;
-    min?: number;
-    max?: number;
     onChange?: (value: number) => void;
-    validation?: Delegate;
+    ref?: (ref: GearInputRef) => void;
+};
+
+export type GearInputRef = {
+    validate: () => boolean;
+};
+
+export const isGearValid = (gear: number) => {
+    return Config.min <= gear && gear <= Config.max;
 };
 
 export default (props: Props) => {
     const input = createSignal("");
     const valid = createSignal(true);
+    const placeholder = `${Config.min.toFixed(2)}-${Config.max.toFixed(2)}`;
+
+    const whenValid = (gear: number) => {
+        const formatted = gear.toFixed(2);
+        props.onChange?.(Number(formatted));
+        input.set(formatted);
+        valid.set(true);
+        return true;
+    };
+
+    const whenInvalid = () => {
+        props.onChange?.(NaN);
+        valid.set(false);
+        return false;
+    };
+
+    const validate = () => {
+        const gear = parseFloat(input.get());
+        return isGearValid(gear) ? whenValid(gear) : whenInvalid();
+    };
 
     const handleChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
         input.set(e.currentTarget.value);
         validate();
     };
 
-    const validate = () => {
-        const gearRatio = parseFloat(input.get());
-        const overMin = props.min ? gearRatio >= props.min : true;
-        const underMax = props.max ? gearRatio <= props.max : true;
-
-        if (overMin && underMax) {
-            const formatted = gearRatio.toFixed(2);
-            props.onChange?.(Number(formatted));
-            input.set(formatted);
-            valid.set(true);
-        } else {
-            props.onChange?.(NaN);
-            valid.set(false);
-        }
-    };
-
-    onMount(() => props.validation?.add(validate));
-    onCleanup(() => props.validation?.remove(validate));
+    onMount(() => props.ref?.({ validate }));
 
     return (
         <label>
             {props.label}
             <input
-                placeholder="0.48-6.00"
                 inputmode="numeric"
                 value={input.get()}
+                placeholder={placeholder}
                 onChange={handleChange}
                 aria-invalid={valid.get() ? undefined : true}
             />
