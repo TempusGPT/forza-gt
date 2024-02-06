@@ -4,6 +4,8 @@ import { createSignal } from "~/libs/primitive";
 
 type Props = {
     label: string;
+    min?: number;
+    max?: number;
     onChange?: (value: number) => void;
     validation?: Delegate;
 };
@@ -18,9 +20,11 @@ export default (props: Props) => {
     };
 
     const validate = () => {
-        const gearRatio = Number(input.get());
+        const gearRatio = parseFloat(input.get());
+        const overMin = props.min ? gearRatio >= props.min : true;
+        const underMax = props.max ? gearRatio <= props.max : true;
 
-        if (0.48 <= gearRatio && gearRatio <= 6) {
+        if (overMin && underMax) {
             const formatted = gearRatio.toFixed(2);
             props.onChange?.(Number(formatted));
             input.set(formatted);

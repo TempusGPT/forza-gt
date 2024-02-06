@@ -1,11 +1,16 @@
-import { For, Show } from "solid-js";
+import { Index, Show } from "solid-js";
 import GearInput from "~/components/GearInput";
 import Dropdown, { DropdownOption } from "~/components/Dropdown";
 import { tuneGearing } from "~/libs/tuner";
 import { Delegate } from "~/libs/delegate";
 import { createSignal } from "~/libs/primitive";
 
-const lengthOptions: DropdownOption<number>[] = [
+const Config = {
+    min: 0.48,
+    max: 6,
+} as const;
+
+const LengthOptions: DropdownOption<number>[] = [
     { name: "Shortest", value: 0.2 },
     { name: "Shorter", value: 0.3 },
     { name: "Short", value: 0.4 },
@@ -13,9 +18,9 @@ const lengthOptions: DropdownOption<number>[] = [
     { name: "Long", value: 0.6 },
     { name: "Longer", value: 0.7 },
     { name: "Longest", value: 0.8 },
-];
+] as const;
 
-const transOptions: DropdownOption<number>[] = [
+const TransOptions: DropdownOption<number>[] = [
     { name: "3 Speed", value: 3 },
     { name: "4 Speed", value: 4 },
     { name: "5 Speed", value: 5 },
@@ -24,11 +29,11 @@ const transOptions: DropdownOption<number>[] = [
     { name: "8 Speed", value: 8 },
     { name: "9 Speed", value: 9 },
     { name: "10 Speed", value: 10 },
-];
+] as const;
 
 export default () => {
-    const length = createSignal(lengthOptions[3].value);
-    const trans = createSignal(transOptions[3].value);
+    const length = createSignal(LengthOptions[3].value);
+    const trans = createSignal(TransOptions[3].value);
     const launchGear = createSignal(NaN);
     const finalGear = createSignal(NaN);
     const calculation = createSignal([] as number[]);
@@ -36,21 +41,15 @@ export default () => {
 
     const handleClick = (launchGearPos: number) => {
         validation.invoke();
-
-        if (!isNaN(launchGear.get()) && !isNaN(finalGear.get())) {
-            const minFactor = (finalGear.get() / launchGear.get()) ** (1 / (trans.get() - 1));
-            const lengthFactor = Math.expLerp(minFactor, 1 / minFactor, length.get());
-
-            calculation.set(
-                tuneGearing(
-                    lengthFactor,
-                    trans.get(),
-                    launchGearPos,
-                    launchGear.get(),
-                    finalGear.get()
-                )
-            );
+        if (isNaN(launchGear.get()) || isNaN(finalGear.get())) {
+            return;
         }
+
+        const minFactor = (finalGear.get() / launchGear.get()) ** (1 / (trans.get() - 1));
+        const lengthFactor = Math.expLerp(minFactor, 1 / minFactor, length.get());
+        calculation.set(
+            tuneGearing(lengthFactor, trans.get(), launchGearPos, launchGear.get(), finalGear.get())
+        );
     };
 
     return (
@@ -63,20 +62,33 @@ export default () => {
             <div class="grid">
                 <Dropdown
                     label="Length"
-                    options={lengthOptions}
+                    options={LengthOptions}
                     value={length.get()}
                     onChange={length.set}
                 />
 
                 <Dropdown
                     label="Transmission"
-                    options={transOptions}
+                    options={TransOptions}
                     value={trans.get()}
                     onChange={trans.set}
                 />
 
-                <GearInput label="Launch Gear" onChange={launchGear.set} validation={validation} />
-                <GearInput label="Final Gear" onChange={finalGear.set} validation={validation} />
+                <GearInput
+                    label="Launch Gear"
+                    min={Config.min}
+                    max={Config.max}
+                    onChange={launchGear.set}
+                    validation={validation}
+                />
+
+                <GearInput
+                    label="Final Gear"
+                    min={Config.min}
+                    max={Config.max}
+                    onChange={finalGear.set}
+                    validation={validation}
+                />
             </div>
 
             <div class="grid">
@@ -84,21 +96,24 @@ export default () => {
                 <button onClick={() => handleClick(2)}>Tune second gear launch</button>
             </div>
 
-            <For each={calculation.get()}>
+            <Index each={calculation.get()}>
                 {(gear, i) => (
                     <>
-                        <Show when={i() !== 0}>
+                        <Show when={i !== 0}>
                             <hr />
                         </Show>
                         <nav>
-                            <div>Gear {i() + 1}</div>
-                            <Show when={isFinite(gear) && gear >= 0} fallback="Failed">
-                                {gear.toFixed(2)}
+                            <div>Gear {i + 1}</div>
+                            <Show
+                                when={Config.min <= gear() && gear() <= Config.max}
+                                fallback="Failed"
+                            >
+                                {gear().toFixed(2)}
                             </Show>
                         </nav>
                     </>
                 )}
-            </For>
+            </Index>
         </main>
     );
 };
