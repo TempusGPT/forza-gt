@@ -1,11 +1,5 @@
-import { onCleanup } from "solid-js";
-
 export class Delegate<T = void> {
     private functions = new Set<(arg: T) => void>();
-
-    public constructor() {
-        onCleanup(() => this.functions.clear());
-    }
 
     public invoke(arg: T) {
         this.functions.forEach((fn) => fn(arg));
