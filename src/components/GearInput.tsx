@@ -40,7 +40,12 @@ export default (props: GearInputProps) => {
     };
 
     const validate = () => {
-        const gear = parseFloat(input.get());
+        const trimmed = input.get().trim();
+        if (trimmed === "") {
+            return whenInvalid();
+        }
+
+        const gear = Number(trimmed.replaceAll(",", "."));
         return isGearValid(gear) ? whenValid(gear) : whenInvalid();
     };
 
@@ -55,7 +60,7 @@ export default (props: GearInputProps) => {
         <label>
             {props.label}
             <input
-                inputmode="numeric"
+                inputmode="decimal"
                 value={input.get()}
                 placeholder={placeholder}
                 onChange={handleChange}
