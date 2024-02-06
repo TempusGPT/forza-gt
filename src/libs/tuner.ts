@@ -2,23 +2,46 @@ const range = (start: number, end: number) => {
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 };
 
-const tuneArithmetic = (speed: number, first: number, last: number) => {
-    return range(0, speed - 1).map((i) => {
-        const t = i / (speed - 1);
-        return first / (Math.lerp(last, first, t) / last);
+const tuneArithmetic = (
+    transSpeeds: number,
+    launchGearPos: number,
+    launchGear: number,
+    finalGear: number
+) => {
+    const firstIndex = 1 - launchGearPos;
+    const lastIndex = transSpeeds - launchGearPos;
+
+    return range(firstIndex, lastIndex).map((i) => {
+        const t = i / lastIndex;
+        return launchGear / (Math.lerp(finalGear, launchGear, t) / finalGear);
     });
 };
 
-const tuneGeometric = (speed: number, first: number, last: number, ratio: number) => {
-    const lastTerm = ratio ** (speed - 1) - 1;
-    return range(0, speed - 1).map((i) => {
-        const t = (ratio ** i - 1) / lastTerm;
-        return first / (Math.lerp(last, first, t) / last);
+const tuneGeometric = (
+    lengthFactor: number,
+    transSpeeds: number,
+    launchGearPos: number,
+    launchGear: number,
+    finalGear: number
+) => {
+    const start = 1 - launchGearPos;
+    const end = transSpeeds - launchGearPos;
+    const term = lengthFactor ** end - 1;
+
+    return range(start, end).map((i) => {
+        const t = (lengthFactor ** i - 1) / term;
+        return launchGear / (Math.lerp(finalGear, launchGear, t) / finalGear);
     });
 };
 
-export const tuneGearing = (speed: number, first: number, last: number, ratio: number) => {
-    return ratio === 1
-        ? tuneArithmetic(speed, first, last)
-        : tuneGeometric(speed, first, last, ratio);
+export const tuneGearing = (
+    lengthFactor: number,
+    transSpeeds: number,
+    launchGearPos: number,
+    launchGear: number,
+    finalGear: number
+) => {
+    return lengthFactor === 1
+        ? tuneArithmetic(transSpeeds, launchGearPos, launchGear, finalGear)
+        : tuneGeometric(lengthFactor, transSpeeds, launchGearPos, launchGear, finalGear);
 };

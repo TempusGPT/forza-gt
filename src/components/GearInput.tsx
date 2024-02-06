@@ -1,6 +1,6 @@
 import { JSX, onCleanup, onMount } from "solid-js";
 import { Delegate } from "~/libs/delegate";
-import { createState } from "~/libs/primitive";
+import { createSignal } from "~/libs/primitive";
 
 type Props = {
     label: string;
@@ -9,27 +9,25 @@ type Props = {
 };
 
 export default (props: Props) => {
-    const input = createState({
-        value: "",
-        valid: true,
-    });
+    const input = createSignal("");
+    const valid = createSignal(true);
 
     const handleChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
-        input.value = e.currentTarget.value;
+        input.set(e.currentTarget.value);
         validate();
     };
 
     const validate = () => {
-        const gearRatio = Number(input.value);
+        const gearRatio = Number(input.get());
 
         if (0.48 <= gearRatio && gearRatio <= 6.0) {
             const formatted = gearRatio.toFixed(2);
             props.onChange?.(Number(formatted));
-            input.value = formatted;
-            input.valid = true;
+            input.set(formatted);
+            valid.set(true);
         } else {
             props.onChange?.(NaN);
-            input.valid = false;
+            valid.set(false);
         }
     };
 
@@ -42,9 +40,9 @@ export default (props: Props) => {
             <input
                 placeholder="0.48-6.00"
                 inputmode="numeric"
-                value={input.value}
+                value={input.get()}
                 onChange={handleChange}
-                aria-invalid={input.valid ? undefined : true}
+                aria-invalid={valid.get() ? undefined : true}
             />
         </label>
     );

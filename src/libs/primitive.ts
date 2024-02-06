@@ -1,12 +1,11 @@
-import { createSignal } from "solid-js";
+import { createMemo as createSolidMemo, createSignal as createSolidSignal } from "solid-js";
 
-export const createState = <T extends Record<string, unknown>>(initialState: T) => {
-    const state = {} as T;
+export const createSignal = <T>(initialValue: T) => {
+    const [get, set] = createSolidSignal(initialValue);
+    return { get, set };
+};
 
-    Object.keys(initialState).forEach((key) => {
-        const [get, set] = createSignal(initialState[key]);
-        Object.defineProperty(state, key, { get, set });
-    });
-
-    return state;
+export const createMemo = <T>(fn: () => T) => {
+    const get = createSolidMemo(fn);
+    return { get };
 };
