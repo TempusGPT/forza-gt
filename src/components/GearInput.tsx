@@ -20,7 +20,7 @@ export default (props: Props) => {
     const validate = () => {
         const gearRatio = Number(input.get());
 
-        if (0.48 <= gearRatio && gearRatio <= 6.0) {
+        if (0.48 <= gearRatio && gearRatio <= 6) {
             const formatted = gearRatio.toFixed(2);
             props.onChange?.(Number(formatted));
             input.set(formatted);

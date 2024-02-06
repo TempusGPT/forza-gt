@@ -31,7 +31,7 @@ export default () => {
     const trans = createSignal(transOptions[3].value);
     const launchGear = createSignal(NaN);
     const finalGear = createSignal(NaN);
-    const calculation = createSignal<number[]>([]);
+    const calculation = createSignal([] as number[]);
     const validation = new Delegate();
 
     const handleClick = (launchGearPos: number) => {
@@ -92,7 +92,9 @@ export default () => {
                         </Show>
                         <nav>
                             <div>Gear {i() + 1}</div>
-                            <div>{gear.toFixed(2)}</div>
+                            <Show when={isFinite(gear) && gear >= 0} fallback="Failed">
+                                {gear.toFixed(2)}
+                            </Show>
                         </nav>
                     </>
                 )}
