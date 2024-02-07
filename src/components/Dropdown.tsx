@@ -20,7 +20,7 @@ export default <T extends DropdownValue>(props: DropdownProps<T>) => {
 
     return (
         <label>
-            {props.label}
+            <div>{props.label}</div>
             <select value={props.value ?? props.options[0].value} onChange={handleChange}>
                 <For each={props.options}>
                     {(option) => <option value={option.value}>{option.name}</option>}

@@ -52,8 +52,8 @@ export default () => {
     return (
         <main class="container">
             <div class="headings">
-                <h1>Forza #1 Gearing Tuner</h1>
-                <h1>Designed to tune gears between first and last gears</h1>
+                <h1>F1 Gearing Tuner</h1>
+                <h1>The best gearing tuner for the Forza series</h1>
             </div>
 
             <div class="grid">

@@ -58,7 +58,7 @@ export default (props: GearInputProps) => {
 
     return (
         <label>
-            {props.label}
+            <div>{props.label}</div>
             <input
                 inputmode="decimal"
                 value={input.get()}
