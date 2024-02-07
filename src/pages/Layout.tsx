@@ -5,7 +5,7 @@ export type LayoutProps = {
     children?: JSX.Element;
 };
 
-export default (props: LayoutProps) => {
+export const Layout = (props: LayoutProps) => {
     return (
         <>
             <nav class="container-fluid">

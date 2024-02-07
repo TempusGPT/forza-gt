@@ -10,7 +10,7 @@ export type DropdownProps<T extends DropdownValue> = {
     onChange?: (value: T) => void;
 };
 
-export default <T extends DropdownValue>(props: DropdownProps<T>) => {
+export const Dropdown = <T extends DropdownValue>(props: DropdownProps<T>) => {
     const handleChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
         const index = e.currentTarget.selectedIndex;
         if (0 <= index && index < props.options.length) {

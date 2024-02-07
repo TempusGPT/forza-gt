@@ -1,8 +1,8 @@
 import { Index, Show } from "solid-js";
+import { GearInput, GearInputRef, isGearValid } from "~/components/GearInput";
+import { Dropdown, DropdownOption } from "~/components/Dropdown";
 import { tuneGearing } from "~/libs/tuner";
 import { createSignal } from "~/libs/primitive";
-import GearInput, { GearInputRef, isGearValid } from "~/components/GearInput";
-import Dropdown, { DropdownOption } from "~/components/Dropdown";
 
 const LengthOptions: DropdownOption<number>[] = [
     { name: "Shortest", value: 0.2 },
@@ -25,7 +25,7 @@ const TransOptions: DropdownOption<number>[] = [
     { name: "10 Speed", value: 10 },
 ] as const;
 
-export default () => {
+export const HomePage = () => {
     let launchGearInput: GearInputRef;
     let finalGearInput: GearInputRef;
 

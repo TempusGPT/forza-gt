@@ -6,6 +6,10 @@ const Config = {
     max: 6,
 } as const;
 
+export const isGearValid = (gear: number) => {
+    return Config.min <= gear && gear <= Config.max;
+};
+
 export type GearInputRef = {
     validate: () => boolean;
 };
@@ -16,11 +20,7 @@ export type GearInputProps = {
     ref?: (ref: GearInputRef) => void;
 };
 
-export const isGearValid = (gear: number) => {
-    return Config.min <= gear && gear <= Config.max;
-};
-
-export default (props: GearInputProps) => {
+export const GearInput = (props: GearInputProps) => {
     const input = createSignal("");
     const valid = createSignal(true);
     const placeholder = `${Config.min.toFixed(2)}-${Config.max.toFixed(2)}`;
