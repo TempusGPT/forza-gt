@@ -25,5 +25,9 @@
 
 <label>
     <div>{label}</div>
-    <select value={value ?? options[0].value} onchange={handleChange}> </select>
+    <select value={value ?? options[0].value} onchange={handleChange}>
+        {#each options as { name, value }}
+            <option {value}>{name}</option>
+        {/each}
+    </select>
 </label>
