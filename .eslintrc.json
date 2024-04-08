@@ -25,5 +25,8 @@
         }
     ],
     "plugins": ["@typescript-eslint"],
+    "rules": {
+        "no-undef": "off"
+    },
     "ignorePatterns": ["svelte.config.js", "vite.config.js"]
 }
