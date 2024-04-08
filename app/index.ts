@@ -1,3 +1,4 @@
-import App from "../src/pages/App.svelte";
+import { mount } from "svelte";
+import HomePage from "../src/pages/HomePage.svelte";
 
-export default new App({ target: document.getElementById("app")! });
+export default mount(HomePage, { target: document.getElementById("app")! });
