@@ -1,11 +1,13 @@
-<script lang="ts">
+<script lang="ts" context="module">
     import type { Children } from "~/libs/children";
 
-    type LayoutProps = {
-        url: string;
+    export type LayoutProps = {
+        url: string;  
         children?: Children;
     };
+</script>
 
+<script lang="ts">
     const { url, children }: LayoutProps = $props();
 </script>
 
