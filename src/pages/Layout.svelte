@@ -3,7 +3,7 @@
 
     type LayoutProps = {
         url: string;
-        children: Children;
+        children?: Children;
     };
 
     const { url, children }: LayoutProps = $props();
@@ -18,4 +18,6 @@
     </ul>
 </nav>
 
-{@render children()}
+{#if children}
+    {@render children()}
+{/if}
