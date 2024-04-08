@@ -1,4 +1,4 @@
 import { mount } from "svelte";
-import HomePage from "../src/pages/HomePage.svelte";
+import HomePage from "~/pages/HomePage.svelte";
 
 export default mount(HomePage, { target: document.getElementById("root")! });
