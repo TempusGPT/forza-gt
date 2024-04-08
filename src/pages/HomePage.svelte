@@ -22,6 +22,7 @@
         <h1>Home Page</h1>
         <h1>Welcome to the home page</h1>
     </hgroup>
-    <Dropdown label="Dropdown" options={options} />
+
+    <Dropdown label="Dropdown" {options} />
     <GearInput label="GearInput" />
 </main>
