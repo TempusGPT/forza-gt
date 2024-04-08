@@ -7,8 +7,10 @@
         "check": "svelte-check --tsconfig ./tsconfig.json"
     },
     "devDependencies": {
+        "@picocss/pico": "^2.0.6",
         "@sveltejs/vite-plugin-svelte": "^3.0.2",
         "@tsconfig/svelte": "^5.0.2",
+        "sass": "^1.74.1",
         "svelte": "^5.0.0-next.95",
         "svelte-check": "^3.6.6",
         "tslib": "^2.6.2",
