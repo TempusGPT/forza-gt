@@ -1,8 +1,4 @@
 <script lang="ts" context="module">
-    export type GearInputRef = {
-        validate: () => boolean;
-    };
-
     export type GearInputProps = {
         label: string;
         placeholder?: string;
