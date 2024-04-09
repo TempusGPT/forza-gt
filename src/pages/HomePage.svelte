@@ -57,30 +57,19 @@
     </hgroup>
 
     <div class="grid">
-        <Dropdown
-            label="Length"
-            options={lengthOptions}
-            value={length}
-            onChange={(x) => (length = x)}
-        />
-
-        <Dropdown
-            label="Transmission"
-            options={transOptions}
-            value={trans}
-            onChange={(x) => (trans = x)}
-        />
+        <Dropdown label="Length" options={lengthOptions} bind:value={length} />
+        <Dropdown label="Transmission" options={transOptions} bind:value={trans} />
 
         <GearInput
-            bind:this={launchGearInput}
             label="Launch Gear"
             onChange={(x) => (launchGear = x)}
+            bind:this={launchGearInput}
         />
 
         <GearInput
-            bind:this={finalGearInput}
             label="Final Gear"
             onChange={(x) => (finalGear = x)}
+            bind:this={finalGearInput}
         />
     </div>
 
@@ -88,6 +77,7 @@
         <button onclick={() => handleClick(2)} class="secondary">Tune second gear launch</button>
         <button onclick={() => handleClick(1)}>Tune first gear launch</button>
     </div>
+    <p />
 
     {#if calculation}
         <article>

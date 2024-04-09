@@ -6,19 +6,18 @@
         label: string;
         options: DropdownOption<T>[];
         value?: T;
-        onChange?: (value: T) => void;
     };
 </script>
 
 <script lang="ts" generics="T extends DropdownValue">
     import type { ChangeEventHandler } from "svelte/elements";
 
-    const { label, options, value, onChange }: DropdownProps<T> = $props();
+    let { label, options, value = $bindable() }: DropdownProps<T> = $props();
 
     const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
         const index = e.currentTarget.selectedIndex;
         if (0 <= index && index < options.length) {
-            onChange?.(options[index].value);
+            value = options[index].value;
         }
     };
 </script>
