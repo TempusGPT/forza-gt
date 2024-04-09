@@ -1,49 +1,44 @@
 <script lang="ts" context="module">
-    const MIN = 0.48;
-    const MAX = 6;
-    const placeholder = `${MIN.toFixed(2)}-${MAX.toFixed(2)}`;
-
-    export const isGearValid = (gear: number) => {
-        return MIN <= gear && gear <= MAX;
-    };
-
     export type GearInputRef = {
         validate: () => boolean;
     };
 
     export type GearInputProps = {
         label: string;
-        onChange?: (value: number) => void;
+        placeholder?: string;
+        value?: number;
+    };
+
+    export const isGearValid = (gear: number) => {
+        return 0.48 <= gear && gear <= 6;
     };
 </script>
 
 <script lang="ts">
-    const { label, onChange }: GearInputProps = $props();
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    let { label, placeholder, value = $bindable(NaN) }: GearInputProps = $props();
     let input = $state("");
     let valid = $state(true);
 
     const whenValid = (gear: number) => {
-        const formatted = gear.toFixed(2);
-        onChange?.(Number(formatted));
-        input = formatted;
-        valid = true;
-        return true;
+        const fixedGear = gear.toFixed(2);
+        value = Number(fixedGear);
+        input = fixedGear;
+        return (valid = true);
     };
 
     const whenInvalid = () => {
-        onChange?.(NaN);
-        valid = false;
-        return false;
+        value = NaN;
+        return (valid = false);
     };
 
     export const validate = () => {
-        const trimmed = input.trim();
-        if (trimmed === "") {
+        const formattedInput = input.replaceAll(",", ".").trim();
+        if (formattedInput === "") {
             return whenInvalid();
         }
 
-        const gear = Number(trimmed.replaceAll(",", "."));
+        const gear = Number(formattedInput);
         return isGearValid(gear) ? whenValid(gear) : whenInvalid();
     };
 </script>
@@ -51,10 +46,10 @@
 <label>
     <div>{label}</div>
     <input
-        bind:value={input}
         {placeholder}
         inputmode="decimal"
         onchange={validate}
         aria-invalid={valid ? undefined : true}
+        bind:value={input}
     />
 </label>

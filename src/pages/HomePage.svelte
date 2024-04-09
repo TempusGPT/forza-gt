@@ -62,13 +62,15 @@
 
         <GearInput
             label="Launch Gear"
-            onChange={(x) => (launchGear = x)}
+            placeholder="2.89"
+            bind:value={launchGear}
             bind:this={launchGearInput}
         />
 
         <GearInput
             label="Final Gear"
-            onChange={(x) => (finalGear = x)}
+            placeholder="0.78"
+            bind:value={finalGear}
             bind:this={finalGearInput}
         />
     </div>
