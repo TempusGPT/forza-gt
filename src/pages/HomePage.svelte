@@ -2,13 +2,11 @@
     import type { DropdownOption } from "~/components/Dropdown.svelte";
 
     const lengthOptions: DropdownOption<number>[] = [
-        { name: "Shortest", value: 0.2 },
-        { name: "Shorter", value: 0.3 },
-        { name: "Short", value: 0.4 },
+        { name: "Shorter", value: 0.2 },
+        { name: "Short", value: 0.35 },
         { name: "Medium", value: 0.5 },
-        { name: "Long", value: 0.6 },
-        { name: "Longer", value: 0.7 },
-        { name: "Longest", value: 0.8 },
+        { name: "Long", value: 0.65 },
+        { name: "Longer", value: 0.8 },
     ] as const;
 
     const transOptions: DropdownOption<number>[] = [
@@ -31,8 +29,8 @@
     let launchGearInput: GearInput;
     let finalGearInput: GearInput;
 
-    let length = $state(lengthOptions[3].value);
-    let trans = $state(transOptions[3].value);
+    let length = $state(lengthOptions[2].value);
+    let trans = $state(transOptions[4].value);
     let launchGear = $state(NaN);
     let finalGear = $state(NaN);
     let calculation = $state<number[]>();
