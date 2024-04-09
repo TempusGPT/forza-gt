@@ -110,3 +110,9 @@
         </article>
     {/if}
 </main>
+
+<style lang="scss">
+    hr {
+        margin: 0.6rem 0;
+    }
+</style>
