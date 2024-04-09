@@ -50,8 +50,8 @@
 
 <main class="container">
     <hgroup>
-        <h1>Forza #1 Gearing Tuner</h1>
-        <h1>The best gearing tuner for the Forza series</h1>
+        <h1>ForzaOne Gearing Tuner</h1>
+        <h1>Tune gearing for different lengths and transmissions, magically.</h1>
     </hgroup>
 
     <div class="grid">
