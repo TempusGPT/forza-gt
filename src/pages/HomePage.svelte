@@ -22,6 +22,7 @@
 </script>
 
 <script lang="ts">
+    import type { EventHandler } from "svelte/elements";
     import Dropdown from "~/components/Dropdown.svelte";
     import GearInput, { isGearValid } from "~/components/GearInput.svelte";
     import { tuneGearing } from "~/libs/tuner";
@@ -35,7 +36,7 @@
     let finalGear = $state(NaN);
     let calculation = $state<number[]>();
 
-    const handleClick = (launchGearPos: number) => {
+    const calculate = (launchGearPos: number) => {
         const launchGearValidation = launchGearInput.validate();
         const finalGearValidation = finalGearInput.validate();
         if (!launchGearValidation || !finalGearValidation) {
@@ -46,38 +47,50 @@
         const lengthFactor = Math.expLerp(minFactor, 1 / minFactor, length);
         calculation = tuneGearing(lengthFactor, trans, launchGearPos, launchGear, finalGear);
     };
+
+    const handleSubmit: EventHandler = (e) => {
+        e.preventDefault();
+        calculate(1);
+    };
 </script>
 
 <main class="container">
     <hgroup>
         <h1>ForzaOne Gearing Tuner</h1>
-        <h1>Tune gearing for different lengths and transmissions, magically.</h1>
+        <h2>Tune gearing for different lengths and transmissions, magically.</h2>
     </hgroup>
 
-    <div class="grid">
-        <Dropdown label="Length" options={lengthOptions} bind:value={length} />
-        <Dropdown label="Transmission" options={transOptions} bind:value={trans} />
+    <form onsubmit={handleSubmit}>
+        <div class="grid">
+            <Dropdown label="Length" options={lengthOptions} bind:value={length} />
+            <Dropdown label="Transmission" options={transOptions} bind:value={trans} />
 
-        <GearInput
-            label="Launch Gear"
-            placeholder="2.89"
-            bind:value={launchGear}
-            bind:this={launchGearInput}
-        />
+            <GearInput
+                label="Launch Gear"
+                placeholder="2.89"
+                bind:value={launchGear}
+                bind:this={launchGearInput}
+            />
 
-        <GearInput
-            label="Final Gear"
-            placeholder="0.78"
-            bind:value={finalGear}
-            bind:this={finalGearInput}
-        />
-    </div>
+            <GearInput
+                label="Final Gear"
+                placeholder="0.78"
+                bind:value={finalGear}
+                bind:this={finalGearInput}
+            />
+        </div>
 
-    <div class="grid">
-        <button onclick={() => handleClick(2)} class="secondary">Tune second gear launch</button>
-        <button onclick={() => handleClick(1)}>Tune first gear launch</button>
-    </div>
-    <p />
+        <div class="grid">
+            <input
+                type="button"
+                class="secondary"
+                onclick={() => calculate(2)}
+                value="Tune second gear launch"
+            />
+
+            <input type="submit" value="Tune first gear launch" />
+        </div>
+    </form>
 
     {#if calculation}
         <article>
