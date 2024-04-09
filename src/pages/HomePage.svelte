@@ -15,17 +15,14 @@
 <script lang="ts">
     import Dropdown from "~/components/Dropdown.svelte";
     import GearInput from "~/components/GearInput.svelte";
-    import Layout from "./Layout.svelte";
 </script>
 
-<Layout url="https://www.google.com">
-    <main class="container">
-        <hgroup>
-            <h1>Home Page</h1>
-            <h1>Welcome to the home page</h1>
-        </hgroup>
+<main class="container">
+    <hgroup>
+        <h1>Home Page</h1>
+        <h1>Welcome to the home page</h1>
+    </hgroup>
 
-        <Dropdown label="Dropdown" {options} />
-        <GearInput label="GearInput" />
-    </main>
-</Layout>
+    <Dropdown label="Dropdown" {options} />
+    <GearInput label="GearInput" />
+</main>
