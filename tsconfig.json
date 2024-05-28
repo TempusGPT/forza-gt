@@ -10,8 +10,8 @@
         "isolatedModules": true,
         "baseUrl": ".",
         "paths": {
-            "~/*": ["src/*"]
+            "@libs/*": ["src/libs/*"]
         }
     },
-    "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "app/index.ts", "app/index.svelte"]
+    "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }

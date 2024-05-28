@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-    import type { DropdownOption } from "~/components/Dropdown.svelte";
+    import type { DropdownOption } from "@libs/Dropdown.svelte";
 
     const lengthOptions: DropdownOption<number>[] = [
         { name: "Shorter", value: 0.2 },
@@ -23,9 +23,9 @@
 
 <script lang="ts">
     import type { EventHandler } from "svelte/elements";
-    import Dropdown from "~/components/Dropdown.svelte";
-    import GearInput, { isGearValid } from "~/components/GearInput.svelte";
-    import { tuneGearing } from "~/libs/tuner";
+    import Dropdown from "@libs/Dropdown.svelte";
+    import GearInput, { isGearValid } from "@libs/GearInput.svelte";
+    import { tuneGearing } from "@libs/tuner";
 
     let launchGearInput: GearInput;
     let finalGearInput: GearInput;
@@ -53,6 +53,15 @@
         calculate(1);
     };
 </script>
+
+<nav class="container-fluid">
+    <ul />
+    <ul>
+        <li>
+            <a href="https://github.com/TempusGPT/f1gt">Source Code</a>
+        </li>
+    </ul>
+</nav>
 
 <main class="container">
     <hgroup>
