@@ -58,7 +58,7 @@
     <ul></ul>
     <ul>
         <li>
-            <a href="https://github.com/TempusGPT/forzagt">Source Code</a>
+            <a href="https://github.com/TempusGPT/forza-gearing-tuner">Source Code</a>
         </li>
     </ul>
 </nav>
