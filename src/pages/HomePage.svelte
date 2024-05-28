@@ -55,18 +55,18 @@
 </script>
 
 <nav class="container-fluid">
-    <ul />
+    <ul></ul>
     <ul>
         <li>
-            <a href="https://github.com/TempusGPT/f1gt">Source Code</a>
+            <a href="https://github.com/TempusGPT/forzagt">Source Code</a>
         </li>
     </ul>
 </nav>
 
 <main class="container">
     <hgroup>
-        <h1>ForzaOne Gearing Tuner</h1>
-        <h2>Tune gearing for different lengths and transmissions, magically.</h2>
+        <h1>Forza Gearing Tuner</h1>
+        <h2>Tune gearing for engines in different powerbands and launch gears, magically.</h2>
     </hgroup>
 
     <form onsubmit={handleSubmit}>
@@ -107,6 +107,7 @@
                 {#if i !== 0}
                     <hr />
                 {/if}
+
                 <nav>
                     <div>Gear {i + 1}</div>
                     {#if isGearValid(gear)}
@@ -120,7 +121,7 @@
     {/if}
 </main>
 
-<style lang="scss">
+<style>
     hr {
         margin: 0.6rem 0;
     }
