@@ -139,6 +139,6 @@
 
 <style>
     hr {
-        --pico-typography-spacing-vertical: 0.6rem;
+        margin: 0.6rem 0;
     }
 </style>
