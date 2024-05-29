@@ -1,24 +1,24 @@
 <script lang="ts" context="module">
-    import type { DropdownOption } from "@libs/Dropdown.svelte";
+    import type { DropdownOptions } from "@libs/Dropdown.svelte";
 
-    const powerBandOptions: DropdownOption<number>[] = [
-        { name: "Very Narrow", value: 0.2 },
-        { name: "Narrow", value: 0.35 },
-        { name: "Normal", value: 0.5 },
-        { name: "Wide", value: 0.65 },
-        { name: "Very Wide", value: 0.8 },
-    ] as const;
+    const powerBandOptions: DropdownOptions<number> = [
+        ["Very Narrow", 0.2],
+        ["Narrow", 0.35],
+        ["Normal", 0.5],
+        ["Wide", 0.65],
+        ["Very Wide", 0.8],
+    ];
 
-    const transmissionOptions: DropdownOption<number>[] = [
-        { name: "3 Speed", value: 3 },
-        { name: "4 Speed", value: 4 },
-        { name: "5 Speed", value: 5 },
-        { name: "6 Speed", value: 6 },
-        { name: "7 Speed", value: 7 },
-        { name: "8 Speed", value: 8 },
-        { name: "9 Speed", value: 9 },
-        { name: "10 Speed", value: 10 },
-    ] as const;
+    const transmissionOptions: DropdownOptions<number> = [
+        ["3 Speed", 3],
+        ["4 Speed", 4],
+        ["5 Speed", 5],
+        ["6 Speed", 6],
+        ["7 Speed", 7],
+        ["8 Speed", 8],
+        ["9 Speed", 9],
+        ["10 Speed", 10],
+    ];
 </script>
 
 <script lang="ts">
@@ -30,8 +30,8 @@
     let launchGearInput: GearInput;
     let finalGearInput: GearInput;
 
-    let powerBand = $state(powerBandOptions[2].value);
-    let transmission = $state(transmissionOptions[4].value);
+    let powerBand = $state(powerBandOptions[2][1]);
+    let transmission = $state(transmissionOptions[4][1]);
     let launchGear = $state(NaN);
     let finalGear = $state(NaN);
     let calculation = $state<number[]>();
@@ -47,6 +47,7 @@
         const factorMin = (finalGear / launchGear) ** (1 / (transmission - 1));
         const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
         calculation = tuneGearing(factor, transmission, launchGearNumber, launchGear, finalGear);
+        console.log(calculation.length);
     };
 
     const tuneFirstGearLaunch: EventHandler = (e) => {
@@ -112,14 +113,22 @@
     </form>
 
     {#if calculation}
+        {@const cruising = calculation.length < 11}
+        {@const gearing = calculation.slice(0, 10)}
+
         <article>
-            {#each calculation as gear, i}
+            {#each gearing as gear, i}
                 {#if i !== 0}
                     <hr />
                 {/if}
 
                 <nav>
-                    <div>Gear {i + 1}</div>
+                    {#if cruising && i === gearing.length - 1}
+                        <div>Cruising</div>
+                    {:else}
+                        <div>Gear {i + 1}</div>
+                    {/if}
+
                     {#if isGearValid(gear)}
                         <div>{gear.toFixed(2)}</div>
                     {:else}

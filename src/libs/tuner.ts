@@ -11,7 +11,7 @@ const tuneArithmetic = (
     const firstIndex = 1 - launchGearNumber;
     const lastIndex = speeds - launchGearNumber;
 
-    return range(firstIndex, lastIndex).map((i) => {
+    return range(firstIndex, lastIndex + 1).map((i) => {
         const t = i / lastIndex;
         return launchGear / (Math.lerp(finalGear, launchGear, t) / finalGear);
     });
@@ -24,11 +24,11 @@ const tuneGeometric = (
     launchGear: number,
     finalGear: number,
 ) => {
-    const start = 1 - launchGearNumber;
-    const end = speeds - launchGearNumber;
-    const term = factor ** end - 1;
+    const firstIndex = 1 - launchGearNumber;
+    const lastIndex = speeds - launchGearNumber;
+    const term = factor ** lastIndex - 1;
 
-    return range(start, end).map((i) => {
+    return range(firstIndex, lastIndex + 1).map((i) => {
         const t = (factor ** i - 1) / term;
         return launchGear / (Math.lerp(finalGear, launchGear, t) / finalGear);
     });

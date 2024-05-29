@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
     export type DropdownValue = string | number | string[] | undefined;
-    export type DropdownOption<T extends DropdownValue> = { name: string; value: T };
+    export type DropdownOptions<T extends DropdownValue> = readonly (readonly [string, T])[];
 
     export type DropdownProps<T extends DropdownValue> = {
         label: string;
-        options: DropdownOption<T>[];
+        options: DropdownOptions<T>;
         value?: T;
     };
 </script>
@@ -17,15 +17,15 @@
     const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
         const index = e.currentTarget.selectedIndex;
         if (0 <= index && index < options.length) {
-            value = options[index].value;
+            value = options[index][1];
         }
     };
 </script>
 
 <label>
     <div>{label}</div>
-    <select value={value ?? options[0].value} onchange={handleChange}>
-        {#each options as { name, value }}
+    <select value={value ?? options[0][1]} onchange={handleChange}>
+        {#each options as [name, value]}
             <option {value}>{name}</option>
         {/each}
     </select>
