@@ -22,14 +22,14 @@ export const en: Intl = {
 
         transmission: {
             label: "Transmission",
-            3: "3 Speed",
-            4: "4 Speed",
-            5: "5 Speed",
-            6: "6 Speed",
-            7: "7 Speed",
-            8: "8 Speed",
-            9: "9 Speed",
-            10: "10 Speed",
+            3: "3 speed",
+            4: "4 speed",
+            5: "5 speed",
+            6: "6 speed",
+            7: "7 speed",
+            8: "8 speed",
+            9: "9 speed",
+            10: "10 speed",
         },
 
         gear: {
