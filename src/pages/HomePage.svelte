@@ -47,7 +47,6 @@
         const factorMin = (finalGear / launchGear) ** (1 / (transmission - 1));
         const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
         calculation = tuneGearing(factor, transmission, launchGearNumber, launchGear, finalGear);
-        console.log(calculation.length);
     };
 
     const tuneFirstGearLaunch: EventHandler = (e) => {
