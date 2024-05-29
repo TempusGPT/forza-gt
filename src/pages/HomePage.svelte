@@ -22,10 +22,10 @@
 </script>
 
 <script lang="ts">
-    import type { EventHandler } from "svelte/elements";
     import Dropdown from "@libs/Dropdown.svelte";
     import GearInput, { isGearValid } from "@libs/GearInput.svelte";
     import { tuneGearing } from "@libs/tuner";
+    import type { EventHandler } from "svelte/elements";
 
     let launchGearInput: GearInput;
     let finalGearInput: GearInput;
@@ -49,13 +49,11 @@
         calculation = tuneGearing(factor, transmission, launchGearNumber, launchGear, finalGear);
     };
 
-    const tuneFirstGearLaunch: EventHandler = (e) => {
-        e.preventDefault();
-        tune(1);
-    };
-
-    const tuneSecondGearLaunch = () => {
-        tune(2);
+    const handleTune = (launchGearNumber: number): EventHandler => {
+        return (e) => {
+            e.preventDefault();
+            tune(launchGearNumber);
+        };
     };
 </script>
 
@@ -74,7 +72,7 @@
         <h2>Convenient gearing tuner for the Forza series</h2>
     </hgroup>
 
-    <form onsubmit={tuneFirstGearLaunch}>
+    <form onsubmit={handleTune(1)}>
         <div class="grid">
             <Dropdown label="Power Band" options={powerBandOptions} bind:value={powerBand} />
 
@@ -103,7 +101,7 @@
             <input
                 type="button"
                 class="secondary"
-                onclick={tuneSecondGearLaunch}
+                onclick={handleTune(2)}
                 value="Tune second gear launch"
             />
 
