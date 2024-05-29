@@ -5,9 +5,9 @@
         value?: number;
     };
 
-    export const isGearValid = (gear: number) => {
+    export function isGearValid(gear: number) {
         return 0.48 <= gear && gear <= 6;
-    };
+    }
 </script>
 
 <script lang="ts">
@@ -18,21 +18,7 @@
     let message = $state("");
     let valid = $state(true);
 
-    const whenValid = (gear: number) => {
-        const fixedGear = gear.toFixed(2);
-        value = Number(fixedGear);
-        input = fixedGear;
-        message = "";
-        return (valid = true);
-    };
-
-    const whenInvalid = (cause: string) => {
-        value = NaN;
-        message = cause;
-        return (valid = false);
-    };
-
-    export const validate = () => {
+    export function validate(): boolean {
         const formattedInput = input.replaceAll(",", ".").trim();
         if (formattedInput === "") {
             return whenInvalid("Cannot be empty.");
@@ -48,7 +34,23 @@
         }
 
         return whenValid(gear);
-    };
+    }
+
+    function whenValid(gear: number): boolean {
+        const fixedGear = gear.toFixed(2);
+        value = Number(fixedGear);
+        input = fixedGear;
+        message = "";
+        valid = true;
+        return true;
+    }
+
+    function whenInvalid(cause: string): boolean {
+        value = NaN;
+        message = cause;
+        valid = false;
+        return false;
+    }
 </script>
 
 <label>

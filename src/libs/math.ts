@@ -6,8 +6,8 @@ declare global {
     }
 }
 
-Math.lerp = (min: number, max: number, t: number) => min * (1 - t) + max * t;
-Math.expLerp = (min: number, max: number, t: number) => min * (max / min) ** t;
-Math.approximately = (lhs: number, rhs: number) => Math.abs(lhs - rhs) < Number.EPSILON;
+Math.lerp = (min, max, t) => min * (1 - t) + max * t;
+Math.expLerp = (min, max, t) => min * (max / min) ** t;
+Math.approximately = (lhs, rhs) => Math.abs(lhs - rhs) < Number.EPSILON;
 
 export {};

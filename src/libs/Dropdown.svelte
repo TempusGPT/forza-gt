@@ -14,7 +14,7 @@
 
     let { label, options, value = $bindable() }: DropdownProps<T> = $props();
 
-    const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const eventHandler: ChangeEventHandler<HTMLSelectElement> = (e) => {
         const index = e.currentTarget.selectedIndex;
         if (0 <= index && index < options.length) {
             value = options[index][1];
@@ -24,7 +24,7 @@
 
 <label>
     <div>{label}</div>
-    <select value={value ?? options[0][1]} onchange={handleChange}>
+    <select value={value ?? options[0][1]} onchange={eventHandler}>
         {#each options as [name, value]}
             <option {value}>{name}</option>
         {/each}

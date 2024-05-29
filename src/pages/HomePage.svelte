@@ -36,7 +36,7 @@
     let finalGear = $state(NaN);
     let calculation = $state<number[]>();
 
-    const tune = (launchGearNumber: number) => {
+    function tune(launchGearNumber: number) {
         const launchGearValidation = launchGearInput.validate();
         const finalGearValidation = finalGearInput.validate();
 
@@ -47,14 +47,14 @@
         const factorMin = (finalGear / launchGear) ** (1 / (transmission - 1));
         const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
         calculation = tuneGearing(factor, transmission, launchGearNumber, launchGear, finalGear);
-    };
+    }
 
-    const handleTune = (launchGearNumber: number): EventHandler => {
+    function handleTune(launchGearNumber: number): EventHandler {
         return (e) => {
             e.preventDefault();
             tune(launchGearNumber);
         };
-    };
+    }
 </script>
 
 <nav class="container-fluid">
@@ -72,7 +72,7 @@
         <h2>Convenient gearing tuner for the Forza series</h2>
     </hgroup>
 
-    <form onsubmit={handleTune(1)}>
+    <form onsubmit={() => tune(2)}>
         <div class="grid">
             <Dropdown label="Power Band" options={powerBandOptions} bind:value={powerBand} />
 
