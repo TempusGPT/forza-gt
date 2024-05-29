@@ -1,15 +1,15 @@
 <script lang="ts" context="module">
     import type { DropdownOption } from "@libs/Dropdown.svelte";
 
-    const lengthOptions: DropdownOption<number>[] = [
-        { name: "Shorter", value: 0.2 },
-        { name: "Short", value: 0.35 },
-        { name: "Medium", value: 0.5 },
-        { name: "Long", value: 0.65 },
-        { name: "Longer", value: 0.8 },
+    const powerBandOptions: DropdownOption<number>[] = [
+        { name: "Very Narrow", value: 0.2 },
+        { name: "Narrow", value: 0.35 },
+        { name: "Normal", value: 0.5 },
+        { name: "Wide", value: 0.65 },
+        { name: "Very Wide", value: 0.8 },
     ] as const;
 
-    const transOptions: DropdownOption<number>[] = [
+    const transmissionOptions: DropdownOption<number>[] = [
         { name: "3 Speed", value: 3 },
         { name: "4 Speed", value: 4 },
         { name: "5 Speed", value: 5 },
@@ -30,27 +30,32 @@
     let launchGearInput: GearInput;
     let finalGearInput: GearInput;
 
-    let length = $state(lengthOptions[2].value);
-    let trans = $state(transOptions[4].value);
+    let powerBand = $state(powerBandOptions[2].value);
+    let transmission = $state(transmissionOptions[4].value);
     let launchGear = $state(NaN);
     let finalGear = $state(NaN);
     let calculation = $state<number[]>();
 
-    const calculate = (launchGearPos: number) => {
+    const tune = (launchGearNumber: number) => {
         const launchGearValidation = launchGearInput.validate();
         const finalGearValidation = finalGearInput.validate();
+
         if (!launchGearValidation || !finalGearValidation) {
             return;
         }
 
-        const minFactor = (finalGear / launchGear) ** (1 / (trans - 1));
-        const lengthFactor = Math.expLerp(minFactor, 1 / minFactor, length);
-        calculation = tuneGearing(lengthFactor, trans, launchGearPos, launchGear, finalGear);
+        const factorMin = (finalGear / launchGear) ** (1 / (transmission - 1));
+        const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
+        calculation = tuneGearing(factor, transmission, launchGearNumber, launchGear, finalGear);
     };
 
-    const handleSubmit: EventHandler = (e) => {
+    const tuneFirstGearLaunch: EventHandler = (e) => {
         e.preventDefault();
-        calculate(1);
+        tune(1);
+    };
+
+    const tuneSecondGearLaunch = () => {
+        tune(2);
     };
 </script>
 
@@ -58,21 +63,26 @@
     <ul></ul>
     <ul>
         <li>
-            <a href="https://github.com/TempusGPT/forza-gearing-tuner">Source Code</a>
+            <a href="https://github.com/TempusGPT/forza-gt">Source Code</a>
         </li>
     </ul>
 </nav>
 
 <main class="container">
     <hgroup>
-        <h1>Forza Gearing Tuner</h1>
-        <h2>Tune gearing for engines in different powerbands and launch gears, magically.</h2>
+        <h1>Forza GT</h1>
+        <h2>Convenient gearing tuner for the Forza series</h2>
     </hgroup>
 
-    <form onsubmit={handleSubmit}>
+    <form onsubmit={tuneFirstGearLaunch}>
         <div class="grid">
-            <Dropdown label="Length" options={lengthOptions} bind:value={length} />
-            <Dropdown label="Transmission" options={transOptions} bind:value={trans} />
+            <Dropdown label="Power Band" options={powerBandOptions} bind:value={powerBand} />
+
+            <Dropdown
+                label="Transmission"
+                options={transmissionOptions}
+                bind:value={transmission}
+            />
 
             <GearInput
                 label="Launch Gear"
@@ -93,7 +103,7 @@
             <input
                 type="button"
                 class="secondary"
-                onclick={() => calculate(2)}
+                onclick={tuneSecondGearLaunch}
                 value="Tune second gear launch"
             />
 
