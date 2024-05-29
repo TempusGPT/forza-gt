@@ -72,7 +72,7 @@
         <h2>Convenient gearing tuner for the Forza series</h2>
     </hgroup>
 
-    <form onsubmit={() => tune(2)}>
+    <form onsubmit={handleTune(1)}>
         <div class="grid">
             <Dropdown label="Power Band" options={powerBandOptions} bind:value={powerBand} />
 
@@ -139,6 +139,6 @@
 
 <style>
     hr {
-        margin: 0.6rem 0;
+        --pico-typography-spacing-vertical: 0.6rem;
     }
 </style>
