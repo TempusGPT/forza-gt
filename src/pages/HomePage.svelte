@@ -25,6 +25,7 @@
 <script lang="ts">
     import Dropdown from "@libs/Dropdown.svelte";
     import GearInput, { isGearValid } from "@libs/GearInput.svelte";
+    import GearingView from "@libs/GearingView.svelte";
     import { tuneGearing } from "@libs/tuner";
     import type { EventHandler } from "svelte/elements";
 
@@ -118,27 +119,33 @@
         {@const cruising = calculation.length < 11}
         {@const gearing = calculation.slice(0, 10)}
 
-        <article>
-            {#each gearing as gear, i}
-                {#if i !== 0}
-                    <hr />
-                {/if}
-
-                <nav>
-                    {#if cruising && i === gearing.length - 1}
-                        <div>{intl.result.cruising}</div>
-                    {:else}
-                        <div>{intl.result.gear(i + 1)}</div>
+        <div class="grid">
+            <article>
+                {#each gearing as gear, i}
+                    {#if i !== 0}
+                        <hr />
                     {/if}
 
-                    {#if isGearValid(gear)}
-                        <div>{gear.toFixed(2)}</div>
-                    {:else}
-                        <div>{intl.result.failed}</div>
-                    {/if}
-                </nav>
-            {/each}
-        </article>
+                    <nav>
+                        {#if cruising && i === gearing.length - 1}
+                            <div>{intl.result.cruising}</div>
+                        {:else}
+                            <div>{intl.result.gear(i + 1)}</div>
+                        {/if}
+
+                        {#if isGearValid(gear)}
+                            <div>{gear.toFixed(2)}</div>
+                        {:else}
+                            <div>{intl.result.failed}</div>
+                        {/if}
+                    </nav>
+                {/each}
+            </article>
+
+            <article>
+                <GearingView {gearing} />
+            </article>
+        </div>
     {/if}
 </main>
 
