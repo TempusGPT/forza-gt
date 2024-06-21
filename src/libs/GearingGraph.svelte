@@ -3,7 +3,12 @@
         gearing: number[];
     };
 
-    function equationOfLine(lhs: paper.Point, rhs: paper.Point) {
+    type Point = {
+        x: number;
+        y: number;
+    };
+
+    function equationOfLine(lhs: Point, rhs: Point) {
         const a = (rhs.y - lhs.y) / (rhs.x - lhs.x);
         const b = lhs.y - a * lhs.x;
         return (x: number) => a * x + b;
@@ -11,40 +16,37 @@
 </script>
 
 <script lang="ts">
-    import paper from "paper";
-
     let { gearing }: GearingViewProps = $props();
     let canvas: HTMLCanvasElement;
 
     $effect(() => {
-        paper.setup(canvas);
-    });
-
-    $effect(() => {
-        const rect = canvas.getBoundingClientRect();
-        const last = gearing[gearing.length - 1];
-        const origin = new paper.Point(0, rect.height);
-
         let lastX = 0;
-        paper.project.clear();
+        const context = canvas.getContext("2d")!;
+        const origin = { x: 0, y: canvas.height };
+        const last = gearing[gearing.length - 1];
+
+        context.beginPath();
+        context.clearRect(0, 0, canvas.width, canvas.height);
         gearing.forEach(drawGear);
 
         function drawGear(gear: number) {
-            const x = rect.width * (last / gear);
-            const to = new paper.Point(x, 0);
-            const getY = equationOfLine(origin, to);
-            const from = new paper.Point(lastX, getY(lastX));
+            const x = canvas.width * (last / gear);
+            const point = { x, y: 0 };
+            context.moveTo(point.x, point.y);
 
-            const line = new paper.Path.Line(from, to);
-            line.strokeColor = new paper.Color("#c2c7d0");
-            line.strokeWidth = 2;
+            const getY = equationOfLine(origin, point);
+            context.lineTo(lastX, getY(lastX));
+
+            context.strokeStyle = "#c2c7d0";
+            context.lineWidth = 4;
+            context.stroke();
             lastX = x;
         }
     });
 </script>
 
 <div>
-    <canvas bind:this={canvas}></canvas>
+    <canvas width="1024" height="512" bind:this={canvas}></canvas>
 </div>
 
 <style>

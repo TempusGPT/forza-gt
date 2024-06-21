@@ -103,7 +103,13 @@
 
         <article>
             <div>
+                <div class="graph">
+                    <GearingGraph {gearing} />
+                </div>
+
                 {#each gearing as gear, i}
+                    <hr />
+
                     <nav>
                         <div>{intl.result.gear(i + 1)}</div>
 
@@ -113,13 +119,7 @@
                             <div>{intl.result.failed}</div>
                         {/if}
                     </nav>
-
-                    <hr />
                 {/each}
-
-                <div class="graph">
-                    <GearingGraph {gearing} />
-                </div>
             </div>
         </article>
     </div>
@@ -135,6 +135,6 @@
     }
 
     .graph {
-        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 </style>
