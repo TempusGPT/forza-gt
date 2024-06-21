@@ -32,19 +32,12 @@ export const ko: Intl = {
             10: "10단",
         },
 
-        gear: {
-            launch: "출발 기어",
-            topSpeed: "최고 속도 기어",
-        },
-
-        button: {
-            primary: "1단 출발 튜닝",
-            secondary: "2단 출발 튜닝",
-        },
+        launchGear: "출발 기어",
+        topSpeedGear: "최고 속도 기어",
+        tuneButton: "기어비 튜닝",
 
         result: {
             gear: (n) => `${n}단 기어`,
-            cruising: "항속 기어",
             failed: "실패",
         },
     },

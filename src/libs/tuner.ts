@@ -1,42 +1,35 @@
 export function tuneGearing(
-    factor: number,
-    speeds: number,
-    launchGearNumber: number,
+    transmission: number,
     launchGear: number,
     finalGear: number,
+    factor: number,
 ): number[] {
     return Math.approximately(factor, 1)
-        ? tuneArithmetic(speeds, launchGearNumber, launchGear, finalGear)
-        : tuneGeometric(factor, speeds, launchGearNumber, launchGear, finalGear);
+        ? tuneArithmetic(transmission, launchGear, finalGear)
+        : tuneGeometric(transmission, launchGear, finalGear, factor);
 }
 
-function tuneArithmetic(
-    speeds: number,
-    launchGearNumber: number,
-    launchGear: number,
-    finalGear: number,
-): number[] {
-    const firstIndex = 1 - launchGearNumber;
-    const lastIndex = speeds - launchGearNumber;
+function tuneArithmetic(transmission: number, launchGear: number, finalGear: number): number[] {
+    const firstIndex = 0;
+    const lastIndex = transmission - 1;
 
-    return range(firstIndex, lastIndex + 1).map((i) => {
+    return range(firstIndex, lastIndex).map((i) => {
         const t = i / lastIndex;
         return launchGear / (Math.lerp(finalGear, launchGear, t) / finalGear);
     });
 }
 
 function tuneGeometric(
-    factor: number,
-    speeds: number,
-    launchGearNumber: number,
+    transmission: number,
     launchGear: number,
     finalGear: number,
+    factor: number,
 ): number[] {
-    const firstIndex = 1 - launchGearNumber;
-    const lastIndex = speeds - launchGearNumber;
+    const firstIndex = 0;
+    const lastIndex = transmission - 1;
     const term = factor ** lastIndex - 1;
 
-    return range(firstIndex, lastIndex + 1).map((i) => {
+    return range(firstIndex, lastIndex).map((i) => {
         const t = (factor ** i - 1) / term;
         return launchGear / (Math.lerp(finalGear, launchGear, t) / finalGear);
     });

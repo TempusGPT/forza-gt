@@ -25,7 +25,7 @@
 <script lang="ts">
     import Dropdown from "@libs/Dropdown.svelte";
     import GearInput, { isGearValid } from "@libs/GearInput.svelte";
-    import GearingView from "@libs/GearingView.svelte";
+    import GearingGraph from "@libs/GearingGraph.svelte";
     import { tuneGearing } from "@libs/tuner";
     import type { EventHandler } from "svelte/elements";
 
@@ -33,12 +33,13 @@
     let topSpeedGearInput: GearInput;
 
     let powerBand = $state(powerBandOptions[2][1]);
-    let transmission = $state(transmissionOptions[4][1]);
+    let transmission = $state(transmissionOptions[3][1]);
     let launchGear = $state(NaN);
     let topSpeedGear = $state(NaN);
-    let calculation = $state<number[]>();
+    let gearing = $state([2.89, 1.88, 1.39, 1.1, 0.91, 0.78]);
 
-    function tune(launchGearNumber: number) {
+    const tuneHandler: EventHandler = (e) => {
+        e.preventDefault();
         const launchGearValidation = launchGearInput.validate();
         const topSpeedGearValidation = topSpeedGearInput.validate();
 
@@ -48,15 +49,8 @@
 
         const factorMin = (topSpeedGear / launchGear) ** (1 / (transmission - 1));
         const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
-        calculation = tuneGearing(factor, transmission, launchGearNumber, launchGear, topSpeedGear);
-    }
-
-    function handleTune(launchGearNumber: number): EventHandler {
-        return (e) => {
-            e.preventDefault();
-            tune(launchGearNumber);
-        };
-    }
+        gearing = tuneGearing(transmission, launchGear, topSpeedGear, factor);
+    };
 </script>
 
 <nav class="container-fluid">
@@ -74,64 +68,44 @@
         <h2>{intl.hgroup.description}</h2>
     </hgroup>
 
-    <form onsubmit={handleTune(1)}>
-        <div class="grid">
-            <Dropdown
-                label={intl.powerBand.label}
-                options={powerBandOptions}
-                bind:value={powerBand}
-            />
+    <div class="grid">
+        <article>
+            <form onsubmit={tuneHandler}>
+                <Dropdown
+                    label={intl.powerBand.label}
+                    options={powerBandOptions}
+                    bind:value={powerBand}
+                />
 
-            <Dropdown
-                label={intl.transmission.label}
-                options={transmissionOptions}
-                bind:value={transmission}
-            />
+                <Dropdown
+                    label={intl.transmission.label}
+                    options={transmissionOptions}
+                    bind:value={transmission}
+                />
 
-            <GearInput
-                label={intl.gear.launch}
-                placeholder="2.89"
-                bind:value={launchGear}
-                bind:this={launchGearInput}
-            />
+                <GearInput
+                    label={intl.launchGear}
+                    placeholder="2.89"
+                    bind:value={launchGear}
+                    bind:this={launchGearInput}
+                />
 
-            <GearInput
-                label={intl.gear.topSpeed}
-                placeholder="0.78"
-                bind:value={topSpeedGear}
-                bind:this={topSpeedGearInput}
-            />
-        </div>
+                <GearInput
+                    label={intl.topSpeedGear}
+                    placeholder="0.78"
+                    bind:value={topSpeedGear}
+                    bind:this={topSpeedGearInput}
+                />
 
-        <div class="grid">
-            <input
-                type="button"
-                class="secondary"
-                onclick={handleTune(2)}
-                value={intl.button.secondary}
-            />
+                <input type="submit" value={intl.tuneButton} />
+            </form>
+        </article>
 
-            <input type="submit" value={intl.button.primary} />
-        </div>
-    </form>
-
-    {#if calculation}
-        {@const cruising = calculation.length < 11}
-        {@const gearing = calculation.slice(0, 10)}
-
-        <div class="grid">
-            <article>
+        <article>
+            <div>
                 {#each gearing as gear, i}
-                    {#if i !== 0}
-                        <hr />
-                    {/if}
-
                     <nav>
-                        {#if cruising && i === gearing.length - 1}
-                            <div>{intl.result.cruising}</div>
-                        {:else}
-                            <div>{intl.result.gear(i + 1)}</div>
-                        {/if}
+                        <div>{intl.result.gear(i + 1)}</div>
 
                         {#if isGearValid(gear)}
                             <div>{gear.toFixed(2)}</div>
@@ -139,18 +113,28 @@
                             <div>{intl.result.failed}</div>
                         {/if}
                     </nav>
-                {/each}
-            </article>
 
-            <article>
-                <GearingView {gearing} />
-            </article>
-        </div>
-    {/if}
+                    <hr />
+                {/each}
+
+                <div class="graph">
+                    <GearingGraph {gearing} />
+                </div>
+            </div>
+        </article>
+    </div>
 </main>
 
 <style>
     hr {
         margin: 0.6rem 0;
+    }
+
+    .grid {
+        row-gap: 0;
+    }
+
+    .graph {
+        margin-top: 1rem;
     }
 </style>

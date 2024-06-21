@@ -30,19 +30,12 @@ export type Intl = {
             10: string;
         };
 
-        gear: {
-            launch: string;
-            topSpeed: string;
-        };
-
-        button: {
-            primary: string;
-            secondary: string;
-        };
+        launchGear: string;
+        topSpeedGear: string;
+        tuneButton: string;
 
         result: {
             gear: (n: number) => string;
-            cruising: string;
             failed: string;
         };
     };

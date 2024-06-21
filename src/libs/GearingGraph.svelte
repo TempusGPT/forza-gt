@@ -43,10 +43,22 @@
     });
 </script>
 
-<canvas bind:this={canvas}></canvas>
+<div>
+    <canvas bind:this={canvas}></canvas>
+</div>
 
 <style>
+    div {
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 50%;
+    }
+
     canvas {
+        position: absolute;
+        top: 0;
         width: 100%;
         height: 100%;
     }

@@ -32,19 +32,12 @@ export const en: Intl = {
             10: "10 speed",
         },
 
-        gear: {
-            launch: "Launch gear",
-            topSpeed: "Top speed gear",
-        },
-
-        button: {
-            primary: "Tune first gear launch",
-            secondary: "Tune second gear launch",
-        },
+        launchGear: "Launch gear",
+        topSpeedGear: "Top speed gear",
+        tuneButton: "Tune gearing",
 
         result: {
             gear: (n) => `Gear ${n}`,
-            cruising: "Cruising",
             failed: "Failed",
         },
     },
