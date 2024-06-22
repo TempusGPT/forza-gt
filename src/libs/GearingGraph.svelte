@@ -17,7 +17,15 @@
 
 <script lang="ts">
     let { gearing }: GearingViewProps = $props();
+
     let canvas: HTMLCanvasElement;
+    let darkMode = $state(window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    $effect(() => {
+        window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", (e) => (darkMode = e.matches));
+    });
 
     $effect(() => {
         let lastX = 0;
@@ -37,7 +45,7 @@
             const getY = equationOfLine(origin, point);
             context.lineTo(lastX, getY(lastX));
 
-            context.strokeStyle = "#c2c7d0";
+            context.strokeStyle = darkMode ? "#c2c7d0" : "#373c44";
             context.lineWidth = 4;
             context.stroke();
             lastX = x;

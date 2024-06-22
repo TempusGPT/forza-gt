@@ -43,13 +43,11 @@
         const launchGearValidation = launchGearInput.validate();
         const topSpeedGearValidation = topSpeedGearInput.validate();
 
-        if (!launchGearValidation || !topSpeedGearValidation) {
-            return;
+        if (launchGearValidation && topSpeedGearValidation) {
+            const factorMin = (topSpeedGear / launchGear) ** (1 / (transmission - 1));
+            const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
+            gearing = tuneGearing(transmission, launchGear, topSpeedGear, factor);
         }
-
-        const factorMin = (topSpeedGear / launchGear) ** (1 / (transmission - 1));
-        const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
-        gearing = tuneGearing(transmission, launchGear, topSpeedGear, factor);
     };
 </script>
 
