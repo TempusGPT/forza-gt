@@ -8,7 +8,7 @@ export const ko: Intl = {
 
         hgroup: {
             title: "Forza GT",
-            description: "포르자 시리즈를 위한 쉽고 편리한 기어비 튜너.",
+            description: "포르자 시리즈를 위한 쉽고 편리한 기어비 튜너",
         },
 
         powerBand: {

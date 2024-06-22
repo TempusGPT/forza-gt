@@ -8,7 +8,7 @@ export const en: Intl = {
 
         hgroup: {
             title: "Forza GT",
-            description: "Convenient gearing tuner for the Forza series.",
+            description: "Convenient gearing tuner for the Forza series",
         },
 
         powerBand: {
