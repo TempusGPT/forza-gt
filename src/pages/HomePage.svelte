@@ -1,5 +1,9 @@
 <script lang="ts" context="module">
-    import type { DropdownOptions } from "@libs/Dropdown.svelte";
+    import type { EventHandler } from "svelte/elements";
+    import Dropdown, { type DropdownOptions } from "@libs/Dropdown.svelte";
+    import GearInput, { isGearValid } from "@libs/GearInput.svelte";
+    import GearingGraph from "@libs/GearingGraph.svelte";
+    import { tuneGearing } from "@libs/tuner";
     import { translation } from "@libs/translation";
 
     const t = $derived(translation.homePage);
@@ -25,12 +29,6 @@
 </script>
 
 <script lang="ts">
-    import Dropdown from "@libs/Dropdown.svelte";
-    import GearInput, { isGearValid } from "@libs/GearInput.svelte";
-    import GearingGraph from "@libs/GearingGraph.svelte";
-    import { tuneGearing } from "@libs/tuner";
-    import type { EventHandler } from "svelte/elements";
-
     let launchGearInput: GearInput;
     let topSpeedGearInput: GearInput;
 
@@ -108,7 +106,7 @@
                 </div>
 
                 {#each gearing as gear, i}
-                    <hr />
+                    <hr class="line" />
 
                     <nav>
                         <div>{t.result.gear(i + 1)}</div>
@@ -126,7 +124,7 @@
 </main>
 
 <style>
-    hr {
+    .line {
         margin: 0.6rem 0;
     }
 

@@ -1,13 +1,13 @@
 <script lang="ts" context="module">
     import { translation } from "@libs/translation";
 
-    const t = $derived(translation.gearInput);
-
-    export type GearInputProps = {
+    type Props = {
         label: string;
         placeholder?: string;
         value?: number;
     };
+
+    const t = $derived(translation.gearInput);
 
     export function isGearValid(gear: number) {
         return 0.48 <= gear && gear <= 6;
@@ -16,7 +16,7 @@
 
 <script lang="ts">
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let { label, placeholder, value = $bindable(NaN) }: GearInputProps = $props();
+    let { label, placeholder, value = $bindable(NaN) }: Props = $props();
 
     let input = $state("");
     let message = $state("");

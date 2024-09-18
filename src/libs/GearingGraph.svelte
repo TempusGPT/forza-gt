@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-    export type GearingViewProps = {
+    type Props = {
         gearing: number[];
     };
 
@@ -16,7 +16,7 @@
 </script>
 
 <script lang="ts">
-    let { gearing }: GearingViewProps = $props();
+    let { gearing }: Props = $props();
 
     let canvas: HTMLCanvasElement;
     let darkMode = $state(window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -53,12 +53,12 @@
     });
 </script>
 
-<div>
-    <canvas width="1024" height="512" bind:this={canvas}></canvas>
+<div class="graph-container">
+    <canvas class="graph" width="1024" height="512" bind:this={canvas}></canvas>
 </div>
 
 <style>
-    div {
+    .graph-container {
         display: flex;
         position: relative;
         width: 100%;
@@ -66,7 +66,7 @@
         padding-top: 50%;
     }
 
-    canvas {
+    .graph {
         position: absolute;
         top: 0;
         width: 100%;
