@@ -1,4 +1,8 @@
 <script lang="ts" context="module">
+    import { translation } from "@libs/translation";
+
+    const t = $derived(translation.gearInput);
+
     export type GearInputProps = {
         label: string;
         placeholder?: string;
@@ -11,8 +15,6 @@
 </script>
 
 <script lang="ts">
-    import { gearInput as intl } from "@libs/intl";
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let { label, placeholder, value = $bindable(NaN) }: GearInputProps = $props();
 
@@ -23,16 +25,16 @@
     export function validate(): boolean {
         const formattedInput = input.replaceAll(",", ".").trim();
         if (formattedInput === "") {
-            return whenInvalid(intl.emptyError);
+            return whenInvalid(t.emptyError);
         }
 
         const gear = Number(formattedInput);
         if (isNaN(gear)) {
-            return whenInvalid(intl.typeError);
+            return whenInvalid(t.typeError);
         }
 
         if (!isGearValid(gear)) {
-            return whenInvalid(intl.rangeError("0.48", "6.00"));
+            return whenInvalid(t.rangeError("0.48", "6.00"));
         }
 
         return whenValid(gear);

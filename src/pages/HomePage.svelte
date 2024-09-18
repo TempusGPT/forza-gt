@@ -1,25 +1,27 @@
 <script lang="ts" context="module">
     import type { DropdownOptions } from "@libs/Dropdown.svelte";
-    import { homePage as intl } from "@libs/intl";
+    import { translation } from "@libs/translation";
 
-    const powerBandOptions: DropdownOptions<number> = [
-        [intl.powerBand.veryNarrow, 0.2],
-        [intl.powerBand.narrow, 0.35],
-        [intl.powerBand.normal, 0.5],
-        [intl.powerBand.wide, 0.65],
-        [intl.powerBand.veryWide, 0.8],
-    ];
+    const t = $derived(translation.homePage);
 
-    const transmissionOptions: DropdownOptions<number> = [
-        [intl.transmission[3], 3],
-        [intl.transmission[4], 4],
-        [intl.transmission[5], 5],
-        [intl.transmission[6], 6],
-        [intl.transmission[7], 7],
-        [intl.transmission[8], 8],
-        [intl.transmission[9], 9],
-        [intl.transmission[10], 10],
-    ];
+    const powerBandOptions: DropdownOptions<number> = $derived([
+        [t.powerBand.veryNarrow, 0.2],
+        [t.powerBand.narrow, 0.35],
+        [t.powerBand.normal, 0.5],
+        [t.powerBand.wide, 0.65],
+        [t.powerBand.veryWide, 0.8],
+    ]);
+
+    const transmissionOptions: DropdownOptions<number> = $derived([
+        [t.transmission[3], 3],
+        [t.transmission[4], 4],
+        [t.transmission[5], 5],
+        [t.transmission[6], 6],
+        [t.transmission[7], 7],
+        [t.transmission[8], 8],
+        [t.transmission[9], 9],
+        [t.transmission[10], 10],
+    ]);
 </script>
 
 <script lang="ts">
@@ -55,47 +57,47 @@
     <ul></ul>
     <ul>
         <li>
-            <a href="https://github.com/TempusGPT/forza-gt">{intl.nav.sourceCode}</a>
+            <a href="https://github.com/TempusGPT/forza-gt">{t.nav.sourceCode}</a>
         </li>
     </ul>
 </nav>
 
 <main class="container">
     <hgroup>
-        <h1>{intl.hgroup.title}</h1>
-        <h2>{intl.hgroup.description}</h2>
+        <h1>{t.hgroup.title}</h1>
+        <h2>{t.hgroup.description}</h2>
     </hgroup>
 
     <div class="grid">
         <article>
             <form onsubmit={tuneHandler}>
                 <Dropdown
-                    label={intl.powerBand.label}
+                    label={t.powerBand.label}
                     options={powerBandOptions}
                     bind:value={powerBand}
                 />
 
                 <Dropdown
-                    label={intl.transmission.label}
+                    label={t.transmission.label}
                     options={transmissionOptions}
                     bind:value={transmission}
                 />
 
                 <GearInput
-                    label={intl.launchGear}
+                    label={t.launchGear}
                     placeholder="2.89"
                     bind:value={launchGear}
                     bind:this={launchGearInput}
                 />
 
                 <GearInput
-                    label={intl.topSpeedGear}
+                    label={t.topSpeedGear}
                     placeholder="0.78"
                     bind:value={topSpeedGear}
                     bind:this={topSpeedGearInput}
                 />
 
-                <input type="submit" value={intl.tuneButton} />
+                <input type="submit" value={t.tuneButton} />
             </form>
         </article>
 
@@ -109,12 +111,12 @@
                     <hr />
 
                     <nav>
-                        <div>{intl.result.gear(i + 1)}</div>
+                        <div>{t.result.gear(i + 1)}</div>
 
                         {#if isGearValid(gear)}
                             <div>{gear.toFixed(2)}</div>
                         {:else}
-                            <div>{intl.result.failed}</div>
+                            <div>{t.result.failed}</div>
                         {/if}
                     </nav>
                 {/each}
