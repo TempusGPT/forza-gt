@@ -29,14 +29,14 @@
 </script>
 
 <script lang="ts">
-    let launchGearInput: GearInput;
-    let topSpeedGearInput: GearInput;
-
     let powerBand = $state(powerBandOptions[2][1]);
     let transmission = $state(transmissionOptions[4][1]);
     let launchGear = $state<number>();
     let topSpeedGear = $state<number>();
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
+
+    let launchGearInput: GearInput;
+    let topSpeedGearInput: GearInput;
 
     const tuneHandler: EventHandler = (e) => {
         e.preventDefault();

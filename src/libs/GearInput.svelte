@@ -28,9 +28,9 @@
         value = $bindable(),
     }: Props = $props();
 
-    let element: HTMLInputElement;
     let input = $state("");
     let message = $state<string>();
+    let element: HTMLInputElement;
 
     function whenDefault() {
         value = undefined;
@@ -79,7 +79,10 @@
 </script>
 
 <label>
-    {label}
+    <div>
+        {label}
+    </div>
+
     <input
         {placeholder}
         inputmode="decimal"
