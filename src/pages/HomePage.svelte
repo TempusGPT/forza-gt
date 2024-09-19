@@ -4,9 +4,9 @@
     import GearInput, { isGearValid } from "@libs/GearInput.svelte";
     import GearingGraph from "@libs/GearingGraph.svelte";
     import { tuneGearing } from "@libs/tuner";
-    import { translation } from "@libs/translation";
+    import { useTranslation } from "@libs/translation";
 
-    const t = $derived(translation.homePage);
+    const t = useTranslation("HomePage");
 
     const powerBandOptions: DropdownOptions<number> = $derived([
         [t.powerBand.veryNarrow, 0.2],
@@ -39,7 +39,7 @@
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
 
     const tuneHandler: EventHandler = (e) => {
-        e.preventDefault();
+        e.preventDefault;
         const launchGearValidation = launchGearInput.validate();
         const topSpeedGearValidation = topSpeedGearInput.validate();
 

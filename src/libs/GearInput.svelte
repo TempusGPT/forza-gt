@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-    import { translation } from "@libs/translation";
+    import { useTranslation } from "@libs/translation";
 
     type Props = {
         label: string;
@@ -7,7 +7,7 @@
         value?: number;
     };
 
-    const t = $derived(translation.gearInput);
+    const t = useTranslation("GearInput");
 
     export function isGearValid(gear: number) {
         return 0.48 <= gear && gear <= 6;

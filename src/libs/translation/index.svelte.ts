@@ -1,22 +1,22 @@
-import * as en from "./resource.en";
-import * as ko from "./resource.ko";
+import type { Translation } from "./types";
+import { en } from "./resources/en";
+import { ko } from "./resources/ko";
 
-class Translation {
-    public readonly homePage = $derived(this.translation.homePage);
-    public readonly gearInput = $derived(this.translation.gearInput);
-    private language = $state(navigator.language);
-
-    public constructor() {
-        addEventListener("languagechange", () => (this.language = navigator.language));
-    }
-
-    private get translation() {
-        if (this.language.startsWith("ko")) {
-            return ko;
-        } else {
-            return en;
-        }
+function get() {
+    if (navigator.language.startsWith("ko")) {
+        return ko;
+    } else {
+        return en;
     }
 }
 
-export const translation = new Translation();
+let translation = $state(get());
+window.addEventListener("languagechange", () => (translation = get()));
+
+export function useTranslation<T extends keyof Translation>(component: T): Translation[T] {
+    return new Proxy({} as Translation[T], {
+        get(_, name: string) {
+            return translation[component][name as keyof Translation[T]];
+        },
+    });
+}
