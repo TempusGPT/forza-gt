@@ -39,7 +39,7 @@
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
 
     const tuneHandler: EventHandler = (e) => {
-        e.preventDefault;
+        e.preventDefault();
         const launchGearValidation = launchGearInput.validate();
         const topSpeedGearValidation = topSpeedGearInput.validate();
 
