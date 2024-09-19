@@ -29,7 +29,7 @@
 </script>
 
 <script lang="ts">
-    let powerBand = $state<number>(powerBandOptions[2][1]);
+    let powerBand = $state(powerBandOptions[2][1]);
     let transmission = $state(transmissionOptions[4][1]);
     let launchGear = $state<number>();
     let topSpeedGear = $state<number>();

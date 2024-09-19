@@ -1,7 +1,8 @@
 <script lang="ts" module>
     import type { ChangeEventHandler } from "svelte/elements";
 
-    export type DropdownOptions = readonly (readonly [string, number])[];
+    export type DropdownOption = readonly [string, number];
+    export type DropdownOptions = readonly DropdownOption[];
 
     type Props = {
         label: string;
@@ -11,7 +12,7 @@
 </script>
 
 <script lang="ts">
-    let { label, options, value = $bindable() }: Props = $props();
+    let { label, options, value = $bindable(options[0][1]) }: Props = $props();
 
     const eventHandler: ChangeEventHandler<HTMLSelectElement> = (e) => {
         const index = e.currentTarget.selectedIndex;
@@ -21,7 +22,7 @@
 
 <label>
     <div>{label}</div>
-    <select value={value ?? options[0][1]} onchange={eventHandler}>
+    <select {value} onchange={eventHandler}>
         {#each options as [name, value]}
             <option {value}>{name}</option>
         {/each}
