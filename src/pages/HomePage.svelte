@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
     import type { EventHandler } from "svelte/elements";
     import Dropdown, { type DropdownOptions } from "@libs/Dropdown.svelte";
     import GearInput, { isGearValid } from "@libs/GearInput.svelte";
@@ -8,7 +8,7 @@
 
     const t = useTranslation("HomePage");
 
-    const powerBandOptions: DropdownOptions<number> = $derived([
+    const powerBandOptions: DropdownOptions = $derived([
         [t.powerBand.veryNarrow, 0.2],
         [t.powerBand.narrow, 0.35],
         [t.powerBand.normal, 0.5],
@@ -16,7 +16,7 @@
         [t.powerBand.veryWide, 0.8],
     ]);
 
-    const transmissionOptions: DropdownOptions<number> = $derived([
+    const transmissionOptions: DropdownOptions = $derived([
         [t.transmission[3], 3],
         [t.transmission[4], 4],
         [t.transmission[5], 5],
@@ -29,7 +29,7 @@
 </script>
 
 <script lang="ts">
-    let powerBand = $state(powerBandOptions[2][1]);
+    let powerBand = $state<number>(powerBandOptions[2][1]);
     let transmission = $state(transmissionOptions[4][1]);
     let launchGear = $state<number>();
     let topSpeedGear = $state<number>();

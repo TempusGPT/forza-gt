@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
     import { useTranslation } from "@libs/translation";
 
     type Props = {
@@ -73,8 +73,10 @@
             return whenInvalid(t.rangeError(min.toFixed(2), max.toFixed(2)));
         }
 
-        document.activeElement !== element && format();
-        return whenValid(gearing);
+        whenValid(gearing);
+        if (document.activeElement !== element) {
+            format();
+        }
     });
 </script>
 

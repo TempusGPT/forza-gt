@@ -1,24 +1,21 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
     import type { ChangeEventHandler } from "svelte/elements";
 
-    export type DropdownValue = string | number | string[] | undefined;
-    export type DropdownOptions<T extends DropdownValue> = readonly (readonly [string, T])[];
+    export type DropdownOptions = readonly (readonly [string, number])[];
 
-    type Props<T extends DropdownValue> = {
+    type Props = {
         label: string;
-        options: DropdownOptions<T>;
-        value?: T;
+        options: DropdownOptions;
+        value?: number;
     };
 </script>
 
-<script lang="ts" generics="T extends DropdownValue">
-    let { label, options, value = $bindable() }: Props<T> = $props();
+<script lang="ts">
+    let { label, options, value = $bindable() }: Props = $props();
 
     const eventHandler: ChangeEventHandler<HTMLSelectElement> = (e) => {
         const index = e.currentTarget.selectedIndex;
-        if (0 <= index && index < options.length) {
-            value = options[index][1];
-        }
+        value = options[index][1];
     };
 </script>
 
