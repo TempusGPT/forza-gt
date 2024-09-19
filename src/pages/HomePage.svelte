@@ -34,16 +34,19 @@
 
     let powerBand = $state(powerBandOptions[2][1]);
     let transmission = $state(transmissionOptions[4][1]);
-    let launchGear = $state(NaN);
-    let topSpeedGear = $state(NaN);
+    let launchGear = $state<number>();
+    let topSpeedGear = $state<number>();
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
 
     const tuneHandler: EventHandler = (e) => {
         e.preventDefault();
-        const launchGearValidation = launchGearInput.validate();
-        const topSpeedGearValidation = topSpeedGearInput.validate();
 
-        if (launchGearValidation && topSpeedGearValidation) {
+        launchGearInput.validateNotEmpty();
+        topSpeedGearInput.validateNotEmpty();
+        launchGearInput.format();
+        topSpeedGearInput.format();
+
+        if (launchGear && topSpeedGear) {
             const factorMin = (topSpeedGear / launchGear) ** (1 / (transmission - 1));
             const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
             gearing = tuneGearing(transmission, launchGear, topSpeedGear, factor);
@@ -84,6 +87,7 @@
                 <GearInput
                     label={t.launchGear}
                     placeholder="2.89"
+                    min={topSpeedGear}
                     bind:value={launchGear}
                     bind:this={launchGearInput}
                 />
@@ -91,6 +95,7 @@
                 <GearInput
                     label={t.topSpeedGear}
                     placeholder="0.78"
+                    max={launchGear}
                     bind:value={topSpeedGear}
                     bind:this={topSpeedGearInput}
                 />

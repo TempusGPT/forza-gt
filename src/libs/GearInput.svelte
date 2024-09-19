@@ -4,57 +4,78 @@
     type Props = {
         label: string;
         placeholder?: string;
+        min?: number;
+        max?: number;
         value?: number;
     };
 
+    const minValue = 0.48;
+    const maxValue = 6;
     const t = useTranslation("GearInput");
 
     export function isGearValid(gear: number) {
-        return 0.48 <= gear && gear <= 6;
+        return minValue <= gear && gear <= maxValue;
     }
 </script>
 
 <script lang="ts">
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let { label, placeholder, value = $bindable(NaN) }: Props = $props();
+    let {
+        label,
+        placeholder,
+        min = minValue,
+        max = maxValue,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        value = $bindable(),
+    }: Props = $props();
 
+    let element: HTMLInputElement;
     let input = $state("");
-    let message = $state("");
-    let valid = $state(true);
+    let message = $state<string>();
 
-    export function validate(): boolean {
-        const formattedInput = input.replaceAll(",", ".").trim();
-        if (formattedInput === "") {
+    function whenDefault() {
+        value = undefined;
+        message = undefined;
+    }
+
+    function whenValid(gearing: number) {
+        value = gearing;
+        message = undefined;
+    }
+
+    function whenInvalid(cause: string) {
+        value = undefined;
+        message = cause;
+    }
+
+    export function validateNotEmpty() {
+        if (input === "") {
             return whenInvalid(t.emptyError);
         }
+    }
 
-        const gear = Number(formattedInput);
-        if (isNaN(gear)) {
+    export function format() {
+        if (value) {
+            input = value.toFixed(2);
+        }
+    }
+
+    $effect(() => {
+        if (input === "") {
+            return whenDefault();
+        }
+
+        const gearing = Math.round(+input * 100) / 100;
+        if (isNaN(gearing)) {
             return whenInvalid(t.typeError);
         }
 
-        if (!isGearValid(gear)) {
-            return whenInvalid(t.rangeError("0.48", "6.00"));
+        if (gearing < min || gearing > max) {
+            return whenInvalid(t.rangeError(min.toFixed(2), max.toFixed(2)));
         }
 
-        return whenValid(gear);
-    }
-
-    function whenValid(gear: number): boolean {
-        const fixedGear = gear.toFixed(2);
-        value = Number(fixedGear);
-        input = fixedGear;
-        message = "";
-        valid = true;
-        return true;
-    }
-
-    function whenInvalid(cause: string): boolean {
-        value = NaN;
-        message = cause;
-        valid = false;
-        return false;
-    }
+        document.activeElement !== element && format();
+        return whenValid(gearing);
+    });
 </script>
 
 <label>
@@ -62,9 +83,13 @@
     <input
         {placeholder}
         inputmode="decimal"
-        onchange={validate}
-        aria-invalid={valid ? undefined : true}
+        onchange={format}
+        aria-invalid={message ? true : undefined}
         bind:value={input}
+        bind:this={element}
     />
-    <small>{message}</small>
+
+    {#if message}
+        <small>{message}</small>
+    {/if}
 </label>
