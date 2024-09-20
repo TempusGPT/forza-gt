@@ -1,8 +1,8 @@
 import { resources, type Translation } from "./resources";
 
 function get(): Translation {
-    const language = navigator.language.slice(0, 2);
-    return resources[language] ?? resources.default;
+    const language = Object.keys(resources).find((k) => navigator.language.startsWith(k));
+    return resources[language ?? "fallback"];
 }
 
 let translation = $state(get());

@@ -1,6 +1,6 @@
-import type { Resources } from "./types";
+import type { Translation } from "./types";
 import { en } from "./resource.en";
 import { ko } from "./resource.ko";
 
-export const resources: Resources = { ko, default: en };
+export const resources: Record<string, Translation> = { ko, fallback: en };
 export * from "./types";
