@@ -1,4 +1,6 @@
 <script lang="ts" module>
+    import { cssMedia } from "@libs/css-media";
+
     type Props = {
         gearing: number[];
     };
@@ -17,15 +19,7 @@
 
 <script lang="ts">
     let { gearing }: Props = $props();
-
     let canvas: HTMLCanvasElement;
-    let darkMode = $state(window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    $effect(() => {
-        window
-            .matchMedia("(prefers-color-scheme: dark)")
-            .addEventListener("change", (e) => (darkMode = e.matches));
-    });
 
     $effect(() => {
         let lastX = 0;
@@ -45,7 +39,7 @@
             const getY = equationOfLine(origin, point);
             context.lineTo(lastX, getY(lastX));
 
-            context.strokeStyle = darkMode ? "#c2c7d0" : "#373c44";
+            context.strokeStyle = cssMedia.colorScheme === "light" ? "#373c44" : "#c2c7d0";
             context.lineWidth = 4;
             context.stroke();
             lastX = x;

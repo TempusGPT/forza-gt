@@ -1,8 +1,11 @@
 <script lang="ts" module>
     import type { EventHandler } from "svelte/elements";
-    import Dropdown, { type DropdownOptions } from "@libs/Dropdown.svelte";
-    import GearInput, { isGearValid } from "@libs/GearInput.svelte";
-    import GearingGraph from "@libs/GearingGraph.svelte";
+
+    import Dropdown, { type DropdownOptions } from "@components/Dropdown.svelte";
+    import GearingInput, { isGearValid } from "@components/GearingInput.svelte";
+    import GearingGraph from "@components/GearingGraph.svelte";
+
+    import "@libs/math";
     import { tuneGearing } from "@libs/tuner";
     import { useTranslation } from "@libs/translation";
 
@@ -35,8 +38,8 @@
     let topSpeedGear = $state<number>();
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
 
-    let launchGearInput: GearInput;
-    let topSpeedGearInput: GearInput;
+    let launchGearInput: GearingInput;
+    let topSpeedGearInput: GearingInput;
 
     const tuneHandler: EventHandler = (e) => {
         e.preventDefault();
@@ -85,7 +88,7 @@
                         bind:value={transmission}
                     />
 
-                    <GearInput
+                    <GearingInput
                         label={t.launchGear}
                         placeholder="2.89"
                         min={topSpeedGear}
@@ -93,7 +96,7 @@
                         bind:this={launchGearInput}
                     />
 
-                    <GearInput
+                    <GearingInput
                         label={t.topSpeedGear}
                         placeholder="0.78"
                         max={launchGear}
