@@ -24,7 +24,6 @@
         placeholder,
         min = minValue,
         max = maxValue,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         value = $bindable(),
     }: Props = $props();
 
@@ -81,9 +80,7 @@
 </script>
 
 <label>
-    <div>
-        {label}
-    </div>
+    {label}
 
     <input
         {placeholder}

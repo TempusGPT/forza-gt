@@ -72,33 +72,35 @@
     <div class="grid">
         <article>
             <form onsubmit={tuneHandler}>
-                <Dropdown
-                    label={t.powerBand.label}
-                    options={powerBandOptions}
-                    bind:value={powerBand}
-                />
+                <fieldset>
+                    <Dropdown
+                        label={t.powerBand.label}
+                        options={powerBandOptions}
+                        bind:value={powerBand}
+                    />
 
-                <Dropdown
-                    label={t.transmission.label}
-                    options={transmissionOptions}
-                    bind:value={transmission}
-                />
+                    <Dropdown
+                        label={t.transmission.label}
+                        options={transmissionOptions}
+                        bind:value={transmission}
+                    />
 
-                <GearInput
-                    label={t.launchGear}
-                    placeholder="2.89"
-                    min={topSpeedGear}
-                    bind:value={launchGear}
-                    bind:this={launchGearInput}
-                />
+                    <GearInput
+                        label={t.launchGear}
+                        placeholder="2.89"
+                        min={topSpeedGear}
+                        bind:value={launchGear}
+                        bind:this={launchGearInput}
+                    />
 
-                <GearInput
-                    label={t.topSpeedGear}
-                    placeholder="0.78"
-                    max={launchGear}
-                    bind:value={topSpeedGear}
-                    bind:this={topSpeedGearInput}
-                />
+                    <GearInput
+                        label={t.topSpeedGear}
+                        placeholder="0.78"
+                        max={launchGear}
+                        bind:value={topSpeedGear}
+                        bind:this={topSpeedGearInput}
+                    />
+                </fieldset>
 
                 <input type="submit" value={t.tuneButton} />
             </form>
