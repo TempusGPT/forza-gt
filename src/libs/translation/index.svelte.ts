@@ -1,13 +1,8 @@
-import type { Translation } from "./types";
-import { en } from "./resources/en";
-import { ko } from "./resources/ko";
+import { resources, type Translation } from "./resources";
 
-function get() {
-    if (navigator.language.startsWith("ko")) {
-        return ko;
-    } else {
-        return en;
-    }
+function get(): Translation {
+    const language = navigator.language.slice(0, 2);
+    return resources[language] ?? resources.default;
 }
 
 let translation = $state(get());

@@ -1,3 +1,8 @@
+export type Resources = {
+    [language: string]: Translation;
+    default: Translation;
+};
+
 export type Translation = {
     HomePage: {
         nav: {
