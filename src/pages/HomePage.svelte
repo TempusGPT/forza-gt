@@ -1,9 +1,9 @@
 <script lang="ts" module>
     import type { EventHandler } from "svelte/elements";
 
-    import Dropdown, { type DropdownOptions } from "@components/Dropdown.svelte";
-    import GearingInput, { isGearValid } from "@components/GearingInput.svelte";
-    import GearingGraph from "@components/GearingGraph.svelte";
+    import Dropdown, { type DropdownOptions } from "@libs/components/Dropdown.svelte";
+    import GearingInput, { isGearValid } from "@libs/components/GearingInput.svelte";
+    import GearingGraph from "@libs/components/GearingGraph.svelte";
 
     import "@libs/math";
     import { tuneGearing } from "@libs/tuner";

@@ -9,11 +9,7 @@
         "checkJs": true,
         "isolatedModules": true,
         "baseUrl": ".",
-        "paths": {
-            "@components/*": ["src/components/*"],
-            "@libs/*": ["src/libs/*"],
-            "@pages/*": ["src/pages/*"]
-        }
+        "paths": { "@libs/*": ["src/libs/*"] }
     },
     "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }
