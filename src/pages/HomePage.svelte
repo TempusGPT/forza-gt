@@ -69,20 +69,6 @@
         <article>
             <form onsubmit={tuneHandler}>
                 <fieldset>
-                    <Range
-                        label={t.powerBand.label}
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        bind:value={powerBand}
-                    />
-
-                    <Dropdown
-                        label={t.transmission.label}
-                        options={transmissionOptions}
-                        bind:value={transmission}
-                    />
-
                     <GearingInput
                         label={t.launchGear}
                         placeholder="2.89"
@@ -97,6 +83,20 @@
                         max={launchGear}
                         bind:value={topSpeedGear}
                         bind:this={topSpeedGearInput}
+                    />
+
+                    <Dropdown
+                        label={t.transmission.label}
+                        options={transmissionOptions}
+                        bind:value={transmission}
+                    />
+
+                    <Range
+                        label={t.powerBand.label}
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        bind:value={powerBand}
                     />
                 </fieldset>
 

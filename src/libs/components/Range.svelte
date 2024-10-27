@@ -26,7 +26,7 @@
 </script>
 
 <label class="range-container">
-    <div>{label}</div>
+    {label}
     <input type="range" {min} {max} {step} bind:value />
     <small class="value">{(value / step).toFixed()}</small>
 </label>
@@ -41,6 +41,7 @@
         position: absolute;
         transform: translateX(-50%);
         max-width: min-content;
+
         left: calc(
             (0% + 0.625rem) * (1 - var(--range-value-position)) + (100% - 0.625rem) *
                 var(--range-value-position)

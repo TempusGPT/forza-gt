@@ -21,7 +21,8 @@
 </script>
 
 <label>
-    <div>{label}</div>
+    {label}
+
     <select {value} onchange={eventHandler}>
         {#each options as [name, value]}
             <option {value}>{name}</option>
