@@ -1,6 +1,7 @@
 <script lang="ts" module>
     import type { EventHandler } from "svelte/elements";
 
+    import Range from "@libs/components/Range.svelte";
     import Dropdown, { type DropdownOptions } from "@libs/components/Dropdown.svelte";
     import GearingInput, { isGearValid } from "@libs/components/GearingInput.svelte";
     import GearingGraph from "@libs/components/GearingGraph.svelte";
@@ -10,14 +11,6 @@
     import { useTranslation } from "@libs/translation";
 
     const t = useTranslation("HomePage");
-
-    const powerBandOptions: DropdownOptions = $derived([
-        [t.powerBand.veryNarrow, 0.2],
-        [t.powerBand.narrow, 0.35],
-        [t.powerBand.normal, 0.5],
-        [t.powerBand.wide, 0.65],
-        [t.powerBand.veryWide, 0.8],
-    ]);
 
     const transmissionOptions: DropdownOptions = $derived([
         [t.transmission[3], 3],
@@ -32,7 +25,7 @@
 </script>
 
 <script lang="ts">
-    let powerBand = $state(powerBandOptions[2][1]);
+    let powerBand = $state(0.5);
     let transmission = $state(transmissionOptions[4][1]);
     let launchGear = $state<number>();
     let topSpeedGear = $state<number>();
@@ -76,9 +69,11 @@
         <article>
             <form onsubmit={tuneHandler}>
                 <fieldset>
-                    <Dropdown
+                    <Range
                         label={t.powerBand.label}
-                        options={powerBandOptions}
+                        min={0}
+                        max={1}
+                        step={0.01}
                         bind:value={powerBand}
                     />
 
