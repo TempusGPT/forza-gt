@@ -14,7 +14,7 @@
         min = 0,
         max = 100,
         step = 1,
-        value = $bindable((max - min) / 2),
+        value = $bindable((min + max) / 2),
     }: Props = $props();
 
     $effect(() => {
@@ -28,7 +28,7 @@
 <label class="range-container">
     {label}
     <input type="range" {min} {max} {step} bind:value />
-    <small class="value">{(value / step).toFixed()}</small>
+    <small class="value">{value}</small>
 </label>
 
 <style>
@@ -40,7 +40,7 @@
     .value {
         position: absolute;
         transform: translateX(-50%);
-        max-width: min-content;
+        max-width: max-content;
 
         left: calc(
             (0% + 0.625rem) * (1 - var(--range-value-position)) + (100% - 0.625rem) *

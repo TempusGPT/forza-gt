@@ -9,15 +9,6 @@ export type Translation = {
             description: string;
         };
 
-        powerBand: {
-            label: string;
-            veryNarrow: string;
-            narrow: string;
-            normal: string;
-            wide: string;
-            veryWide: string;
-        };
-
         transmission: {
             label: string;
             3: string;
@@ -32,6 +23,7 @@ export type Translation = {
 
         launchGear: string;
         topSpeedGear: string;
+        powerBand: string;
         tuneButton: string;
 
         result: {

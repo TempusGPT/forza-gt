@@ -11,15 +11,6 @@ export const en: Translation = {
             description: "Convenient gearing tuner for the Forza series",
         },
 
-        powerBand: {
-            label: "Power band",
-            veryNarrow: "Very narrow",
-            narrow: "Narrow",
-            normal: "Normal",
-            wide: "Wide",
-            veryWide: "Very wide",
-        },
-
         transmission: {
             label: "Transmission",
             3: "3 speed",
@@ -34,6 +25,7 @@ export const en: Translation = {
 
         launchGear: "Launch gear",
         topSpeedGear: "Top speed gear",
+        powerBand: "Power band",
         tuneButton: "Tune gearing",
 
         result: {

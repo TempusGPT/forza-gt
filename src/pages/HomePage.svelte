@@ -11,6 +11,8 @@
     import { useTranslation } from "@libs/translation";
 
     const t = useTranslation("HomePage");
+    const powerBandMin = -20;
+    const powerBandMax = 20;
 
     const transmissionOptions: DropdownOptions = $derived([
         [t.transmission[3], 3],
@@ -25,7 +27,7 @@
 </script>
 
 <script lang="ts">
-    let powerBand = $state(0.5);
+    let powerBand = $state((powerBandMin + powerBandMax) / 2);
     let transmission = $state(transmissionOptions[4][1]);
     let launchGear = $state<number>();
     let topSpeedGear = $state<number>();
@@ -44,7 +46,8 @@
 
         if (launchGear && topSpeedGear) {
             const factorMin = (topSpeedGear / launchGear) ** (1 / (transmission - 1));
-            const factor = Math.expLerp(factorMin, 1 / factorMin, powerBand);
+            const t = powerBand / (powerBandMax * 2) + 0.5;
+            const factor = Math.expLerp(factorMin, 1 / factorMin, t);
             gearing = tuneGearing(transmission, launchGear, topSpeedGear, factor);
         }
     };
@@ -92,10 +95,9 @@
                     />
 
                     <Range
-                        label={t.powerBand.label}
-                        min={0}
-                        max={1}
-                        step={0.01}
+                        label={t.powerBand}
+                        min={powerBandMin}
+                        max={powerBandMax}
                         bind:value={powerBand}
                     />
                 </fieldset>

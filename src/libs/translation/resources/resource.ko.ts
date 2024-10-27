@@ -11,15 +11,6 @@ export const ko: Translation = {
             description: "포르자 시리즈를 위한 쉽고 편리한 기어비 튜너",
         },
 
-        powerBand: {
-            label: "파워 밴드",
-            veryNarrow: "매우 좁음",
-            narrow: "좁음",
-            normal: "보통",
-            wide: "넓음",
-            veryWide: "매우 넓음",
-        },
-
         transmission: {
             label: "트랜스미션",
             3: "3단",
@@ -34,6 +25,7 @@ export const ko: Translation = {
 
         launchGear: "출발 기어",
         topSpeedGear: "최고 속도 기어",
+        powerBand: "파워 밴드",
         tuneButton: "기어비 튜닝",
 
         result: {
