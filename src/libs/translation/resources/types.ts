@@ -21,9 +21,17 @@ export type Translation = {
             10: string;
         };
 
+        powerBand: {
+            label: string;
+            narrow: string;
+            bitNarrow: string;
+            medium: string;
+            bitWide: string;
+            wide: string;
+        };
+
         launchGear: string;
         topSpeedGear: string;
-        powerBand: string;
         tuneButton: string;
 
         result: {

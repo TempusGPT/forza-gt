@@ -1,7 +1,7 @@
 <script lang="ts" module>
     import type { EventHandler } from "svelte/elements";
 
-    import Range from "@libs/components/Range.svelte";
+    import Range, { type Preset } from "@libs/components/Range.svelte";
     import Dropdown, { type DropdownOptions } from "@libs/components/Dropdown.svelte";
     import GearingInput, { isGearValid } from "@libs/components/GearingInput.svelte";
     import GearingGraph from "@libs/components/GearingGraph.svelte";
@@ -11,8 +11,8 @@
     import { useTranslation } from "@libs/translation";
 
     const t = useTranslation("HomePage");
-    const powerBandMin = -20;
-    const powerBandMax = 20;
+    const powerBandMin = -10;
+    const powerBandMax = 10;
 
     const transmissionOptions: DropdownOptions = $derived([
         [t.transmission[3], 3],
@@ -24,13 +24,21 @@
         [t.transmission[9], 9],
         [t.transmission[10], 10],
     ]);
+
+    const powerBandPresets: Preset[] = [
+        { value: -10, label: t.powerBand.narrow },
+        { value: -5, label: t.powerBand.bitNarrow },
+        { value: 0, label: t.powerBand.medium },
+        { value: 5, label: t.powerBand.bitWide },
+        { value: 10, label: t.powerBand.wide },
+    ];
 </script>
 
 <script lang="ts">
-    let powerBand = $state((powerBandMin + powerBandMax) / 2);
-    let transmission = $state(transmissionOptions[4][1]);
     let launchGear = $state<number>();
     let topSpeedGear = $state<number>();
+    let transmission = $state(transmissionOptions[4][1]);
+    let powerBand = $state(powerBandPresets[2].value);
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
 
     let launchGearInput: GearingInput;
@@ -46,7 +54,7 @@
 
         if (launchGear && topSpeedGear) {
             const factorMin = (topSpeedGear / launchGear) ** (1 / (transmission - 1));
-            const t = powerBand / (powerBandMax * 2) + 0.5;
+            const t = 0.5 + (0.3 * powerBand) / 10;
             const factor = Math.expLerp(factorMin, 1 / factorMin, t);
             gearing = tuneGearing(transmission, launchGear, topSpeedGear, factor);
         }
@@ -95,9 +103,10 @@
                     />
 
                     <Range
-                        label={t.powerBand}
+                        label={t.powerBand.label}
                         min={powerBandMin}
                         max={powerBandMax}
+                        presets={powerBandPresets}
                         bind:value={powerBand}
                     />
                 </fieldset>

@@ -23,9 +23,17 @@ export const en: Translation = {
             10: "10 speed",
         },
 
+        powerBand: {
+            label: "Power band",
+            narrow: "Narrow",
+            bitNarrow: "Bit narrow",
+            medium: "Medium",
+            bitWide: "Bit wide",
+            wide: "Wide",
+        },
+
         launchGear: "Launch gear",
         topSpeedGear: "Top speed gear",
-        powerBand: "Power band",
         tuneButton: "Tune gearing",
 
         result: {

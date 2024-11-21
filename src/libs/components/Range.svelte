@@ -1,10 +1,16 @@
 <script lang="ts" module>
+    export type Preset = {
+        value: number;
+        label: string;
+    };
+
     type Props = {
         label: string;
         min?: number;
         max?: number;
         step?: number;
         value?: number;
+        presets?: Preset[];
     };
 </script>
 
@@ -15,20 +21,32 @@
         max = 100,
         step = 1,
         value = $bindable((min + max) / 2),
+        presets = [],
     }: Props = $props();
 
-    $effect(() => {
-        document.documentElement.style.setProperty(
-            "--range-value-position",
-            ((value - min) / (max - min)).toString(),
-        );
-    });
+    const presetOptions = $derived(
+        presets.map(({ value, label }) => {
+            const ratio = (value - min) / (max - min);
+            const left = `calc((0% + 0.625rem) * (1 - ${ratio}) + (100% - 0.625rem) * ${ratio})`;
+            return { left, label };
+        }),
+    );
 </script>
 
 <label class="range-container">
     {label}
+
+    {#each presetOptions as { left }}
+        <div class="preset-marker" style:left></div>
+    {/each}
+
     <input type="range" {min} {max} {step} bind:value />
-    <small class="value">{value}</small>
+
+    <small>
+        {#each presetOptions as { left, label }}
+            <div class="preset" style:left>{label}</div>
+        {/each}
+    </small>
 </label>
 
 <style>
@@ -37,14 +55,42 @@
         margin-bottom: calc(var(--pico-spacing) * 1.5);
     }
 
-    .value {
-        position: absolute;
-        transform: translateX(-50%);
-        max-width: max-content;
+    .range-container input::-webkit-slider-thumb {
+        position: relative;
+        z-index: 1;
+    }
 
-        left: calc(
-            (0% + 0.625rem) * (1 - var(--range-value-position)) + (100% - 0.625rem) *
-                var(--range-value-position)
-        );
+    .range-container input::-moz-range-thumb {
+        position: relative;
+        z-index: 1;
+    }
+
+    .range-container input::-ms-thumb {
+        position: relative;
+        z-index: 1;
+    }
+
+    .preset-marker {
+        position: absolute;
+        margin-top: calc(var(--pico-spacing) * 0.25);
+        height: 1.25rem;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0.25rem;
+            height: 0.25rem;
+            border-radius: 0.25rem;
+            background-color: var(--pico-range-thumb-color);
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .preset {
+        position: absolute;
+        white-space: nowrap;
+        transform: translateX(-50%);
     }
 </style>

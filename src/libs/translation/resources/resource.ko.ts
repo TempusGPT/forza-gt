@@ -23,9 +23,17 @@ export const ko: Translation = {
             10: "10단",
         },
 
+        powerBand: {
+            label: "파워 밴드",
+            narrow: "좁음",
+            bitNarrow: "조금 좁음",
+            medium: "보통",
+            bitWide: "조금 넓음",
+            wide: "넓음",
+        },
+
         launchGear: "출발 기어",
         topSpeedGear: "최고 속도 기어",
-        powerBand: "파워 밴드",
         tuneButton: "기어비 튜닝",
 
         result: {
