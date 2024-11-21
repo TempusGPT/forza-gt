@@ -1,7 +1,7 @@
 <script lang="ts" module>
-    export type Preset = {
+    export type RangePreset = {
+        name: string;
         value: number;
-        label: string;
     };
 
     type Props = {
@@ -10,7 +10,7 @@
         max?: number;
         step?: number;
         value?: number;
-        presets?: Preset[];
+        presets?: RangePreset[];
     };
 </script>
 
@@ -25,10 +25,10 @@
     }: Props = $props();
 
     const presetOptions = $derived(
-        presets.map(({ value, label }) => {
+        presets.map(({ name, value }) => {
             const ratio = (value - min) / (max - min);
             const left = `calc((0% + 0.625rem) * (1 - ${ratio}) + (100% - 0.625rem) * ${ratio})`;
-            return { left, label };
+            return { name, left };
         }),
     );
 </script>
@@ -43,8 +43,8 @@
     <input type="range" {min} {max} {step} bind:value />
 
     <small>
-        {#each presetOptions as { left, label }}
-            <div class="preset" style:left>{label}</div>
+        {#each presetOptions as { name, left }}
+            <div class="preset" style:left>{name}</div>
         {/each}
     </small>
 </label>

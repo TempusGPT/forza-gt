@@ -1,8 +1,8 @@
 <script lang="ts" module>
     import type { EventHandler } from "svelte/elements";
 
-    import Range, { type Preset } from "@libs/components/Range.svelte";
-    import Dropdown, { type DropdownOptions } from "@libs/components/Dropdown.svelte";
+    import Range, { type RangePreset } from "@libs/components/Range.svelte";
+    import Dropdown, { type DropdownOption } from "@libs/components/Dropdown.svelte";
     import GearingInput, { isGearValid } from "@libs/components/GearingInput.svelte";
     import GearingGraph from "@libs/components/GearingGraph.svelte";
 
@@ -11,33 +11,31 @@
     import { useTranslation } from "@libs/translation";
 
     const t = useTranslation("HomePage");
-    const powerBandMin = -10;
-    const powerBandMax = 10;
 
-    const transmissionOptions: DropdownOptions = $derived([
-        [t.transmission[3], 3],
-        [t.transmission[4], 4],
-        [t.transmission[5], 5],
-        [t.transmission[6], 6],
-        [t.transmission[7], 7],
-        [t.transmission[8], 8],
-        [t.transmission[9], 9],
-        [t.transmission[10], 10],
+    const transmissionOptions: DropdownOption[] = $derived([
+        { name: t.transmission[3], value: 3 },
+        { name: t.transmission[4], value: 4 },
+        { name: t.transmission[5], value: 5 },
+        { name: t.transmission[6], value: 6 },
+        { name: t.transmission[7], value: 7 },
+        { name: t.transmission[8], value: 8 },
+        { name: t.transmission[9], value: 9 },
+        { name: t.transmission[10], value: 10 },
     ]);
 
-    const powerBandPresets: Preset[] = [
-        { value: -10, label: t.powerBand.narrow },
-        { value: -5, label: t.powerBand.bitNarrow },
-        { value: 0, label: t.powerBand.medium },
-        { value: 5, label: t.powerBand.bitWide },
-        { value: 10, label: t.powerBand.wide },
+    const powerBandPresets: RangePreset[] = [
+        { name: t.powerBand.narrow, value: -10 },
+        { name: t.powerBand.bitNarrow, value: -5 },
+        { name: t.powerBand.medium, value: 0 },
+        { name: t.powerBand.bitWide, value: 5 },
+        { name: t.powerBand.wide, value: 10 },
     ];
 </script>
 
 <script lang="ts">
     let launchGear = $state<number>();
     let topSpeedGear = $state<number>();
-    let transmission = $state(transmissionOptions[4][1]);
+    let transmission = $state(transmissionOptions[4].value);
     let powerBand = $state(powerBandPresets[2].value);
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
 
@@ -104,8 +102,8 @@
 
                     <Range
                         label={t.powerBand.label}
-                        min={powerBandMin}
-                        max={powerBandMax}
+                        min={-10}
+                        max={10}
                         presets={powerBandPresets}
                         bind:value={powerBand}
                     />
