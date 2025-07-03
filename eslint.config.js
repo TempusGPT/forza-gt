@@ -1,25 +1,35 @@
+import { includeIgnoreFile } from "@eslint/compat";
+import js from "@eslint/js";
+import prettier from "eslint-config-prettier";
+import svelte from "eslint-plugin-svelte";
 import globals from "globals";
-import jsPlugin from "@eslint/js";
-import tsPlugin from "typescript-eslint";
-import sveltePlugin from "eslint-plugin-svelte";
-import svelteParser from "svelte-eslint-parser";
+import { fileURLToPath } from "node:url";
+import ts from "typescript-eslint";
+import svelteConfig from "./svelte.config.js";
 
-/** @type {import("eslint").Linter.Config[]} */
-export default [
-    jsPlugin.configs.recommended,
-    ...tsPlugin.configs.recommended,
-    ...sveltePlugin.configs["flat/recommended"],
+const gitignorePath = fileURLToPath(new URL("./.gitignore", import.meta.url));
 
+export default ts.config(
+    includeIgnoreFile(gitignorePath),
+    js.configs.recommended,
+    ...ts.configs.recommended,
+    ...svelte.configs.recommended,
+    prettier,
+    ...svelte.configs.prettier,
     {
-        languageOptions: { globals: globals.browser },
-        rules: { "no-undef": "off" },
-    },
-
-    {
-        files: ["**/*.svelte", "**/*.svelte.ts"],
         languageOptions: {
-            parser: svelteParser,
-            parserOptions: { parser: tsPlugin.parser },
+            globals: { ...globals.browser, ...globals.node },
         },
     },
-];
+    {
+        files: ["**/*.svelte", "**/*.svelte.ts", "**/*.svelte.js"],
+        languageOptions: {
+            parserOptions: {
+                projectService: true,
+                extraFileExtensions: [".svelte"],
+                parser: ts.parser,
+                svelteConfig,
+            },
+        },
+    },
+);

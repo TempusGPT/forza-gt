@@ -1,13 +1,38 @@
-# Forza GT
+# sv
 
-1. 최고 속도 기어 튜닝
-    - 고속도로나 특정 트랙에서 최고 속도 기어를 튜닝합니다.
-1. 출발 기어 튜닝
-    - 파워 밴드에서 풀 스로틀을 밟아도 미끄러지지 않도록 튜닝합니다.
-    - AWD 차량처럼 그립이 충분한 경우, 드래그 라이벌에서 튜닝합니다.
-1. 파워 밴드 설정
-    - 엔진 업그레이드 화면의 출력 곡선이나 텔레메트리로 확인합니다.
-1. 트랜스미션 설정
-    - 최고 속도 기어, 출발 기어, 파워 밴드를 고려하여 설정합니다.
-1. 1단 출발 튜닝 클릭
-    - 1단 기어가 너무 길어서 시동이 꺼지면, 2단 출발 튜닝을 클릭합니다.
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+
+## Creating a project
+
+If you're seeing this, you've probably already done this step. Congrats!
+
+```bash
+# create a new project in the current directory
+npx sv create
+
+# create a new project in my-app
+npx sv create my-app
+```
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
+
+## Building
+
+To create a production version of your app:
+
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
