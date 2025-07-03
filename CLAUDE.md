@@ -9,20 +9,12 @@ Forza GT is a SvelteKit-based web application for calculating optimal gear ratio
 ## Development Commands
 
 ```bash
-# Start development server (http://localhost:5173)
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Type check and lint
-npm run check
-
-# Format code
-npm run format
+npm run dev      # Start development server (http://localhost:5173)
+npm run build    # Build for production
+npm run preview  # Preview production build
+npm run check    # Type check and lint
+npm run format   # Format code
+npm run shadcn   # Add shadcn-svelte components
 ```
 
 ## Architecture
@@ -32,31 +24,25 @@ npm run format
 - **Framework**: SvelteKit 2.16.0 with Svelte 5
 - **Language**: TypeScript (strict mode)
 - **Styling**: Tailwind CSS v4 with Forms and Typography plugins
-- **I18n**: Paraglide.js (supports en, ko)
-- **UI Components**: bits-ui (headless component library)
-- **Deployment**: Vercel adapter
-
-### Core Logic
-
-The main functionality resides in `src/lib/gearing/` which contains gear ratio calculation algorithms:
-
-- **Arithmetic tuning**: Linear interpolation between launch and final gear ratios
-- **Geometric tuning**: Exponential interpolation with customizable factor
+- **UI Components**: shadcn-svelte (headless component library with Tailwind CSS styling)
+- **Internationalization**: Paraglide.js (supports en, ko)
 
 ### Project Structure
 
+- `.inlang/messages/`: I18n message files for each locale
 - `src/routes/`: SvelteKit pages and layouts
 - `src/lib/`: Shared utilities and core logic
     - `gearing/`: Gear calculation algorithms
-    - `paraglide/`: Internationalization setup
-    - `math.ts`: Mathematical utilities (lerp, approximately)
-    - `utils.ts`: General utilities
-- `static/`: Static assets
+    - `paraglide/`: Generated i18n files (auto-generated, do not edit)
+    - `ui/`: UI components directory (for reusable components)
+    - `math.ts`: Mathematical utilities (lerp, expLerp, approximately)
+    - `utils.ts`: General utilities (cn for class merging, range generator)
 
-### Key Conventions
+### Development Guidelines
 
+- Do NOT run `npm run dev` when working on code - the user will run the dev server themselves
 - Use Svelte 5 runes syntax (`$props()`, `$state()`, etc.) - NEVER use Svelte 4 syntax
-- Follow existing TypeScript strict mode conventions
-- Prefer `type` over `interface` for TypeScript type definitions
-- Use Tailwind CSS classes for styling
-- Maintain i18n support for all user-facing text
+- Prefer `type` over `interface` for TypeScript type definitions (except for class implementations)
+- When you need UI components, check if shadcn-svelte has them first and use `npm run shadcn` to add them
+- Use Tailwind CSS classes for styling with `cn()` utility for conditional classes
+- Maintain i18n support for all user-facing text using Paraglide
