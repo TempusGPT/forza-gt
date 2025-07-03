@@ -24,4 +24,4 @@ vite.config.ts.timestamp-*
 
 # Paraglide
 .inlang/cache
-src/lib/i18n
+src/lib/paraglide

@@ -1,5 +1,5 @@
 <script>
-    import { m } from "$lib/i18n/messages";
+    import { m } from "$lib/paraglide/messages";
 </script>
 
 {m.greeting()}

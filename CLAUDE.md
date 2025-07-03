@@ -48,7 +48,7 @@ The main functionality resides in `src/lib/gearing/` which contains gear ratio c
 - `src/routes/`: SvelteKit pages and layouts
 - `src/lib/`: Shared utilities and core logic
     - `gearing/`: Gear calculation algorithms
-    - `i18n/`: Internationalization setup
+    - `paraglide/`: Internationalization setup
     - `math.ts`: Mathematical utilities (lerp, approximately)
     - `utils.ts`: General utilities
 - `static/`: Static assets
