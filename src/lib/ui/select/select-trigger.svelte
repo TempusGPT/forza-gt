@@ -24,6 +24,6 @@
     )}
     {...restProps}
 >
-    {@render children?.()}
+    {@render children?.({ props: {} })}
     <ChevronDownIcon class="size-4 opacity-50" />
 </SelectPrimitive.Trigger>

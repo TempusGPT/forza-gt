@@ -9,7 +9,7 @@ Forza GT is a SvelteKit-based web application for calculating optimal gear ratio
 ## Development Commands
 
 ```bash
-npm run dev      # Start development server (http://localhost:5173)
+npm run dev      # Start development server
 npm run build    # Build for production
 npm run preview  # Preview production build
 npm run check    # Type check and lint
@@ -40,9 +40,10 @@ npm run shadcn   # Add shadcn-svelte components
 
 ### Development Guidelines
 
-- Do NOT run `npm run dev` when working on code - the user will run the dev server themselves
-- Prefer `type` over `interface` for TypeScript type definitions (except for class implementations)
-- When you need UI components, check if shadcn-svelte has them first and use `npm run shadcn` to add them
+- After completing tasks, run `npm run check` - Do NOT run `npm run dev`
+- Before committing changes, run `npm run format` to ensure consistent code formatting
+- Prefer `type` over `interface` for type definitions (except for class implementations)
+- For UI components, check shadcn-svelte first and use `npm run shadcn` to add them
 - Use Tailwind CSS classes for styling with `cn()` utility for conditional classes
 - Maintain i18n support for all user-facing text using Paraglide
 

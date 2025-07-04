@@ -24,6 +24,6 @@
     )}
     {...restProps}
 >
-    {@render children?.()}
+    {@render children?.({ props: {} })}
     <ChevronRightIcon class="ml-auto size-4" />
 </DropdownMenuPrimitive.SubTrigger>
