@@ -16,7 +16,7 @@
     } from "$lib/ui/dropdown-menu";
 </script>
 
-<h1 class="scroll-m-20 text-xl font-semibold tracking-tight">{m["home.navigation.title"]()}</h1>
+<h1 class="scroll-m-20 text-xl font-semibold tracking-tight">{m["home.header.title"]()}</h1>
 
 <DropdownMenu>
     <DropdownMenuTrigger class={buttonVariants({ variant: "ghost", size: "icon" })}>
@@ -24,19 +24,19 @@
     </DropdownMenuTrigger>
 
     <DropdownMenuContent align="end" class="w-56">
-        <DropdownMenuLabel>{m["home.navigation.theme.label"]()}</DropdownMenuLabel>
+        <DropdownMenuLabel>{m["home.header.theme.label"]()}</DropdownMenuLabel>
 
         <DropdownMenuRadioGroup value={mode.current}>
             <DropdownMenuRadioItem value="light" onclick={() => setMode("light")}>
-                {m["home.navigation.theme.light"]()}
+                {m["home.header.theme.light"]()}
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="dark" onclick={() => setMode("dark")}>
-                {m["home.navigation.theme.dark"]()}
+                {m["home.header.theme.dark"]()}
             </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>{m["home.navigation.language"]()}</DropdownMenuLabel>
+        <DropdownMenuLabel>{m["home.header.language"]()}</DropdownMenuLabel>
 
         <DropdownMenuRadioGroup value={getLocale()}>
             <DropdownMenuRadioItem value="en" onclick={() => setLocale("en")}>

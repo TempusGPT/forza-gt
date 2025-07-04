@@ -41,7 +41,6 @@ npm run shadcn   # Add shadcn-svelte components
 ### Development Guidelines
 
 - After completing tasks, run `npm run check` - Do NOT run `npm run dev`
-- Before committing changes, run `npm run format` to ensure consistent code formatting
 - Prefer `type` over `interface` for type definitions (except for class implementations)
 - For UI components, check shadcn-svelte first and use `npm run shadcn` to add them
 - Use Tailwind CSS classes for styling with `cn()` utility for conditional classes

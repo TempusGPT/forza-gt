@@ -3,7 +3,7 @@
     import { expLerp } from "$lib/math";
     import Configs from "./configs.svelte";
     import Footer from "./footer.svelte";
-    import Navigation from "./navigation.svelte";
+    import Header from "./header.svelte";
     import Results from "./results.svelte";
 
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
@@ -19,15 +19,15 @@
         const factor = expLerp(factorMin, 1 / factorMin, t);
 
         gearing = tuneGearing(transmission, launchGear, finalGear, factor).map(
-            (ratio) => Math.round(ratio * 100) / 100,
+            (ratio) => Math.trunc(ratio * 100) / 100,
         );
     }
 </script>
 
 <div class="flex min-h-screen flex-col">
-    <nav class="container mx-auto flex h-14 items-center justify-between px-6">
-        <Navigation />
-    </nav>
+    <header class="container mx-auto flex h-14 items-center justify-between px-6">
+        <Header />
+    </header>
 
     <main class="container mx-auto flex-1 px-6 py-6">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">

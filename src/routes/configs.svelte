@@ -97,7 +97,7 @@
 
                     <SelectContent>
                         {#each transmissionOptions as { value, label } (value)}
-                            <SelectItem value={value.toString()}>{label}</SelectItem>
+                            <SelectItem {value}>{label}</SelectItem>
                         {/each}
                     </SelectContent>
                 </Select>
