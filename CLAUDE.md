@@ -48,10 +48,9 @@ npm run shadcn   # Add shadcn-svelte components
 
 ### Svelte 5 Guidelines
 
-- Do NOT use `let`/`var` declarations - use `$state()` runes
-- Do NOT use `$:` statements - use `$derived` and `$effect` runes
+- Do NOT use `let` declarations - use `$state()` runes
+- Do NOT use `$:` statements - use `$derived()` and `$effect()` runes
 - Do NOT use `export let`, `$$props`, and `$$restProps` - use `$props()` runes
 - Do NOT use `on:` and `createEventDispatcher()` - event handlers are just like any other prop
 - Do NOT use `<slot>`, `let:`, and `$$slots` - use `{#snippet ...}` and `{@render ...}`
-- Do NOT use `<svelte:fragment>`, `<svelte:component>`, and `<svelte:self>`
-- Do NOT use imperative component API - use `mount()`, `unmount()`, and `render()`
+- Do NOT use stores - use `$state()`, `$derived()`, and `$effect()` runes
