@@ -40,7 +40,7 @@
 
         <GearingGraph {gearing} {shiftAt} />
 
-        <div class="space-y-2">
+        <div class="flex flex-col gap-1">
             {#each gearing as ratio, index (index)}
                 {#if index > 0}
                     <Separator />

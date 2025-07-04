@@ -37,7 +37,7 @@
             "title": "결과",
             "shiftAt": "변속 시점",
             "rpm": "{n} RPM",
-            "gear": "{n}단 기어"
+            "gear": "{n}단"
         },
 
         "footer": {

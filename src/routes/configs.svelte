@@ -66,6 +66,7 @@
             <div class="space-y-2">
                 <Label for="launch-gear" class="flex justify-between">
                     <span>{m["home.configs.launchGear"]()}</span>
+
                     {#if launchGear.error}
                         <span class="text-destructive">{launchGear.error}</span>
                     {/if}
@@ -77,6 +78,7 @@
             <div class="space-y-2">
                 <Label for="final-gear" class="flex justify-between">
                     <span>{m["home.configs.finalGear"]()}</span>
+
                     {#if finalGear.error}
                         <span class="text-destructive">{finalGear.error}</span>
                     {/if}
