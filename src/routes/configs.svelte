@@ -1,5 +1,6 @@
 <script lang="ts">
     import { useGearingInput } from "$lib/gearing";
+    import { m } from "$lib/paraglide/messages";
     import { Button } from "$lib/ui/button";
     import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "$lib/ui/card";
     import { Input } from "$lib/ui/input";
@@ -18,22 +19,22 @@
     };
 
     const transmissionOptions = [
-        { value: "3", label: "home.configs.transmission.speed" },
-        { value: "4", label: "home.configs.transmission.speed" },
-        { value: "5", label: "home.configs.transmission.speed" },
-        { value: "6", label: "home.configs.transmission.speed" },
-        { value: "7", label: "home.configs.transmission.speed" },
-        { value: "8", label: "home.configs.transmission.speed" },
-        { value: "9", label: "home.configs.transmission.speed" },
-        { value: "10", label: "home.configs.transmission.speed" },
+        { value: "3", label: m["home.configs.transmission.speed"]({ n: 3 }) },
+        { value: "4", label: m["home.configs.transmission.speed"]({ n: 4 }) },
+        { value: "5", label: m["home.configs.transmission.speed"]({ n: 5 }) },
+        { value: "6", label: m["home.configs.transmission.speed"]({ n: 6 }) },
+        { value: "7", label: m["home.configs.transmission.speed"]({ n: 7 }) },
+        { value: "8", label: m["home.configs.transmission.speed"]({ n: 8 }) },
+        { value: "9", label: m["home.configs.transmission.speed"]({ n: 9 }) },
+        { value: "10", label: m["home.configs.transmission.speed"]({ n: 10 }) },
     ];
 
     const powerBandLabels = [
-        { index: 0, value: -10, content: "home.configs.powerBand.narrow" },
-        { index: 5, value: -5, content: "home.configs.powerBand.bitNarrow" },
-        { index: 10, value: 0, content: "home.configs.powerBand.moderate" },
-        { index: 15, value: 5, content: "home.configs.powerBand.bitWide" },
-        { index: 20, value: 10, content: "home.configs.powerBand.wide" },
+        { index: 0, value: -10, content: m["home.configs.powerBand.narrow"]() },
+        { index: 5, value: -5, content: m["home.configs.powerBand.bitNarrow"]() },
+        { index: 10, value: 0, content: m["home.configs.powerBand.moderate"]() },
+        { index: 15, value: 5, content: m["home.configs.powerBand.bitWide"]() },
+        { index: 20, value: 10, content: m["home.configs.powerBand.wide"]() },
     ];
 
     let { onTune }: Props = $props();
@@ -57,14 +58,14 @@
 
 <Card>
     <CardHeader>
-        <CardTitle>home.configs.title</CardTitle>
+        <CardTitle>{m["home.configs.title"]()}</CardTitle>
     </CardHeader>
 
     <CardContent>
         <form id="configs" onsubmit={handleSubmit} class="flex flex-col gap-6">
             <div class="space-y-2">
                 <Label for="launch-gear" class="flex justify-between">
-                    <span>home.configs.launchGear</span>
+                    <span>{m["home.configs.launchGear"]()}</span>
                     {#if launchGear.error}
                         <span class="text-destructive">{launchGear.error}</span>
                     {/if}
@@ -75,7 +76,7 @@
 
             <div class="space-y-2">
                 <Label for="final-gear" class="flex justify-between">
-                    <span>home.configs.finalGear</span>
+                    <span>{m["home.configs.finalGear"]()}</span>
                     {#if finalGear.error}
                         <span class="text-destructive">{finalGear.error}</span>
                     {/if}
@@ -85,11 +86,11 @@
             </div>
 
             <div class="space-y-2">
-                <Label for="transmission">home.configs.transmissionabel</Label>
+                <Label for="transmission">{m["home.configs.transmission.label"]()}</Label>
 
                 <Select type="single" bind:value={transmission}>
                     <SelectTrigger id="transmission" class="w-full">
-                        home.configs.transmission.speed
+                        {m["home.configs.transmission.speed"]({ n: transmission })}
                     </SelectTrigger>
 
                     <SelectContent>
@@ -101,7 +102,7 @@
             </div>
 
             <div class="space-y-2">
-                <Label for="power-band">home.configs.powerBand.label</Label>
+                <Label for="power-band">{m["home.configs.powerBand.label"]()}</Label>
 
                 <LabeledSlider
                     type="single"
@@ -116,6 +117,6 @@
     </CardContent>
 
     <CardFooter>
-        <Button type="submit" form="configs" class="w-full">home.configs.tune</Button>
+        <Button type="submit" form="configs" class="w-full">{m["home.configs.tune"]()}</Button>
     </CardFooter>
 </Card>

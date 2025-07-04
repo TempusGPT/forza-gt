@@ -1,4 +1,62 @@
 {
     "$schema": "https://inlang.com/schema/inlang-message-format",
-    "greeting": "Hello!"
+    "home": {
+        "navigation": {
+            "title": "Forza GT",
+
+            "theme": {
+                "label": "Theme",
+                "system": "System",
+                "light": "Light",
+                "dark": "Dark"
+            },
+
+            "language": {
+                "label": "Language",
+                "system": "System"
+            }
+        },
+
+        "configs": {
+            "title": "Configs",
+            "launchGear": "Launch gear",
+            "finalGear": "Final gear",
+            "tune": "Tune",
+
+            "transmission": {
+                "label": "Transmission",
+                "speed": "{n} speed"
+            },
+
+            "powerBand": {
+                "label": "Power band",
+                "narrow": "Narrow",
+                "bitNarrow": "Bit narrow",
+                "moderate": "Moderate",
+                "bitWide": "Bit wide",
+                "wide": "Wide"
+            }
+        },
+
+        "results": {
+            "title": "Results",
+            "shiftAt": "Shift at",
+            "rpm": "{n} RPM",
+            "gear": "Gear {n}"
+        },
+
+        "footer": {
+            "left": "Developed by Tempus. The source code is available on ",
+            "gitHub": "GitHub",
+            "right": "."
+        }
+    },
+
+    "useGearingInput": {
+        "orderError": "Adjust gear order",
+        "emptyError": "Enter a value",
+        "numberError": "Enter a number",
+        "minRangeError": "Enter {n} or higher",
+        "maxRangeError": "Enter {n} or lower"
+    }
 }

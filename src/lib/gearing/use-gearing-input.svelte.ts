@@ -1,3 +1,4 @@
+import { m } from "$lib/paraglide/messages";
 import type { ChangeEventHandler, FocusEventHandler } from "svelte/elements";
 
 type GearInputProps = {
@@ -110,7 +111,7 @@ function useGearInput(
 
 function validateOrder(launchGearValue: number, finalGearValue: number) {
     if (launchGearValue < finalGearValue) {
-        return "orderError";
+        return m["useGearingInput.orderError"]();
     }
 
     return null;
@@ -118,7 +119,7 @@ function validateOrder(launchGearValue: number, finalGearValue: number) {
 
 function validateEmpty(input: string) {
     if (input === "") {
-        return "emptyError";
+        return m["useGearingInput.emptyError"]();
     }
 
     return null;
@@ -126,7 +127,7 @@ function validateEmpty(input: string) {
 
 function validateNumber(input: string, value: number) {
     if (input !== "" && isNaN(value)) {
-        return "numberError";
+        return m["useGearingInput.numberError"]();
     }
 
     return null;
@@ -134,11 +135,11 @@ function validateNumber(input: string, value: number) {
 
 function validateRange(value: number, min: number | undefined, max: number | undefined) {
     if (min !== undefined && value < min) {
-        return "minRangeError";
+        return m["useGearingInput.minRangeError"]({ n: min });
     }
 
     if (max !== undefined && value > max) {
-        return "maxRangeError";
+        return m["useGearingInput.maxRangeError"]({ n: max });
     }
 
     return null;

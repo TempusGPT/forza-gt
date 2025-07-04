@@ -1,5 +1,6 @@
 <script lang="ts">
     import GearingGraph from "$lib/gearing/gearing-graph.svelte";
+    import { m } from "$lib/paraglide/messages";
     import { Card, CardContent, CardHeader, CardTitle } from "$lib/ui/card";
     import { Label } from "$lib/ui/label";
     import { Separator } from "$lib/ui/separator";
@@ -15,14 +16,16 @@
 
 <Card>
     <CardHeader>
-        <CardTitle>home.results.title</CardTitle>
+        <CardTitle>{m["home.results.title"]()}</CardTitle>
     </CardHeader>
 
     <CardContent class="flex flex-col gap-6">
         <div class="space-y-2">
             <div class="flex items-center justify-between">
-                <Label for="shift-at">home.results.shiftAt</Label>
-                <Label for="shift-at" class="text-muted-foreground">home.results.rpm</Label>
+                <Label for="shift-at">{m["home.results.shiftAt"]()}</Label>
+                <Label for="shift-at" class="text-muted-foreground">
+                    {m["home.results.rpm"]({ n: shiftAt })}
+                </Label>
             </div>
 
             <Slider
@@ -44,7 +47,7 @@
                 {/if}
 
                 <div class="flex justify-between">
-                    <span>home.results.gear</span>
+                    <span>{m["home.results.gear"]({ n: index + 1 })}</span>
                     <span>{ratio.toFixed(2)}</span>
                 </div>
             {/each}
