@@ -90,8 +90,7 @@ function useGearInput(
             return;
         }
 
-        const truncated = Math.trunc(value * 100) / 100;
-        input = truncated.toFixed(2);
+        input = value.toFixed(2);
     }
 
     return {

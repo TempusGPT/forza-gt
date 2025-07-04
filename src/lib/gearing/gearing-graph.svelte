@@ -14,18 +14,16 @@
 
     let { gearing, shiftAt, width = 400, height = 200, strokeWidth = 2 }: Props = $props();
 
-    let lastX = 0;
     const origin = { x: 0, y: height };
-    const last = gearing[gearing.length - 1];
+    const points = $derived(
+        gearing.map((gear) => ({ x: width * (gearing[gearing.length - 1] / gear), y: 0 })),
+    );
 
     const segments = $derived(
-        gearing.map((gear) => {
-            const point = { x: width * (last / gear), y: 0 };
+        points.map((point, index) => {
+            const x1 = index === 0 ? 0 : points[index - 1].x;
             const calculateY = equationOfLine(origin, point);
-            const segment = { x1: lastX, y1: calculateY(lastX), x2: point.x, y2: point.y };
-
-            lastX = point.x;
-            return segment;
+            return { x1, y1: calculateY(x1), x2: point.x, y2: point.y };
         }),
     );
 

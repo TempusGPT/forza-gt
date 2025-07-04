@@ -17,7 +17,10 @@
         const factorMin = (finalGear / launchGear) ** (1 / (transmission - 1));
         const t = 0.5 + (0.3 * powerBand) / 10;
         const factor = expLerp(factorMin, 1 / factorMin, t);
-        gearing = tuneGearing(transmission, launchGear, finalGear, factor);
+
+        gearing = tuneGearing(transmission, launchGear, finalGear, factor).map(
+            (ratio) => Math.round(ratio * 100) / 100,
+        );
     }
 </script>
 

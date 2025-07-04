@@ -116,6 +116,6 @@
     </CardContent>
 
     <CardFooter>
-        <Button form="configs" class="w-full">home.configs.tune</Button>
+        <Button type="submit" form="configs" class="w-full">home.configs.tune</Button>
     </CardFooter>
 </Card>
