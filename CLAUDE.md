@@ -41,8 +41,17 @@ npm run shadcn   # Add shadcn-svelte components
 ### Development Guidelines
 
 - Do NOT run `npm run dev` when working on code - the user will run the dev server themselves
-- Use Svelte 5 runes syntax (`$props()`, `$state()`, etc.) - NEVER use Svelte 4 syntax
 - Prefer `type` over `interface` for TypeScript type definitions (except for class implementations)
 - When you need UI components, check if shadcn-svelte has them first and use `npm run shadcn` to add them
 - Use Tailwind CSS classes for styling with `cn()` utility for conditional classes
 - Maintain i18n support for all user-facing text using Paraglide
+
+### Svelte 5 Guidelines
+
+- Do NOT use `let`/`var` declarations - use `$state()` runes
+- Do NOT use `$:` statements - use `$derived` and `$effect` runes
+- Do NOT use `export let`, `$$props`, and `$$restProps` - use `$props()` runes
+- Do NOT use `on:` and `createEventDispatcher()` - event handlers are just like any other prop
+- Do NOT use `<slot>`, `let:`, and `$$slots` - use `{#snippet ...}` and `{@render ...}`
+- Do NOT use `<svelte:fragment>`, `<svelte:component>`, and `<svelte:self>`
+- Do NOT use imperative component API - use `mount()`, `unmount()`, and `render()`
