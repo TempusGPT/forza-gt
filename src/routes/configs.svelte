@@ -5,8 +5,8 @@
     import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "$lib/ui/card";
     import { Input } from "$lib/ui/input";
     import { Label } from "$lib/ui/label";
-    import { LabeledSlider } from "$lib/ui/labeled-slider";
     import { Select, SelectContent, SelectItem, SelectTrigger } from "$lib/ui/select";
+    import { TickSlider } from "$lib/ui/tick-slider";
     import type { EventHandler } from "svelte/elements";
 
     type Props = {
@@ -29,12 +29,12 @@
         { value: "10", label: m["home.configs.transmission.speed"]({ n: 10 }) },
     ];
 
-    const powerBandLabels = [
-        { index: 0, content: m["home.configs.powerBand.narrow"]() },
-        { index: 5, content: m["home.configs.powerBand.bitNarrow"]() },
-        { index: 10, content: m["home.configs.powerBand.moderate"]() },
-        { index: 15, content: m["home.configs.powerBand.bitWide"]() },
-        { index: 20, content: m["home.configs.powerBand.wide"]() },
+    const powerBandTicks = [
+        { index: 0, label: m["home.configs.powerBand.narrow"]() },
+        { index: 5, label: m["home.configs.powerBand.bitNarrow"]() },
+        { index: 10, label: m["home.configs.powerBand.moderate"]() },
+        { index: 15, label: m["home.configs.powerBand.bitWide"]() },
+        { index: 20, label: m["home.configs.powerBand.wide"]() },
     ];
 
     let { onTune }: Props = $props();
@@ -104,12 +104,12 @@
             <div class="space-y-2">
                 <Label for="power-band">{m["home.configs.powerBand.label"]()}</Label>
 
-                <LabeledSlider
+                <TickSlider
                     type="single"
                     id="power-band"
                     min={-10}
                     max={10}
-                    labels={powerBandLabels}
+                    ticks={powerBandTicks}
                     bind:value={powerBand}
                 />
             </div>
