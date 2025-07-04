@@ -23,20 +23,20 @@ npm run shadcn   # Add shadcn-svelte components
 
 - **Framework**: SvelteKit 2.16.0 with Svelte 5
 - **Language**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS v4 with Forms and Typography plugins
-- **UI Components**: shadcn-svelte (headless component library with Tailwind CSS styling)
+- **Styling**: Tailwind CSS v4
+- **UI Components**: shadcn-svelte
 - **Internationalization**: Paraglide.js (supports en, ko)
 
 ### Project Structure
 
 - `.inlang/messages/`: I18n message files for each locale
-- `src/routes/`: SvelteKit pages and layouts
 - `src/lib/`: Shared utilities and core logic
     - `gearing/`: Gear calculation algorithms
     - `paraglide/`: Generated i18n files (auto-generated, do not edit)
     - `ui/`: UI components directory (for reusable components)
     - `math.ts`: Mathematical utilities (lerp, expLerp, approximately)
     - `utils.ts`: General utilities (cn for class merging, range generator)
+- `src/routes/`: SvelteKit pages and layouts
 
 ### Development Guidelines
 
