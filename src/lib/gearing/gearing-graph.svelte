@@ -66,12 +66,9 @@
 
     {#each rpmAfterShift as { rpm, x, y }, index (index)}
         <span
-            class="text-muted-foreground absolute mt-1.5 text-xs"
-            style={`
-                left: ${(x / width) * 100}%,
-                top: ${(y / height) * 100}%,
-                transform: "translate(-50%)"
-            `}
+            class="text-muted-foreground absolute mt-1.5 -translate-x-1/2 text-xs"
+            style:left="{(x / width) * 100}%"
+            style:top="{(y / height) * 100}%"
         >
             {rpm}
         </span>

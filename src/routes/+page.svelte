@@ -4,6 +4,7 @@
     import Configs from "./configs.svelte";
     import Footer from "./footer.svelte";
     import Navigation from "./navigation.svelte";
+    import Results from "./results.svelte";
 
     let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
 
@@ -28,6 +29,7 @@
     <main class="container mx-auto flex-1 px-6 py-6">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <Configs onTune={handleTune} />
+            <Results {gearing} />
         </div>
     </main>
 
