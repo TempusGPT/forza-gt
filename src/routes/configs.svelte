@@ -30,17 +30,17 @@
     ];
 
     const powerBandLabels = [
-        { index: 0, value: -10, content: m["home.configs.powerBand.narrow"]() },
-        { index: 5, value: -5, content: m["home.configs.powerBand.bitNarrow"]() },
-        { index: 10, value: 0, content: m["home.configs.powerBand.moderate"]() },
-        { index: 15, value: 5, content: m["home.configs.powerBand.bitWide"]() },
-        { index: 20, value: 10, content: m["home.configs.powerBand.wide"]() },
+        { index: 0, content: m["home.configs.powerBand.narrow"]() },
+        { index: 5, content: m["home.configs.powerBand.bitNarrow"]() },
+        { index: 10, content: m["home.configs.powerBand.moderate"]() },
+        { index: 15, content: m["home.configs.powerBand.bitWide"]() },
+        { index: 20, content: m["home.configs.powerBand.wide"]() },
     ];
 
     let { onTune }: Props = $props();
-    const { launchGear, finalGear } = useGearingInput(0.48, 6);
+    let powerBand = $state(0);
     let transmission = $state(transmissionOptions[4].value);
-    let powerBand = $state(powerBandLabels[2].value);
+    const { launchGear, finalGear } = useGearingInput(0.48, 6);
 
     const handleSubmit: EventHandler<SubmitEvent> = (e) => {
         e.preventDefault();
@@ -109,8 +109,8 @@
                     id="power-band"
                     min={-10}
                     max={10}
-                    bind:value={powerBand}
                     labels={powerBandLabels}
+                    bind:value={powerBand}
                 />
             </div>
         </form>

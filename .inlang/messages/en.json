@@ -3,17 +3,12 @@
     "home": {
         "navigation": {
             "title": "Forza GT",
+            "language": "Language",
 
             "theme": {
                 "label": "Theme",
-                "system": "System",
                 "light": "Light",
                 "dark": "Dark"
-            },
-
-            "language": {
-                "label": "Language",
-                "system": "System"
             }
         },
 
