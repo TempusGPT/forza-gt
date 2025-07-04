@@ -45,7 +45,7 @@ get along, so we shut typescript up by casting `value` to `never`.
         ></span>
 
         <!-- Custom tick implementation to avoid hydration issues -->
-        <div class="absolute inset-x-[6px] flex justify-between">
+        <div class="absolute inset-x-1.5 flex justify-between">
             {#each ticks as { index, label } (index)}
                 <div class="bg-muted-foreground relative size-1 rounded-full">
                     <span
