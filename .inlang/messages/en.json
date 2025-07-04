@@ -41,7 +41,7 @@
         },
 
         "footer": {
-            "left": "Developed by Tempus. The source code is available on ",
+            "left": "Built by Tempus. The source code is available on ",
             "gitHub": "GitHub",
             "right": "."
         }

@@ -41,9 +41,9 @@
         },
 
         "footer": {
-            "left": "Tempus에 의해 개발되었습니다. 소스 코드는 ",
+            "left": "Tempus 개발. 소스 코드는 ",
             "gitHub": "GitHub",
-            "right": "에서 확인할 수 있습니다."
+            "right": "에서 확인하세요."
         }
     },
 
