@@ -72,7 +72,12 @@
                     {/if}
                 </Label>
 
-                <Input id="launch-gear" type="text" placeholder="2.89" {...launchGear.props} />
+                <Input
+                    id="launch-gear"
+                    inputmode="decimal"
+                    placeholder="2.89"
+                    {...launchGear.props}
+                />
             </div>
 
             <div class="space-y-2">
@@ -84,7 +89,12 @@
                     {/if}
                 </Label>
 
-                <Input id="final-gear" type="text" placeholder="0.78" {...finalGear.props} />
+                <Input
+                    id="final-gear"
+                    inputmode="decimal"
+                    placeholder="0.78"
+                    {...finalGear.props}
+                />
             </div>
 
             <div class="space-y-2">
@@ -107,8 +117,8 @@
                 <Label for="power-band">{m["home.configs.powerBand.label"]()}</Label>
 
                 <TickSlider
-                    type="single"
                     id="power-band"
+                    type="single"
                     min={-10}
                     max={10}
                     ticks={powerBandTicks}

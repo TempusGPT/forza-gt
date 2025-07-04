@@ -50,7 +50,7 @@
     "useGearingInput": {
         "orderError": "기어 순서를 조정하세요",
         "emptyError": "값을 입력하세요",
-        "numberError": "수를 입력하세요",
+        "numberError": "숫자를 입력하세요",
         "minRangeError": "{n} 이상 입력하세요",
         "maxRangeError": "{n} 이하 입력하세요"
     }

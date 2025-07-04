@@ -6,7 +6,7 @@
     import Header from "./header.svelte";
     import Results from "./results.svelte";
 
-    let gearing = $state([2.89, 1.99, 1.52, 1.23, 1.03, 0.89, 0.78]);
+    let gearing = $state([2.89, 1.99, 1.51, 1.22, 1.03, 0.88, 0.78]);
 
     function handleTune(
         launchGear: number,
