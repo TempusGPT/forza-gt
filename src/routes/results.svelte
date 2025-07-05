@@ -47,8 +47,8 @@
                 {/if}
 
                 <div class="flex justify-between">
-                    <span>{m["home.results.gear"]({ n: index + 1 })}</span>
-                    <span>{ratio.toFixed(2)}</span>
+                    <span class="text-sm">{m["home.results.gear"]({ n: index + 1 })}</span>
+                    <span class="text-sm">{ratio.toFixed(2)}</span>
                 </div>
             {/each}
         </div>
